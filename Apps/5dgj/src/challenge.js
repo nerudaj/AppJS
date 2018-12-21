@@ -31,7 +31,7 @@
 'static'; function RenderChallengePage() {
 	var canvas = this.app.canvas;
 	
-	RenderHeaderTemplate(canvas, 'XX:XX');
+	RenderHeaderTemplate(canvas, 'Timer 05:00');
 	
 	var board = GetDrawingTemplate(canvas);
 	
@@ -100,7 +100,9 @@
 	context.handle = null;
 }
 
-'static'; function printTimer(value) {
-	// TODO: Format
-	GetDOM(ID('PageHeader')).innerHTML = value;
+'static'; function printTimer(t) {
+	var seconds = '0' + String(t % 60);
+	var minutes = '0' + String(Math.floor(t / 60));
+
+	GetDOM(ID('PageHeader')).innerHTML = 'Timer: ' + minutes.slice(-2) + ':' + seconds.slice(-2);
 }
