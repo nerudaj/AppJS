@@ -44,9 +44,6 @@
 	var text = board.add(0.05, 0.35, 0.9, 0.6, 'textarea', ID('TextInput'));
 	
 	var buttons = [
-		new ButtonTemplate('Stop', function() {
-			stopTimer(app);
-		}),
 		new ButtonTemplate('Submit', function() {}),
 		new ButtonTemplate('Back', function() {
 			stopTimer(app);
