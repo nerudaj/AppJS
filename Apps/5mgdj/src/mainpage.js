@@ -1,7 +1,7 @@
 'static'; function RenderMainPage() {
 	var canvas = this.app.canvas;
 	
-	RenderHeaderTemplate(canvas, '5min Design Game Jam');
+	RenderHeaderTemplate(canvas, '5 Minute Game Design Jam');
 	
 	var board = GetDrawingTemplate(canvas);
 	board.setText('Hello world');
