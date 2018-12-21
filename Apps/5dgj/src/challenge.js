@@ -29,7 +29,9 @@
 ];
 
 'static'; function RenderChallengePage() {
-	var canvas = this.app.canvas;
+	var app = this.app;
+	var context = app.context;
+	var canvas = app.canvas;
 	
 	RenderHeaderTemplate(canvas, 'Timer 05:00');
 	
@@ -42,6 +44,10 @@
 	
 	// Create textbox
 	var text = board.add(0.05, 0.35, 0.9, 0.6, 'textarea', ID('TextInput'));
+	text.addEventCallback("keyup", function() {
+		context.pitch = GetDOM(ID('TextInput')).value;
+	});
+	text.dom.value = context.pitch;
 	
 	var buttons = [
 		new ButtonTemplate('Submit', function() {}),
@@ -52,8 +58,8 @@
 	];
 	RenderToolbarTemplate(canvas, buttons, ID('toolbar_button_cache'));
 	
-	if (this.app.context.handle == null) {
-		startTimer(this.app);
+	if (context.handle == null) {
+		startTimer(app);
 	}
 }
 
