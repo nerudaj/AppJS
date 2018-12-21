@@ -90,8 +90,10 @@ function ENUM(id) {return id;}
  *  For this to work, the html file must contain element with id 'HiddenResizer'. This element
  *  has to be span with visibility:hidden.
  */
-'static'; function GetOptimalFontSize(str, width, height, startSize) {
+'static'; function GetOptimalFontSize(str, width, height, startSize, xless, yless) {
 	var fontSize = DefaultArgument(startSize, 100);
+	var xfact = DefaultArgument(xless, 0.8);
+	var yfact = DefaultArgument(yless, 0.8);
 	
 	var resizer = GetDOM("HiddenResizer");
 	resizer.style.fontSize = fontSize + "px";
@@ -100,11 +102,14 @@ function ENUM(id) {return id;}
 	var rw = resizer.offsetWidth;
 	var rh = resizer.offsetHeight;
 	
-	while (rw > width * 0.8 || rh > height * 0.8) {
+	console.log("w: " + width + " h: " + height);
+	
+	while (rw > width * xfact || rh > height * yfact) {
 		fontSize -= 1;
 		resizer.style.fontSize = fontSize + "px";
 		rw = resizer.offsetWidth;
 		rh = resizer.offsetHeight;
+		//alert("fs: " + fontSize + " rw: " + rw + " rh: " + rh);
 	}
 	
 	return fontSize;
@@ -206,6 +211,26 @@ ClassElement.prototype.add = function(x, y, w, h, type, id) {
 	}
 	
 	this.dom.appendChild(t);
+}
+
+'static'; ClassElement.prototype.setParagraph = function(str, autofit, startSize) {
+	autofit = DefaultArgument(autofit, false);
+	
+	var fontSize = null;
+	
+	if (autofit) {
+		startSize = DefaultArgument(startSize, 100);
+		fontSize = GetOptimalFontSize(str, this.width, this.height, startSize, 1, 1);
+	}
+	else if (startSize !== 'undefined') {
+		fontSize = startSize;
+	}
+	
+	if (fontSize != null) {
+		this.dom.style.fontSize = fontSize + "px";
+	}
+	
+	this.dom.innerHTML = str;
 }
 
 'static'; ClassElement.prototype.addClass = function(name) {
