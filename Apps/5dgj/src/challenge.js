@@ -37,10 +37,17 @@
 	
 	var board = GetDrawingTemplate(canvas);
 	
+	// Setup pattern/restrict/mod
+	if (context.pattern == -1) {
+		context.pattern = RandomItemFromArray(PATTERNS);
+		context.restrict = RandomItemFromArray(RESTRICTIONS);
+		context.mod = RandomItemFromArray(PATTERNS.concat(RESTRICTIONS));
+	}
+	
 	// Labels
-	AddLabelAndValue(board, 0, 'Pattern:', PATTERNS);
-	AddLabelAndValue(board, 0.1, 'Restriction:', RESTRICTIONS);
-	AddLabelAndValue(board, 0.2, 'Modifier:', PATTERNS.concat(RESTRICTIONS));
+	AddLabelAndValue(board, 0, 'Pattern:', context.pattern);
+	AddLabelAndValue(board, 0.1, 'Restriction:', context.restrict);
+	AddLabelAndValue(board, 0.2, 'Modifier:', context.mod);
 	
 	// Create textbox
 	var text = board.add(0.05, 0.35, 0.9, 0.6, 'textarea', ID('TextInput'));
@@ -63,17 +70,18 @@
 	}
 }
 
-'static'; function AddLabelAndValue(canvas, yoffset, labelstr, array) {
+'static'; function RandomItemFromArray(array) {
+	return array[Random(0, array.length)];
+}
+
+'static'; function AddLabelAndValue(canvas, yoffset, labelstr, textstr) {
 	// TODO: fontCache
 	
 	var label = canvas.add(0, yoffset, 0.4, 0.1);
 	label.setText(labelstr, true);
 	
-	// Get random string
-	var str = array[Random(0, array.length)];
-	
 	var text = canvas.add(0.4, yoffset, 0.6, 0.1);
-	text.setText(str, true);
+	text.setText(textstr, true);
 }
 
 'static'; function startTimer(app) {
