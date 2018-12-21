@@ -8,6 +8,7 @@
 	
 	var buttons = [
 		new ButtonTemplate('Start the challenge', function() {
+			clearContext(app.context);
 			app.toggleView(ENUM('challenge'));
 		}),
 	];
