@@ -1,14 +1,22 @@
 // Global variables
 var app = new ClassApp();
 
+'static'; function clearContext(context) {
+	context.handle = null;
+	context.timer = 0;
+	context.pitch = "";
+	context.pattern = -1;
+	context.restrict = -1;
+	context.mod = -1;
+}
+
 // Bootstrap app
 function Main() {
 	// Bootstrap app
 	app.bootstrap('Canvas');
 
 	// Setup app context
-	app.context['handle'] = null;
-	app.context['timer'] = 0;
+	clearContext(app.context);
 
 	// Setup views
 	var views = [
