@@ -55,6 +55,11 @@
 		context.pitch = GetDOM(ID('TextInput')).value;
 	});
 	text.dom.value = context.pitch;
+	text.dom.style.resize = 'none';
+	text.dom.style.outline = 'none';
+	text.dom.style.background = 'rgb(31, 31, 31)';
+	text.dom.style.color = 'rgb(176, 176, 176)';
+	text.dom.style.border = '1px solid rgb(176, 176, 176)';
 	
 	var buttons = [
 		new ButtonTemplate('Submit', function() {}),
