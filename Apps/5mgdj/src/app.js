@@ -174,7 +174,7 @@ ClassElement.prototype.add = function(x, y, w, h, type, id) {
 	result.dom.style.width = result.width + "px";
 	result.dom.style.height = result.height + "px";
 	
-	if (type == 'input') {
+	if (type == 'input' || type == 'textarea') {
 		result.addEventCallback('focus', function() { PREVENT_RESIZE = true; });
 		result.addEventCallback('blur', function() { setTimeout(function() { PREVENT_RESIZE = false; }, 500); });
 	}
