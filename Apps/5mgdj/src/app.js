@@ -91,28 +91,38 @@ function ENUM(id) {return id;}
  *  has to be span with visibility:hidden.
  */
 'static'; function GetOptimalFontSize(str, width, height, startSize, xless, yless) {
-	var fontSize = DefaultArgument(startSize, 100);
-	var xfact = DefaultArgument(xless, 0.8);
-	var yfact = DefaultArgument(yless, 0.8);
+	// Initialize bisection boundaries
+	var min = 1;
+	var max = DefaultArgument(startSize, 100);
 	
+	// Initialize bounding box values
+	width *= DefaultArgument(xless, 0.8);
+	height *= DefaultArgument(yless, 0.8);
+	
+	// Access resizer and insert string
 	var resizer = GetDOM("HiddenResizer");
-	resizer.style.fontSize = fontSize + "px";
-	
 	resizer.innerHTML = str;
-	var rw = resizer.offsetWidth;
-	var rh = resizer.offsetHeight;
 	
-	console.log("w: " + width + " h: " + height);
-	
-	while (rw > width * xfact || rh > height * yfact) {
-		fontSize -= 1;
-		resizer.style.fontSize = fontSize + "px";
-		rw = resizer.offsetWidth;
-		rh = resizer.offsetHeight;
-		//alert("fs: " + fontSize + " rw: " + rw + " rh: " + rh);
+	// Perform bisection
+	while ((max - min) > 1) {
+		// Compute middle
+		var middle = parseInt((min + max) / 2);
+		
+		// Update resizer
+		resizer.style.fontSize = middle + "px";
+		var rw = resizer.offsetWidth;
+		var rh = resizer.offsetHeight;
+		
+		// Update bisection control variables
+		if (rw <= width && rh <= height) {
+			min = middle;
+		}
+		else {
+			max = middle;
+		}
 	}
 	
-	return fontSize;
+	return min;
 }
 
 // =============== //
