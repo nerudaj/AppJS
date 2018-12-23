@@ -84,13 +84,16 @@
 }
 
 'static'; function AddLabelAndValue(canvas, yoffset, labelstr, textstr) {
-	// TODO: fontCache
+	var cacheID = ID('CacheLabelFontSize');
+	if (GLOBAL_FONT_SIZE_CACHE[cacheID] == null) {
+		GLOBAL_FONT_SIZE_CACHE[cacheID] = GetOptimalFontSize('Resource management', canvas.width * 0.6, canvas.height * 0.1);
+	}
 	
 	var label = canvas.add(0, yoffset, 0.4, 0.1);
-	label.setText(labelstr, true);
+	label.setText(labelstr, false, GLOBAL_FONT_SIZE_CACHE[cacheID]);
 	
 	var text = canvas.add(0.4, yoffset, 0.6, 0.1);
-	text.setText(textstr, true);
+	text.setText(textstr, false, GLOBAL_FONT_SIZE_CACHE[cacheID]);
 }
 
 'static'; function startTimer(app) {
