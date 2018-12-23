@@ -4,6 +4,11 @@ var version = '2.0.0';
 
 'static'; var LOG_ERROR_LEVEL = 1;
 'static'; var PREVENT_RESIZE = false;
+/**
+ *  \brief Cache for speeding up text-fit computations
+ */
+'static'; var GLOBAL_FONT_SIZE_CACHE = {}
+
 
 function ID(id) {return id;}
 
@@ -12,6 +17,10 @@ function ENUM(id) {return id;}
 // =============== //
 // === METHODS === //
 // =============== //
+'static'; function ClearOptimizationCache() {
+	GLOBAL_FONT_SIZE_CACHE = {};
+}
+
 /**
  *  @brief Get reference to DOM object by id
  */
@@ -165,7 +174,7 @@ ClassElement.prototype.add = function(x, y, w, h, type, id) {
 	result.dom.style.width = result.width + "px";
 	result.dom.style.height = result.height + "px";
 	
-	if (type == 'input') {
+	if (type == 'input' || type == 'textarea') {
 		result.addEventCallback('focus', function() { PREVENT_RESIZE = true; });
 		result.addEventCallback('blur', function() { setTimeout(function() { PREVENT_RESIZE = false; }, 500); });
 	}
@@ -212,6 +221,26 @@ ClassElement.prototype.add = function(x, y, w, h, type, id) {
 	}
 	
 	this.dom.appendChild(t);
+}
+
+'static'; ClassElement.prototype.setParagraph = function(str, autofit, startSize) {
+	autofit = DefaultArgument(autofit, false);
+	
+	var fontSize = null;
+	
+	if (autofit) {
+		startSize = DefaultArgument(startSize, 100);
+		fontSize = GetOptimalFontSize(str, this.width, this.height, startSize, 1, 1);
+	}
+	else if (startSize !== 'undefined') {
+		fontSize = startSize;
+	}
+	
+	if (fontSize != null) {
+		this.dom.style.fontSize = fontSize + "px";
+	}
+	
+	this.dom.innerHTML = str;
 }
 
 'static'; ClassElement.prototype.addClass = function(name) {
