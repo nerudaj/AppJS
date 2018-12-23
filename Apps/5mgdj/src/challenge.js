@@ -26,14 +26,21 @@
 	'No points',
 	'One button',
 	'Quests',
+	'Tiny world',
 ];
+
+'static'; var TEXT_PATTERN = 'Pattern: ';
+'static'; var TEXT_RESTRICT= 'Restrict: ';
+'static'; var TEXT_MOD     = 'Modifier: ';
+'static'; var TEXT_PITCH   = 'Pitch: ';
+'static'; var TEXT_TIMER   = 'Timer: ';
 
 'static'; function RenderChallengePage() {
 	var app = this.app;
 	var context = app.context;
 	var canvas = app.canvas;
 	
-	RenderHeaderTemplate(canvas, 'Timer 05:00');
+	RenderHeaderTemplate(canvas, TEXT_TIMER + '05:00');
 	
 	var board = GetDrawingTemplate(canvas);
 	
@@ -45,9 +52,9 @@
 	}
 	
 	// Labels
-	AddLabelAndValue(board, 0, 'Pattern:', context.pattern);
-	AddLabelAndValue(board, 0.1, 'Restriction:', context.restrict);
-	AddLabelAndValue(board, 0.2, 'Modifier:', context.mod);
+	AddLabelAndValue(board, 0,   TEXT_PATTERN,  context.pattern);
+	AddLabelAndValue(board, 0.1, TEXT_RESTRICT, context.restrict);
+	AddLabelAndValue(board, 0.2, TEXT_MOD,      context.mod);
 	
 	// Create textbox
 	var text = board.add(0.05, 0.35, 0.9, 0.6, 'textarea', ID('TextInput'));
@@ -130,14 +137,14 @@
 	var seconds = '0' + String(t % 60);
 	var minutes = '0' + String(Math.floor(t / 60));
 
-	GetDOM(ID('PageHeader')).innerHTML = 'Timer: ' + minutes.slice(-2) + ':' + seconds.slice(-2);
+	GetDOM(ID('PageHeader')).innerHTML = TEXT_TIMER + minutes.slice(-2) + ':' + seconds.slice(-2);
 }
 
 'static'; function Submit(context) {
-	var text = "Design pattern: " + context.pattern + "\n";
-	text += "Restriction: " + context.restrict + "\n";
-	text += "Modifier: " + context.mod + "\n\n";
-	text += "Pitch: " + context.pitch + "\n";
+	var text = TEXT_PATTERN + context.pattern  + "\n";
+	text += TEXT_RESTRICT   + context.restrict + "\n";
+	text += TEXT_MOD        + context.mod      + "\n\n";
+	text += TEXT_PITCH      + context.pitch    + "\n";
 	
 	// Create filename from date and time
 	var filename = "pitch.txt";
