@@ -62,7 +62,11 @@
 	text.dom.style.border = '1px solid rgb(176, 176, 176)';
 	
 	var buttons = [
-		new ButtonTemplate('Submit', function() {}),
+		new ButtonTemplate('Submit', function() {
+			Submit(context);
+			stopTimer(app);
+			app.toggleView(ENUM('mainpage'));
+		}),
 		new ButtonTemplate('Back', function() {
 			stopTimer(app);
 			app.toggleView(ENUM('mainpage'));
@@ -124,4 +128,26 @@
 	var minutes = '0' + String(Math.floor(t / 60));
 
 	GetDOM(ID('PageHeader')).innerHTML = 'Timer: ' + minutes.slice(-2) + ':' + seconds.slice(-2);
+}
+
+'static'; function Submit(context) {
+	var text = "Design pattern: " + context.pattern + "\n";
+	text += "Restriction: " + context.restrict + "\n";
+	text += "Modifier: " + context.mod + "\n\n";
+	text += "Pitch: " + context.pitch + "\n";
+	
+	// Create filename from date and time
+	var filename = "pitch.txt";
+	DownloadFile(filename, text);
+}
+
+'static'; function DownloadFile(filename, content) {
+	var element = document.createElement('a');
+	element.setAttribute('href', 'data:text/plain;charset=utf-8,' + encodeURIComponent(content));
+	element.setAttribute('download', filename);
+	element.style.display = 'none';
+	
+	GetDOM('HiddenResizer').appendChild(element);
+	element.click();
+	GetDOM('HiddenResizer').removeChild(element);
 }
