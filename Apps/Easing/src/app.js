@@ -90,24 +90,39 @@ function ENUM(id) {return id;}
  *  For this to work, the html file must contain element with id 'HiddenResizer'. This element
  *  has to be span with visibility:hidden.
  */
-'static'; function GetOptimalFontSize(str, width, height, startSize) {
-	var fontSize = DefaultArgument(startSize, 100);
+'static'; function GetOptimalFontSize(str, width, height, startSize, xless, yless) {
+	// Initialize bisection boundaries
+	var min = 1;
+	var max = DefaultArgument(startSize, 100);
 	
+	// Initialize bounding box values
+	width *= DefaultArgument(xless, 0.8);
+	height *= DefaultArgument(yless, 0.8);
+	
+	// Access resizer and insert string
 	var resizer = GetDOM("HiddenResizer");
-	resizer.style.fontSize = fontSize + "px";
-	
 	resizer.innerHTML = str;
-	var rw = resizer.offsetWidth;
-	var rh = resizer.offsetHeight;
 	
-	while (rw > width * 0.8 || rh > height * 0.8) {
-		fontSize -= 1;
-		resizer.style.fontSize = fontSize + "px";
-		rw = resizer.offsetWidth;
-		rh = resizer.offsetHeight;
+	// Perform bisection
+	while ((max - min) > 1) {
+		// Compute middle
+		var middle = parseInt((min + max) / 2);
+		
+		// Update resizer
+		resizer.style.fontSize = middle + "px";
+		var rw = resizer.offsetWidth;
+		var rh = resizer.offsetHeight;
+		
+		// Update bisection control variables
+		if (rw <= width && rh <= height) {
+			min = middle;
+		}
+		else {
+			max = middle;
+		}
 	}
 	
-	return fontSize;
+	return min;
 }
 
 // =============== //
