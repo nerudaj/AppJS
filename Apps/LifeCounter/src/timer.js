@@ -1,3 +1,5 @@
+'static'; var AudioHandle = null;
+
 'static'; function RenderTimer() {
 	var canvas = this.app.canvas;
 	
@@ -37,6 +39,7 @@
 
 	var buttons = [
 		new ButtonTemplate(TEXTS.play, function() {
+			InitAudio();
 			CountdownControl(app, ENUM('play_pause'));
 		}, ID('DOMTimerPlayButton')),
 		new ButtonTemplate(TEXTS.stop, function() {
@@ -47,6 +50,14 @@
 		})
 	];
 	RenderButtonArray(canvas, buttons, 0, 0.4, 1, 0.1, ID('timer_buttons'));
+}
+
+'static'; function InitAudio() {
+	if (AudioHandle === null) {
+		var src = GenerateTone(0, 0.1);
+		AudioHandle = new Audio(src);
+		AudioHandle.play();
+	}
 }
 
 // === Second level ===
@@ -74,6 +85,12 @@
 			
 			if (context.countdown == 0) {
 				context.cntIntHndl = ReallyClearInterval(context.cntIntHndl);
+				
+				// Update audio object and play it
+				AudioHandle.src = GenerateTone(440, 2);
+				AudioHandle.play();
+				
+				// Update texts
 				display.innerHTML = TEXTS.end;
 				GetDOM(ID('DOMTimerPlayButton')).innerHTML = TEXTS.play;
 			}
