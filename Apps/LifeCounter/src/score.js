@@ -8,9 +8,9 @@
 	
 	//RenderToolbar(toolbar, this.app);
 	var buttons = [
-		new ButtonTemplate(TEXTS.whoStarts, function() { app.toggleView(ENUM('dice')); }),
-		new ButtonTemplate(TEXTS.timer, function() { app.toggleView(ENUM('timer')); }),
-		new ButtonTemplate(TEXTS.settings, function() { app.toggleView(ENUM('settings')); })
+		new ButtonTemplate(TEXTS.whoStarts, () => { app.toggleView(ENUM('dice')); }),
+		new ButtonTemplate(TEXTS.timer, () => { app.toggleView(ENUM('timer')); }),
+		new ButtonTemplate(TEXTS.settings, () => { app.toggleView(ENUM('settings')); })
 	];
 	RenderToolbarTemplate(canvas, buttons, ID('CacheScoreToolbar'));
 }
@@ -49,12 +49,12 @@
 	
 	var minus = canvas.add(0, 0, 0.25, 1, 'button');
 	minus.setText('−', false, FONT_SIZE);
-	minus.onClick(function() { ModifyScore(app.context.players, id, -1); });
+	minus.onClick(() => { ModifyScore(app.context.players, id, -1); });
 	minus.addClass('score_btn');
 	
 	var plus = canvas.add(0.75, 0, 0.25, 1, 'button');
 	plus.setText('+', false, FONT_SIZE);
-	plus.onClick(function() { ModifyScore(app.context.players, id, 1); });
+	plus.onClick(() => { ModifyScore(app.context.players, id, 1); });
 	plus.addClass('score_btn');
 	
 	ModifyScore(app.context.players, id, app.context.players[id].score, true);

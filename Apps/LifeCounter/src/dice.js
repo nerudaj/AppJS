@@ -10,15 +10,15 @@
 	
 	// Render toolbar
 	var buttons = [
-		new ButtonTemplate(TEXTS.throwDice, function() {
+		new ButtonTemplate(TEXTS.throwDice, () => {
 			LAST_USED_FUNCTION = ThrowDice;
 			RandomizationAnimation();
 		}),
-		new ButtonTemplate(TEXTS.tossCoin, function() {
+		new ButtonTemplate(TEXTS.tossCoin, () => {
 			LAST_USED_FUNCTION = TossCoin;
 			RandomizationAnimation();
 		}),
-		new ButtonTemplate(TEXTS.back, function() {
+		new ButtonTemplate(TEXTS.back, () => {
 			app.toggleView(ENUM('score'));
 		})
 	];
@@ -26,7 +26,7 @@
 }
 
 'static'; function RenderThrowDisplay(canvas) {
-	canvas.onClick(function() { RandomizationAnimation(); });
+	canvas.onClick(() => { RandomizationAnimation(); });
 	var display = canvas.add(0, 0, 1, 1, 'div', ID('DOMThrowResultBoard'));
 	
 	var FONT_SIZE = ReadFontSizeCache(display, 1, 1, '⚀⚀⚀', ID('CacheThrowDisplay'), Math.min(canvas.width, canvas.height));
@@ -35,7 +35,7 @@
 
 'static'; function RandomizationAnimation() {
 	GetDOM(ID('DOMThrowResultBoard')).innerHTML = '...';
-	setTimeout(function() { LAST_USED_FUNCTION(); }, 500);
+	setTimeout(() => { LAST_USED_FUNCTION(); }, 500);
 }
 
 'static'; function ThrowDice() {

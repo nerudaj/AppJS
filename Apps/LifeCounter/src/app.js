@@ -359,10 +359,9 @@ function ENUM(id) {return id;}
 'static'; ClassApp.prototype.bootstrap = function(id) {
 	this.canvas.dom = GetDOM(id);
 	
-	var that = this;
-	window.addEventListener('resize', function() {
+	window.addEventListener('resize', () => {
 		if (PREVENT_RESIZE) return;
 		ClearOptimizationCache();
-		that.render();
+		this.render();
 	});
 }

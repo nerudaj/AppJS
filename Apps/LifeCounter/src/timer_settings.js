@@ -13,11 +13,11 @@
 	
 	// Render toolbar
 	var buttons = [
-		new ButtonTemplate(TEXTS.apply, function() {
+		new ButtonTemplate(TEXTS.apply, () => {
 			app.context.initCountdown = TI_TMP_STORAGE; // Apply modifications to initCountdown
 			app.toggleView(ENUM('timer'));
 		}),
-		new ButtonTemplate(TEXTS.back, function() {
+		new ButtonTemplate(TEXTS.back, () => {
 			app.toggleView(ENUM('timer'));
 		})
 	];

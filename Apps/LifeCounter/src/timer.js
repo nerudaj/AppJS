@@ -10,11 +10,11 @@
 	
 	// Render toolbar
 	var buttons = [
-		new ButtonTemplate(TEXTS.settings, function() {
+		new ButtonTemplate(TEXTS.settings, () => {
 			CountdownControl(app, ENUM('stop'));
 			app.toggleView(ENUM('timer_settings'));
 		}),
-		new ButtonTemplate(TEXTS.back, function() {
+		new ButtonTemplate(TEXTS.back, () => {
 			CountdownControl(app, ENUM('stop'));
 			app.toggleView(ENUM('score'));
 		})
@@ -38,14 +38,14 @@
 	countdownDisplay.setText(IntToTimeStr(context.initCountdown));
 
 	var buttons = [
-		new ButtonTemplate(TEXTS.play, function() {
+		new ButtonTemplate(TEXTS.play, () => {
 			InitAudio();
 			CountdownControl(app, ENUM('play_pause'));
 		}, ID('DOMTimerPlayButton')),
-		new ButtonTemplate(TEXTS.stop, function() {
+		new ButtonTemplate(TEXTS.stop, () => {
 			CountdownControl(app, ENUM('stop'));
 		}),
-		new ButtonTemplate(TEXTS.restart, function() {
+		new ButtonTemplate(TEXTS.restart, () => {
 			CountdownControl(app, ENUM('restart'));
 		})
 	];
@@ -79,7 +79,8 @@
 		}
 		GetDOM(ID('DOMTimerPlayButton')).innerHTML = TEXTS.pause;
 		
-		context.cntIntHndl = setInterval(function() {
+		// When the countdown finishes
+		context.cntIntHndl = setInterval(() => {
 			context.countdown--;
 			display.innerHTML = IntToTimeStr(context.countdown);
 			

@@ -18,11 +18,11 @@ var Colors = [ 'red', 'lightgreen', 'lightblue', 'yellow', 'pink', 'orange', 'gr
 	
 	// Render toolbar
 	var buttons = [
-		new ButtonTemplate(TEXTS.apply, function() {
+		new ButtonTemplate(TEXTS.apply, () => {
 			ApplySettings(app);
 			app.toggleView(ENUM('score'));
 		}),
-		new ButtonTemplate(TEXTS.back, function() {
+		new ButtonTemplate(TEXTS.back, () => {
 			RestoreTemporaries(app);
 			app.toggleView(ENUM('score'));
 		})
@@ -104,7 +104,7 @@ var Colors = [ 'red', 'lightgreen', 'lightblue', 'yellow', 'pink', 'orange', 'gr
 			var option = canvas.add(0, 0, 1, 1, 'option');
 			option.value = i;
 			option.setText(i);
-			option.onClick(function() {
+			option.onClick(() => {
 				TMP_PlayerCount = p;
 				app.toggleView(ENUM('settings'));
 			});
@@ -118,7 +118,7 @@ var Colors = [ 'red', 'lightgreen', 'lightblue', 'yellow', 'pink', 'orange', 'gr
 'static'; function RenderFormInitScore(canvas, app) {
 	canvas.dom.type = 'number';
 	canvas.dom.value = TMP_InitScore;
-	canvas.addEventCallback('input', function() { // either 'change' or 'input' are valid
+	canvas.addEventCallback('input', () => { // either 'change' or 'input' are valid
 		if (canvas.dom.validity.valid) {
 			TMP_InitScore = canvas.dom.value;
 		}
