@@ -49,12 +49,12 @@
 	
 	var minus = canvas.add(0, 0, 0.25, 1, 'button');
 	minus.setText('−', false, FONT_SIZE);
-	minus.addEventCallback('click', function() { ModifyScore(app.context.players, id, -1); });
+	minus.onClick(function() { ModifyScore(app.context.players, id, -1); });
 	minus.addClass('score_btn');
 	
 	var plus = canvas.add(0.75, 0, 0.25, 1, 'button');
 	plus.setText('+', false, FONT_SIZE);
-	plus.addEventCallback('click', function() { ModifyScore(app.context.players, id, 1); });
+	plus.onClick(function() { ModifyScore(app.context.players, id, 1); });
 	plus.addClass('score_btn');
 	
 	ModifyScore(app.context.players, id, app.context.players[id].score, true);

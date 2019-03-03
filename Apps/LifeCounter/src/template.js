@@ -49,7 +49,7 @@
 		if (buttons[i] == null) continue;
 		(function(p) {
 			var opt = canvas.add(x + i * BUTTON_WIDTH, y, BUTTON_WIDTH, h, 'button', buttons[p].id);
-			opt.addEventCallback('click', buttons[p].action);
+			opt.onClick(buttons[p].action);
 			opt.setText(buttons[p].label, false, GLOBAL_FONT_SIZE_CACHE[cacheID]);
 			if (i > 0) opt.addClass('button_separator');
 		}(i));

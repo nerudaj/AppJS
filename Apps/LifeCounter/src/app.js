@@ -141,7 +141,7 @@ function ENUM(id) {return id;}
  *  parent element. Example: To create an element that takes left half of the parent,
  *  use add(0, 0, 0.5, 1);
  */
-ClassElement.prototype.add = function(x, y, w, h, type, id) {
+'static'; ClassElement.prototype.add = function(x, y, w, h, type, id) {
 	type = DefaultArgument(type, "div");
 	id = DefaultArgument(id, null);
 
@@ -220,6 +220,10 @@ ClassElement.prototype.add = function(x, y, w, h, type, id) {
 
 'static'; ClassElement.prototype.addEventCallback = function(event, action) {
 	this.dom.addEventListener(event, action);
+}
+
+'static'; ClassElement.prototype.onClick = function(action) {
+	this.addEventCallback('click', action);
 }
 
 // ============ //

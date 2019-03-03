@@ -104,7 +104,7 @@ var Colors = [ 'red', 'lightgreen', 'lightblue', 'yellow', 'pink', 'orange', 'gr
 			var option = canvas.add(0, 0, 1, 1, 'option');
 			option.value = i;
 			option.setText(i);
-			option.addEventCallback('click', function() {
+			option.onClick(function() {
 				TMP_PlayerCount = p;
 				app.toggleView(ENUM('settings'));
 			});
@@ -144,7 +144,7 @@ var Colors = [ 'red', 'lightgreen', 'lightblue', 'yellow', 'pink', 'orange', 'gr
 				option.dom.innerHTML = '<input type="radio" name="' + ID('FormPlayerColor') + player + '" value="' + color + '" ' + checked + '>';
 
 				// Add TMP updater event
-				option.addEventCallback('click', function() {
+				option.onClick(function() {
 					TMP_PlayerColors[player] = color;
 				});
 			}(i, p));

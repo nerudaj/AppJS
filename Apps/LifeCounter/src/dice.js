@@ -26,7 +26,7 @@
 }
 
 'static'; function RenderThrowDisplay(canvas) {
-	canvas.addEventCallback('click', function() { RandomizationAnimation(); });
+	canvas.onClick(function() { RandomizationAnimation(); });
 	var display = canvas.add(0, 0, 1, 1, 'div', ID('DOMThrowResultBoard'));
 	
 	var FONT_SIZE = ReadFontSizeCache(display, 1, 1, '⚀⚀⚀', ID('CacheThrowDisplay'), Math.min(canvas.width, canvas.height));
