@@ -37,32 +37,19 @@
 	// Draw display
 	var display = canvas.add(0, 0, DISPLAY_WIDTH, DISPLAY_HEIGHT, 'div', ID('DisplayInitCountdown'));
 	display.dom.style.fontSize = DISPLAY_FONT_SIZE + 'px';
-	display.setText('00:00');
 	
 	// Draw control buttons
-	var buttons = [
-		new ButtonTemplate('-10', function() {
-			ModifyInitCountdown(app, -10);
-		}),
-		new ButtonTemplate('-5', function() {
-			ModifyInitCountdown(app, -5);
-		}),
-		new ButtonTemplate('-1', function() {
-			ModifyInitCountdown(app, -1);
-		}),
-		new ButtonTemplate('+1', function() {
-			ModifyInitCountdown(app, 1);
-		}),
-		new ButtonTemplate('+5', function() {
-			ModifyInitCountdown(app, 5);
-		}),
-		new ButtonTemplate('+10', function() {
-			ModifyInitCountdown(app, 10);
-		})
-	];
+	var buttons = [];                                       // Destination array for buttons
+	["-10", "-5", "-1", "+1", "+5", "+10"].forEach(         // Loop over anonymous array of labels that work also as control values
+		function(x) {
+			buttons.push(new ButtonTemplate(x, function() { // Push button template, x is label
+				ModifyInitCountdown(app, parseInt(x));      // Modify countdown with value x (same as label)
+			}));
+		}
+	);
 	RenderButtonArray(canvas, buttons, 0, 0.4, 1, 0.1, ID('timer_settings_buttons'));
 	
-	// Initialize display
+	// Initialize display - will set text of display
 	ModifyInitCountdown(app, 0);
 }
 
