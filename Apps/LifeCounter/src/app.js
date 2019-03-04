@@ -242,9 +242,7 @@ function ENUM(id) {return id;}
  *  you can access the drawing canvas with this.app.canvas
  *  and you can also access app's shared data with this.app.context.
  */
-'static'; function ClassView() {
-	this.app = null; ///< Reference to the app object
-}
+'static'; function ClassView() {}
 
 /**
  *  @brief Render this view
@@ -254,17 +252,6 @@ function ENUM(id) {return id;}
  */
 'static'; ClassView.prototype.render = function() {
 	LogError("ClassView", "render", "This method is not implemented!");
-}
-
-/**
- *  @brief Bootstrap the view
- *  
- *  @param [in] canvas Reference to the \ref App object
- *  
- *  @details This method is called automatically by \ref App during \ref addView.
- */
-'static'; ClassView.prototype.bootstrap = function(app) {
-	this.app = app;
 }
 
 // =========== //
@@ -302,7 +289,7 @@ function ENUM(id) {return id;}
 	}
 	
 	views[name] = view;
-	views[name].bootstrap(this);
+	//views[name].bootstrap(this);
 	
 	return true;
 }
