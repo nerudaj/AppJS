@@ -3,13 +3,13 @@
 // === TOP LEVEL ===
 
 'static'; function RenderTimerSettings() {
-	var canvas = this.app.canvas;
-	TI_TMP_STORAGE = this.app.context.initCountdown;
+	var canvas = app.canvas;
+	TI_TMP_STORAGE = app.context.initCountdown;
 	
 	RenderHeaderTemplate(canvas, TEXTS.settings);
 	
 	var board = GetDrawingTemplate(canvas);
-	RenderTimerSettingsBoard(board, this.app);
+	RenderTimerSettingsBoard(board);
 	
 	// Render toolbar
 	var buttons = [
@@ -26,7 +26,7 @@
 
 // === Second level ===
 
-'static'; function RenderTimerSettingsBoard(canvas, app) {
+'static'; function RenderTimerSettingsBoard(canvas) {
 	// Display constants
 	var DISPLAY_WIDTH = 1;
 	var DISPLAY_HEIGHT = 0.4;
@@ -43,19 +43,19 @@
 	["-10", "-5", "-1", "+1", "+5", "+10"].forEach(         // Loop over anonymous array of labels that work also as control values
 		function(x) {
 			buttons.push(new ButtonTemplate(x, function() { // Push button template, x is label
-				ModifyInitCountdown(app, parseInt(x));      // Modify countdown with value x (same as label)
+				ModifyInitCountdown(parseInt(x));      // Modify countdown with value x (same as label)
 			}));
 		}
 	);
 	RenderButtonArray(canvas, buttons, 0, 0.4, 1, 0.1, ID('timer_settings_buttons'));
 	
 	// Initialize display - will set text of display
-	ModifyInitCountdown(app, 0);
+	ModifyInitCountdown(0);
 }
 
 // === Third level ===
 
-'static'; function ModifyInitCountdown(app, amount) {
+'static'; function ModifyInitCountdown(amount) {
 	if (TI_TMP_STORAGE + amount <= 0) {
 		TI_TMP_STORAGE = 1;
 	}

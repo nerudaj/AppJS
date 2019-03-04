@@ -7,23 +7,23 @@ var Colors = [ 'red', 'lightgreen', 'lightblue', 'yellow', 'pink', 'orange', 'gr
 'static'; var TMP_InitScore = 0;
 
 'static'; function RenderSettings() {
-	var canvas = this.app.canvas;
+	var canvas = app.canvas;
 	
 	// Render header
 	RenderHeaderTemplate(canvas, TEXTS.settings);
 	
 	// Render main
 	var board = GetDrawingTemplate(canvas);
-	RenderSettingsBoard(board, app);
+	RenderSettingsBoard(board);
 	
 	// Render toolbar
 	var buttons = [
 		new ButtonTemplate(TEXTS.apply, () => {
-			ApplySettings(app);
+			ApplySettings();
 			app.toggleView(ENUM('score'));
 		}),
 		new ButtonTemplate(TEXTS.back, () => {
-			RestoreTemporaries(app);
+			RestoreTemporaries();
 			app.toggleView(ENUM('score'));
 		})
 	];
@@ -31,7 +31,7 @@ var Colors = [ 'red', 'lightgreen', 'lightblue', 'yellow', 'pink', 'orange', 'gr
 }
 
 // *** TOP level ***
-'static'; function RenderSettingsBoard(canvas, app) {
+'static'; function RenderSettingsBoard(canvas) {
 	// Render labels
 	var LABEL_WIDTH = 0.6;
 	var LABEL_HEIGHT = 0.1;
@@ -58,16 +58,16 @@ var Colors = [ 'red', 'lightgreen', 'lightblue', 'yellow', 'pink', 'orange', 'gr
 	
 	// Render each form
 	var pcount = canvas.add(LABEL_WIDTH, 0, 1 - LABEL_WIDTH, LABEL_HEIGHT, 'select');
-	RenderFormPlayerCount(pcount, app);
+	RenderFormPlayerCount(pcount);
 	
 	var initscore = canvas.add(LABEL_WIDTH, LABEL_HEIGHT, 1 - LABEL_WIDTH, LABEL_HEIGHT, 'input', ID('DOMInitScoreInput'));
-	RenderFormInitScore(initscore, app);
+	RenderFormInitScore(initscore);
 	
 	var colorwheel = canvas.add(0, 3 * ALT_LABEL_HEIGHT, 1, 6 * ALT_LABEL_HEIGHT);
-	RenderFormPlayerColors(colorwheel, app);
+	RenderFormPlayerColors(colorwheel);
 }
 
-'static'; function ApplySettings(app) {
+'static'; function ApplySettings() {
 	var context = app.context;
 	var players = context.players;
 	
@@ -85,7 +85,7 @@ var Colors = [ 'red', 'lightgreen', 'lightblue', 'yellow', 'pink', 'orange', 'gr
 	context.initScore = parseInt(TMP_InitScore);
 }
 
-'static'; function RestoreTemporaries(app) {
+'static'; function RestoreTemporaries() {
 	var context = app.context;
 
 	TMP_PlayerCount = context.numOfPlayers;
@@ -98,7 +98,7 @@ var Colors = [ 'red', 'lightgreen', 'lightblue', 'yellow', 'pink', 'orange', 'gr
 }
 
 // *** Second level ***
-'static'; function RenderFormPlayerCount(canvas, app) {
+'static'; function RenderFormPlayerCount(canvas) {
 	for (var i = MinPlayers; i <= MaxPlayers; i++) {
 		(function(p) {
 			var option = canvas.add(0, 0, 1, 1, 'option');
@@ -115,7 +115,7 @@ var Colors = [ 'red', 'lightgreen', 'lightblue', 'yellow', 'pink', 'orange', 'gr
 	}
 }
 
-'static'; function RenderFormInitScore(canvas, app) {
+'static'; function RenderFormInitScore(canvas) {
 	canvas.dom.type = 'number';
 	canvas.dom.value = TMP_InitScore;
 	canvas.addEventCallback('input', () => { // either 'change' or 'input' are valid
@@ -126,7 +126,7 @@ var Colors = [ 'red', 'lightgreen', 'lightblue', 'yellow', 'pink', 'orange', 'gr
 	canvas.dom.autocomplete = 'off';
 }
 
-'static'; function RenderFormPlayerColors(canvas, app) {
+'static'; function RenderFormPlayerColors(canvas) {
 	var COL_WIDTH = 1 / Colors.length;
 	var ROW_HEIGHT = 1 / MaxPlayers;
 	

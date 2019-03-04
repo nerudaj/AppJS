@@ -1,12 +1,11 @@
 'static'; function RenderScore() {
-	var canvas = this.app.canvas;
+	var canvas = app.canvas;
 	
 	var ScoreFontSize = null; // App might be resized, reset font size
 	var board = GetDrawingTemplate(canvas, false);
 	board.dom.className = '';
-	RenderBoard(board, this.app);
+	RenderBoard(board);
 	
-	//RenderToolbar(toolbar, this.app);
 	var buttons = [
 		new ButtonTemplate(TEXTS.whoStarts, () => { app.toggleView(ENUM('dice')); }),
 		new ButtonTemplate(TEXTS.timer, () => { app.toggleView(ENUM('timer')); }),
@@ -15,7 +14,7 @@
 	RenderToolbarTemplate(canvas, buttons, ID('CacheScoreToolbar'));
 }
 
-'static'; function RenderBoard(canvas, app) {
+'static'; function RenderBoard(canvas) {
 	var playersLength = app.context.players.length;
 	
 	var COL_COUNT = playersLength == 2 ? 1 : 2;
@@ -33,7 +32,7 @@
 			
 			var display = canvas.add(x * ITEM_WIDTH, y * ITEM_HEIGHT, ITEM_WIDTH, ITEM_HEIGHT);
 			display.setColor(app.context.players[pid].color);
-			RenderDisplay(pid, display, app);
+			RenderDisplay(pid, display);
 			
 			pid++;
 			if (playersLength == pid) return;
@@ -41,7 +40,7 @@
 	}
 }
 
-'static'; function RenderDisplay(id, canvas, app) {
+'static'; function RenderDisplay(id, canvas) {
 	var FONT_SIZE = ReadFontSizeCache(canvas, 0.25, 1, 'XX', ID('CacheScoreDisplay'), 250);
 	
 	var score = canvas.add(0.25, 0, 0.5, 1, 'div', ID('DOMDisplayScore') + id);

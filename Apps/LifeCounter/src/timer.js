@@ -1,21 +1,21 @@
 'static'; var AudioHandle = null;
 
 'static'; function RenderTimer() {
-	var canvas = this.app.canvas;
+	var canvas = app.canvas;
 	
 	RenderHeaderTemplate(canvas, TEXTS.countdown);
 	
 	var board = GetDrawingTemplate(canvas);
-	RenderTimerBoard(board, this.app);
+	RenderTimerBoard(board);
 	
 	// Render toolbar
 	var buttons = [
 		new ButtonTemplate(TEXTS.settings, () => {
-			CountdownControl(app, ENUM('stop'));
+			CountdownControl(ENUM('stop'));
 			app.toggleView(ENUM('timer_settings'));
 		}),
 		new ButtonTemplate(TEXTS.back, () => {
-			CountdownControl(app, ENUM('stop'));
+			CountdownControl(ENUM('stop'));
 			app.toggleView(ENUM('score'));
 		})
 	];
@@ -23,7 +23,7 @@
 }
 
 // === TOP LEVEL ===
-'static'; function RenderTimerBoard(canvas, app) {
+'static'; function RenderTimerBoard(canvas) {
 	var context = app.context;
 	var DISPLAY_WIDTH = 1;
 	var DISPLAY_HEIGHT = 0.4;
@@ -40,13 +40,13 @@
 	var buttons = [
 		new ButtonTemplate(TEXTS.play, () => {
 			InitAudio();
-			CountdownControl(app, ENUM('play_pause'));
+			CountdownControl(ENUM('play_pause'));
 		}, ID('DOMTimerPlayButton')),
 		new ButtonTemplate(TEXTS.stop, () => {
-			CountdownControl(app, ENUM('stop'));
+			CountdownControl(ENUM('stop'));
 		}),
 		new ButtonTemplate(TEXTS.restart, () => {
-			CountdownControl(app, ENUM('restart'));
+			CountdownControl(ENUM('restart'));
 		})
 	];
 	RenderButtonArray(canvas, buttons, 0, 0.4, 1, 0.1, ID('timer_buttons'));
@@ -62,7 +62,7 @@
 
 // === Second level ===
 
-'static'; function CountdownControl(app, action) {
+'static'; function CountdownControl(action) {
 	var context = app.context;
 	var display = GetDOM(ID('CountdownDisplay'));
 	
@@ -75,7 +75,7 @@
 		
 		// play behaviour
 		if (context.countdown == 0) {
-			CountdownControl(app, ENUM('stop'));
+			CountdownControl(ENUM('stop'));
 		}
 		GetDOM(ID('DOMTimerPlayButton')).innerHTML = TEXTS.pause;
 		
@@ -104,8 +104,8 @@
 		GetDOM(ID('DOMTimerPlayButton')).innerHTML = TEXTS.play;
 	}
 	else if (action == ENUM('restart')) {
-		CountdownControl(app, ENUM('stop'));
-		CountdownControl(app, ENUM('play_pause'));
+		CountdownControl(ENUM('stop'));
+		CountdownControl(ENUM('play_pause'));
 	}
 	else {
 		LogError('Timer', 'CountdownControl', 'Invalid action name: ' + action);

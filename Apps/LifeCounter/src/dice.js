@@ -1,7 +1,7 @@
 'static'; var LAST_USED_FUNCTION = ThrowDice;
 
 'static'; function RenderDice() {
-	var canvas = this.app.canvas;
+	var canvas = app.canvas;
 
 	RenderHeaderTemplate(canvas, TEXTS.whoStarts);
 	
