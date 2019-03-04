@@ -3,17 +3,17 @@
 'static'; function RenderDice() {
 	// Render page template and obtain reference to main drawing board
 	// Construct toolbar buttons in place of a function argument
-	var board = PageTemplate(app.canvas, TEXTS.whoStarts, [
-		new ButtonTemplate(TEXTS.throwDice, () => {
+	var board = PageTemplate(appx.canvas, TEXT_WHO_STARTS, [
+		new ButtonTemplate(TEXT_THROW_DICE, () => {
 			LAST_USED_FUNCTION = ThrowDice;
 			RandomizationAnimation();
 		}),
-		new ButtonTemplate(TEXTS.tossCoin, () => {
+		new ButtonTemplate(TEXT_TOSS_COIN, () => {
 			LAST_USED_FUNCTION = TossCoin;
 			RandomizationAnimation();
 		}),
-		new ButtonTemplate(TEXTS.back, () => {
-			app.toggleView(ENUM('score'));
+		new ButtonTemplate(TEXT_BACK, () => {
+			appx.toggleView(ENUM('score'));
 		})
 	], ID('CacheDiceToolbar'));
 	
@@ -41,7 +41,7 @@
 }
 
 'static'; function TossCoin() {
-	var COIN_SIDES = [TEXTS.coin1, TEXTS.coin2];
+	var COIN_SIDES = [TEXT_COIN1, TEXT_COIN2];
 	
 	var dom = GetDOM(ID('DOMThrowResultBoard'));
 	dom.innerHTML = COIN_SIDES[Random(1, 2) - 1];

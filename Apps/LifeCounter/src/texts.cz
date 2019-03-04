@@ -1,20 +1,18 @@
-'static'; var TEXTS = {
-	'whoStarts': 'Kdo začne?',
-	'throwDice': 'Hoď kostkami',
-	'tossCoin': 'Hoď mincí',
-	'apply': 'Použít',
-	'back': 'Zpět',
-	'coin1': 'Hlava',
-	'coin2': 'Orel',
-	'settings': 'Nastavení',
-	'timer': 'Nezdržuj',
-	'initScore': 'Počáteční skóre',
-	'plCount': 'Počet hráčů',
-	'plColors': 'Barvy hráčů',
-	'countdown': 'Odpočet',
-	'play': '▷', // https://stackoverflow.com/a/27053825/6603609
-	'pause': '❘ ❘',
-	'stop': '◻',
-	'restart': '⟲',
-	'end': 'KONEC',
-};
+'static'; var TEXT_WHO_STARTS = 'Kdo začne?';
+'static'; var TEXT_THROW_DICE = 'Hoď kostkami';
+'static'; var TEXT_TOSS_COIN  = 'Hoď mincí';
+'static'; var TEXT_APPLY      = 'Použít';
+'static'; var TEXT_BACK       = 'Zpět';
+'static'; var TEXT_COIN1      = 'Hlava';
+'static'; var TEXT_COIN2      = 'Orel';
+'static'; var TEXT_SETTINGS   = 'Nastavení';
+'static'; var TEXT_TIMER      = 'Nezdržuj';
+'static'; var TEXT_INIT_SCORE = 'Počáteční skóre';
+'static'; var TEXT_PL_COUNT   = 'Počet hráčů';
+'static'; var TEXT_PL_COLORS  = 'Barvy hráčů';
+'static'; var TEXT_COUNTDOWN  = 'Odpočet';
+'static'; var TEXT_PLAY       = '▷'; // https://stackoverflow.com/a/27053825/6603609
+'static'; var TEXT_PAUSE      = '❘ ❘';
+'static'; var TEXT_STOP       = '◻';
+'static'; var TEXT_RESTART    = '⟲';
+'static'; var TEXT_END        = 'KONEC';

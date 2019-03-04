@@ -2,17 +2,17 @@
 
 'static'; function RenderTimerSettings() {
 	// Backup initCountdown
-	TI_TMP_STORAGE = app.context.initCountdown;
+	TI_TMP_STORAGE = appx.context.initCountdown;
 	
 	// Render page template, obtain main canvas reference and draw to it
 	// Buttons are created directly in place of function argument
-	var board = PageTemplate(app.canvas, TEXTS.settings, [
-		new ButtonTemplate(TEXTS.apply, () => {
-			app.context.initCountdown = TI_TMP_STORAGE; // Apply modifications to initCountdown
-			app.toggleView(ENUM('timer'));
+	var board = PageTemplate(appx.canvas, TEXT_SETTINGS, [
+		new ButtonTemplate(TEXT_APPLY, () => {
+			appx.context.initCountdown = TI_TMP_STORAGE; // Apply modifications to initCountdown
+			appx.toggleView(ENUM('timer'));
 		}),
-		new ButtonTemplate(TEXTS.back, () => {
-			app.toggleView(ENUM('timer'));
+		new ButtonTemplate(TEXT_BACK, () => {
+			appx.toggleView(ENUM('timer'));
 		})
 	], ID('CacheToolbarSettingsToolbar'));
 	

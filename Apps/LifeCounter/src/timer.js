@@ -3,19 +3,19 @@
 'static'; function RenderTimer() {
 	// Render page template and obtain reference to main drawing board
 	// Craft buttons in place of function argument
-	var board = PageTemplate(app.canvas, TEXTS.countdown, [
-		new ButtonTemplate(TEXTS.settings, () => {
+	var board = PageTemplate(appx.canvas, TEXT_COUNTDOWN, [
+		new ButtonTemplate(TEXT_SETTINGS, () => {
 			CountdownControl(ENUM('stop'));
-			app.toggleView(ENUM('timer_settings'));
+			appx.toggleView(ENUM('timer_settings'));
 		}),
-		new ButtonTemplate(TEXTS.back, () => {
+		new ButtonTemplate(TEXT_BACK, () => {
 			CountdownControl(ENUM('stop'));
-			app.toggleView(ENUM('score'));
+			appx.toggleView(ENUM('score'));
 		})
 	], ID('timer'));
 
 	// Render timer board
-	var context = app.context;
+	var context = appx.context;
 	var DISPLAY_WIDTH = 1;
 	var DISPLAY_HEIGHT = 0.4;
 	
@@ -29,14 +29,14 @@
 	countdownDisplay.setText(IntToTimeStr(context.initCountdown));
 
 	var buttons = [
-		new ButtonTemplate(TEXTS.play, () => {
+		new ButtonTemplate(TEXT_PLAY, () => {
 			InitAudio();
 			CountdownControl(ENUM('play_pause'));
 		}, ID('DOMTimerPlayButton')),
-		new ButtonTemplate(TEXTS.stop, () => {
+		new ButtonTemplate(TEXT_STOP, () => {
 			CountdownControl(ENUM('stop'));
 		}),
-		new ButtonTemplate(TEXTS.restart, () => {
+		new ButtonTemplate(TEXT_RESTART, () => {
 			CountdownControl(ENUM('stop'));
 			CountdownControl(ENUM('play_pause'));
 		})
@@ -55,13 +55,14 @@
 // === Second level ===
 
 'static'; function CountdownControl(action) {
-	var context = app.context;
+	var context = appx.context;
 	var display = GetDOM(ID('CountdownDisplay'));
+	var playbtn = GetDOM(ID('DOMTimerPlayButton'));
 	
 	if (action == ENUM('play_pause')) {
 		if (context.cntIntHndl != null) { // pause behaviour
 			context.cntIntHndl = ReallyClearInterval(context.cntIntHndl);
-			GetDOM(ID('DOMTimerPlayButton')).innerHTML = TEXTS.play;
+			playbtn.innerHTML = TEXT_PLAY;
 			return;
 		}
 		
@@ -69,7 +70,7 @@
 		if (context.countdown == 0) {
 			CountdownControl(ENUM('stop'));
 		}
-		GetDOM(ID('DOMTimerPlayButton')).innerHTML = TEXTS.pause;
+		playbtn.innerHTML = TEXT_PAUSE;
 		
 		// When the countdown finishes
 		context.cntIntHndl = setInterval(() => {
@@ -83,8 +84,8 @@
 				AudioHandle.play();
 				
 				// Update texts
-				display.innerHTML = TEXTS.end;
-				GetDOM(ID('DOMTimerPlayButton')).innerHTML = TEXTS.play;
+				display.innerHTML = TEXT_END;
+				playbtn.innerHTML = TEXT_PLAY;
 			}
 		}, 1000);
 	}
@@ -92,7 +93,7 @@
 		context.cntIntHndl = ReallyClearInterval(context.cntIntHndl);
 		context.countdown = context.initCountdown;
 		display.innerHTML = IntToTimeStr(context.countdown);
-		GetDOM(ID('DOMTimerPlayButton')).innerHTML = TEXTS.play;
+		playbtn.innerHTML = TEXT_PLAY;
 	}
 	else {
 		LogError('Timer', 'CountdownControl', 'Invalid action name: ' + action);

@@ -1,15 +1,15 @@
 'static'; function RenderScore() {
-	var board = PageTemplate(app.canvas, "", [
-		new ButtonTemplate(TEXTS.whoStarts, () => { app.toggleView(ENUM('dice')); }),
-		new ButtonTemplate(TEXTS.timer,     () => { app.toggleView(ENUM('timer')); }),
-		new ButtonTemplate(TEXTS.settings,  () => { app.toggleView(ENUM('settings')); })
+	var board = PageTemplate(appx.canvas, "", [
+		new ButtonTemplate(TEXT_WHO_STARTS, () => { appx.toggleView(ENUM('dice')); }),
+		new ButtonTemplate(TEXT_TIMER,      () => { appx.toggleView(ENUM('timer')); }),
+		new ButtonTemplate(TEXT_SETTINGS,   () => { appx.toggleView(ENUM('settings')); })
 	], ID('CacheScoreToolbar'));
 	board.dom.className = '';
 	RenderBoard(board);
 }
 
 'static'; function RenderBoard(canvas) {
-	var playersLength = app.context.players.length;
+	var playersLength = appx.context.players.length;
 	
 	var COL_COUNT = playersLength == 2 ? 1 : 2;
 	var ROW_COUNT = Math.ceil(playersLength / COL_COUNT);
@@ -25,7 +25,7 @@
 			}
 			
 			var display = canvas.add(x * ITEM_WIDTH, y * ITEM_HEIGHT, ITEM_WIDTH, ITEM_HEIGHT);
-			display.setColor(app.context.players[pid].color);
+			display.setColor(appx.context.players[pid].color);
 			RenderDisplay(pid, display);
 			
 			pid++;
@@ -36,7 +36,7 @@
 
 'static'; function RenderDisplay(id, canvas) {
 	var FONT_SIZE = ReadFontSizeCache(canvas, 0.25, 1, 'XX', ID('CacheScoreDisplay'), 250);
-	var players = app.context.players;
+	var players = appx.context.players;
 
 	var score = canvas.add(0.25, 0, 0.5, 1, 'div', ID('DOMDisplayScore') + id);
 	score.dom.style.fontSize = FONT_SIZE + 'px';

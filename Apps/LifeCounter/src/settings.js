@@ -9,14 +9,14 @@ var Colors = [ 'red', 'lightgreen', 'lightblue', 'yellow', 'pink', 'orange', 'gr
 'static'; function RenderSettings() {
 	// Render page template and obtain reference to main drawing board
 	// Craft buttons in place of function argument
-	var board = PageTemplate(app.canvas, TEXTS.settings, [
-		new ButtonTemplate(TEXTS.apply, () => {
+	var board = PageTemplate(appx.canvas, TEXT_SETTINGS, [
+		new ButtonTemplate(TEXT_APPLY, () => {
 			ApplySettings();
-			app.toggleView(ENUM('score'));
+			appx.toggleView(ENUM('score'));
 		}),
-		new ButtonTemplate(TEXTS.back, () => {
+		new ButtonTemplate(TEXT_BACK, () => {
 			RestoreTemporaries();
-			app.toggleView(ENUM('score'));
+			appx.toggleView(ENUM('score'));
 		})
 	], ID('CacheSettingsToolbar'));
 	
@@ -28,7 +28,7 @@ var Colors = [ 'red', 'lightgreen', 'lightblue', 'yellow', 'pink', 'orange', 'gr
 	// Prepare variables
 	var LABEL_WIDTH = 0.6;
 	var LABEL_HEIGHT = 0.1;
-	var labels = [ TEXTS.plCount, TEXTS.initScore ];
+	var labels = [ TEXT_PL_COUNT, TEXT_INIT_SCORE ];
 	var LABEL_FONT_SIZE = ReadFontSizeCache(
 		canvas,
 		LABEL_WIDTH,
@@ -48,7 +48,7 @@ var Colors = [ 'red', 'lightgreen', 'lightblue', 'yellow', 'pink', 'orange', 'gr
 	// Render colors label
 	var lcols = canvas.add(0, 2 * ALT_LABEL_HEIGHT, 1, ALT_LABEL_HEIGHT);
 	lcols.dom.style.fontWeight = 'bold';
-	lcols.setText(TEXTS.plColors, false, LABEL_FONT_SIZE);
+	lcols.setText(TEXT_PL_COLORS, false, LABEL_FONT_SIZE);
 	
 	// Render each form
 	var pcount = canvas.add(LABEL_WIDTH, 0, 1 - LABEL_WIDTH, LABEL_HEIGHT, 'select');
@@ -62,7 +62,7 @@ var Colors = [ 'red', 'lightgreen', 'lightblue', 'yellow', 'pink', 'orange', 'gr
 }
 
 'static'; function ApplySettings() {
-	var context = app.context;
+	var context = appx.context;
 	var players = context.players;
 	
 	context.numOfPlayers = TMP_PlayerCount;
@@ -86,7 +86,7 @@ var Colors = [ 'red', 'lightgreen', 'lightblue', 'yellow', 'pink', 'orange', 'gr
  *  must be reverted
  */
 'static'; function RestoreTemporaries() {
-	var context = app.context;
+	var context = appx.context;
 
 	TMP_PlayerCount  = context.numOfPlayers;
 	TMP_PlayerColors = context.colorSetup.map(color => color);
@@ -102,7 +102,7 @@ var Colors = [ 'red', 'lightgreen', 'lightblue', 'yellow', 'pink', 'orange', 'gr
 			option.setText(i);
 			option.onClick(() => {
 				TMP_PlayerCount = p;
-				app.toggleView(ENUM('settings'));
+				appx.toggleView(ENUM('settings'));
 			});
 			if (p == TMP_PlayerCount) {
 				option.dom.selected = 'selected';
