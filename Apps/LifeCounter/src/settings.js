@@ -7,17 +7,9 @@ var Colors = [ 'red', 'lightgreen', 'lightblue', 'yellow', 'pink', 'orange', 'gr
 'static'; var TMP_InitScore = 0;
 
 'static'; function RenderSettings() {
-	var canvas = app.canvas;
-	
-	// Render header
-	RenderHeaderTemplate(canvas, TEXTS.settings);
-	
-	// Render main
-	var board = GetDrawingTemplate(canvas);
-	RenderSettingsBoard(board);
-	
-	// Render toolbar
-	var buttons = [
+	// Render page template and obtain reference to main drawing board
+	// Craft buttons in place of function argument
+	var board = PageTemplate(app.canvas, TEXTS.settings, [
 		new ButtonTemplate(TEXTS.apply, () => {
 			ApplySettings();
 			app.toggleView(ENUM('score'));
@@ -26,13 +18,14 @@ var Colors = [ 'red', 'lightgreen', 'lightblue', 'yellow', 'pink', 'orange', 'gr
 			RestoreTemporaries();
 			app.toggleView(ENUM('score'));
 		})
-	];
-	RenderToolbarTemplate(canvas, buttons, ID('CacheSettingsToolbar'));
+	], ID('CacheSettingsToolbar'));
+	
+	RenderSettingsBoard(board);
 }
 
 // *** TOP level ***
 'static'; function RenderSettingsBoard(canvas) {
-	// Render labels
+	// Prepare variables
 	var LABEL_WIDTH = 0.6;
 	var LABEL_HEIGHT = 0.1;
 	var labels = [ TEXTS.plCount, TEXTS.initScore ];
@@ -44,11 +37,12 @@ var Colors = [ 'red', 'lightgreen', 'lightblue', 'yellow', 'pink', 'orange', 'gr
 		ID('CacheSettingsLabel')
 	);
 	
-	for (var i = 0; i < labels.length; i++) {
-		var label = canvas.add(0, i * LABEL_HEIGHT, LABEL_WIDTH, LABEL_HEIGHT);
-		label.addClass('align_left');
-		label.setText(labels[i], false, LABEL_FONT_SIZE);
-	}
+	// Render labels
+	labels.forEach((label, index) => {
+		var dom = canvas.add(0, index * LABEL_HEIGHT, LABEL_WIDTH, LABEL_HEIGHT);
+		dom.addClass('align_left');
+		dom.setText(label, false, LABEL_FONT_SIZE);
+	});
 	
 	var ALT_LABEL_HEIGHT = 1 / 9;
 	// Render colors label
@@ -85,16 +79,18 @@ var Colors = [ 'red', 'lightgreen', 'lightblue', 'yellow', 'pink', 'orange', 'gr
 	context.initScore = parseInt(TMP_InitScore);
 }
 
+/**
+ *  @brief Reset temporary variables to initial state
+ *  
+ *  @details When back button is pressed, all changes (done to TMP_* vars)
+ *  must be reverted
+ */
 'static'; function RestoreTemporaries() {
 	var context = app.context;
 
-	TMP_PlayerCount = context.numOfPlayers;
-	
-	for (var i = 0; i < MaxPlayers; i++) {
-		TMP_PlayerColors[i] = context.colorSetup[i];
-	}
-	
-	TMP_InitScore = context.initScore;
+	TMP_PlayerCount  = context.numOfPlayers;
+	TMP_PlayerColors = context.colorSetup.map(color => color);
+	TMP_InitScore    = context.initScore;
 }
 
 // *** Second level ***
@@ -127,7 +123,7 @@ var Colors = [ 'red', 'lightgreen', 'lightblue', 'yellow', 'pink', 'orange', 'gr
 }
 
 'static'; function RenderFormPlayerColors(canvas) {
-	var COL_WIDTH = 1 / Colors.length;
+	var COL_WIDTH  = 1 / Colors.length;
 	var ROW_HEIGHT = 1 / MaxPlayers;
 	
 	for (var i = 0; i < TMP_PlayerCount; i++) {
@@ -144,9 +140,7 @@ var Colors = [ 'red', 'lightgreen', 'lightblue', 'yellow', 'pink', 'orange', 'gr
 				option.dom.innerHTML = '<input type="radio" name="' + ID('FormPlayerColor') + player + '" value="' + color + '" ' + checked + '>';
 
 				// Add TMP updater event
-				option.onClick(function() {
-					TMP_PlayerColors[player] = color;
-				});
+				option.onClick(() => { TMP_PlayerColors[player] = color; });
 			}(i, p));
 		}
 	}

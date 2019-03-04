@@ -1,15 +1,9 @@
 'static'; var LAST_USED_FUNCTION = ThrowDice;
 
 'static'; function RenderDice() {
-	var canvas = app.canvas;
-
-	RenderHeaderTemplate(canvas, TEXTS.whoStarts);
-	
-	var board = GetDrawingTemplate(canvas);
-	RenderThrowDisplay(board);
-	
-	// Render toolbar
-	var buttons = [
+	// Render page template and obtain reference to main drawing board
+	// Construct toolbar buttons in place of a function argument
+	var board = PageTemplate(app.canvas, TEXTS.whoStarts, [
 		new ButtonTemplate(TEXTS.throwDice, () => {
 			LAST_USED_FUNCTION = ThrowDice;
 			RandomizationAnimation();
@@ -21,15 +15,13 @@
 		new ButtonTemplate(TEXTS.back, () => {
 			app.toggleView(ENUM('score'));
 		})
-	];
-	RenderToolbarTemplate(canvas, buttons, ID('CacheDiceToolbar'));
-}
-
-'static'; function RenderThrowDisplay(canvas) {
-	canvas.onClick(() => { RandomizationAnimation(); });
-	var display = canvas.add(0, 0, 1, 1, 'div', ID('DOMThrowResultBoard'));
+	], ID('CacheDiceToolbar'));
 	
-	var FONT_SIZE = ReadFontSizeCache(display, 1, 1, '⚀⚀⚀', ID('CacheThrowDisplay'), Math.min(canvas.width, canvas.height));
+	// Render throw display
+	board.onClick(() => { RandomizationAnimation(); });
+	var display = board.add(0, 0, 1, 1, 'div', ID('DOMThrowResultBoard'));
+	
+	var FONT_SIZE = ReadFontSizeCache(display, 1, 1, '⚀⚀⚀', ID('CacheThrowDisplay'), Math.min(board.width, board.height));
 	display.setText("??", false, FONT_SIZE);
 }
 

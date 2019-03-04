@@ -1,15 +1,9 @@
 'static'; var AudioHandle = null;
 
 'static'; function RenderTimer() {
-	var canvas = app.canvas;
-	
-	RenderHeaderTemplate(canvas, TEXTS.countdown);
-	
-	var board = GetDrawingTemplate(canvas);
-	RenderTimerBoard(board);
-	
-	// Render toolbar
-	var buttons = [
+	// Render page template and obtain reference to main drawing board
+	// Craft buttons in place of function argument
+	var board = PageTemplate(app.canvas, TEXTS.countdown, [
 		new ButtonTemplate(TEXTS.settings, () => {
 			CountdownControl(ENUM('stop'));
 			app.toggleView(ENUM('timer_settings'));
@@ -18,12 +12,9 @@
 			CountdownControl(ENUM('stop'));
 			app.toggleView(ENUM('score'));
 		})
-	];
-	RenderToolbarTemplate(canvas, buttons, ID('timer'));
-}
+	], ID('timer'));
 
-// === TOP LEVEL ===
-'static'; function RenderTimerBoard(canvas) {
+	// Render timer board
 	var context = app.context;
 	var DISPLAY_WIDTH = 1;
 	var DISPLAY_HEIGHT = 0.4;
@@ -31,9 +22,9 @@
 	// Reset countdown value
 	context.countdown = context.initCountdown;
 
-	var DISPLAY_FONT_SIZE = ReadFontSizeCache(canvas, DISPLAY_WIDTH, DISPLAY_HEIGHT, 'XX:XX', ID('timer_display'), 250);
+	var DISPLAY_FONT_SIZE = ReadFontSizeCache(board, DISPLAY_WIDTH, DISPLAY_HEIGHT, 'XX:XX', ID('timer_display'), 250);
 	
-	var countdownDisplay = canvas.add(0, 0, DISPLAY_WIDTH, DISPLAY_HEIGHT, 'div', ID('CountdownDisplay'));
+	var countdownDisplay = board.add(0, 0, DISPLAY_WIDTH, DISPLAY_HEIGHT, 'div', ID('CountdownDisplay'));
 	countdownDisplay.dom.style.fontSize = DISPLAY_FONT_SIZE + 'px';
 	countdownDisplay.setText(IntToTimeStr(context.initCountdown));
 
@@ -46,10 +37,11 @@
 			CountdownControl(ENUM('stop'));
 		}),
 		new ButtonTemplate(TEXTS.restart, () => {
-			CountdownControl(ENUM('restart'));
+			CountdownControl(ENUM('stop'));
+			CountdownControl(ENUM('play_pause'));
 		})
 	];
-	RenderButtonArray(canvas, buttons, 0, 0.4, 1, 0.1, ID('timer_buttons'));
+	RenderButtonArray(board, buttons, 0, 0.4, 1, 0.1, ID('timer_buttons'));
 }
 
 'static'; function InitAudio() {
@@ -81,8 +73,7 @@
 		
 		// When the countdown finishes
 		context.cntIntHndl = setInterval(() => {
-			context.countdown--;
-			display.innerHTML = IntToTimeStr(context.countdown);
+			display.innerHTML = IntToTimeStr(--context.countdown);
 			
 			if (context.countdown == 0) {
 				context.cntIntHndl = ReallyClearInterval(context.cntIntHndl);
@@ -102,10 +93,6 @@
 		context.countdown = context.initCountdown;
 		display.innerHTML = IntToTimeStr(context.countdown);
 		GetDOM(ID('DOMTimerPlayButton')).innerHTML = TEXTS.play;
-	}
-	else if (action == ENUM('restart')) {
-		CountdownControl(ENUM('stop'));
-		CountdownControl(ENUM('play_pause'));
 	}
 	else {
 		LogError('Timer', 'CountdownControl', 'Invalid action name: ' + action);

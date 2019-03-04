@@ -113,3 +113,14 @@
 	result.addClass('content');
 	return result;
 }
+
+'static'; function PageTemplate(canvas, label, buttons, cacheID) {
+	// Render header
+	if (label) RenderHeaderTemplate(canvas, label);
+	
+	// Render toolbar
+	RenderToolbarTemplate(canvas, buttons, cacheID);
+	
+	// Return drawing canvas
+	return GetDrawingTemplate(canvas, label);
+}

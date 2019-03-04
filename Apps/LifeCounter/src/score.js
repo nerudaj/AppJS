@@ -1,17 +1,11 @@
 'static'; function RenderScore() {
-	var canvas = app.canvas;
-	
-	var ScoreFontSize = null; // App might be resized, reset font size
-	var board = GetDrawingTemplate(canvas, false);
+	var board = PageTemplate(app.canvas, "", [
+		new ButtonTemplate(TEXTS.whoStarts, () => { app.toggleView(ENUM('dice')); }),
+		new ButtonTemplate(TEXTS.timer,     () => { app.toggleView(ENUM('timer')); }),
+		new ButtonTemplate(TEXTS.settings,  () => { app.toggleView(ENUM('settings')); })
+	], ID('CacheScoreToolbar'));
 	board.dom.className = '';
 	RenderBoard(board);
-	
-	var buttons = [
-		new ButtonTemplate(TEXTS.whoStarts, () => { app.toggleView(ENUM('dice')); }),
-		new ButtonTemplate(TEXTS.timer, () => { app.toggleView(ENUM('timer')); }),
-		new ButtonTemplate(TEXTS.settings, () => { app.toggleView(ENUM('settings')); })
-	];
-	RenderToolbarTemplate(canvas, buttons, ID('CacheScoreToolbar'));
 }
 
 'static'; function RenderBoard(canvas) {
