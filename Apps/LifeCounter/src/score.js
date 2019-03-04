@@ -36,21 +36,20 @@
 
 'static'; function RenderDisplay(id, canvas) {
 	var FONT_SIZE = ReadFontSizeCache(canvas, 0.25, 1, 'XX', ID('CacheScoreDisplay'), 250);
-	
+	var players = app.context.players;
+
 	var score = canvas.add(0.25, 0, 0.5, 1, 'div', ID('DOMDisplayScore') + id);
 	score.dom.style.fontSize = FONT_SIZE + 'px';
-	
-	var minus = canvas.add(0, 0, 0.25, 1, 'button');
-	minus.setText('−', false, FONT_SIZE);
-	minus.onClick(() => { ModifyScore(app.context.players, id, -1); });
-	minus.addClass('score_btn');
-	
-	var plus = canvas.add(0.75, 0, 0.25, 1, 'button');
-	plus.setText('+', false, FONT_SIZE);
-	plus.onClick(() => { ModifyScore(app.context.players, id, 1); });
-	plus.addClass('score_btn');
-	
-	ModifyScore(app.context.players, id, app.context.players[id].score, true);
+
+	// Create -/+ buttons
+	['-', '+'].forEach((str, ind) => {
+		var dom = canvas.add(0.75 * ind, 0, 0.25, 1, 'button');
+		dom.setText(str, false, FONT_SIZE);
+		dom.onClick(() => { ModifyScore(players, id, parseInt(str + '1')); });
+		dom.addClass('score_btn');
+	});
+
+	ModifyScore(players, id, players[id].score, true);
 }
 
 'static'; function ModifyScore(players, id, amount, forceAssign) {
