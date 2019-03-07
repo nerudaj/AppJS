@@ -1,0 +1,10 @@
+context
+players
+initScore
+numOfPlayers
+colorSetup
+initCountdown
+countdown
+cntIntHndl
+callback
+canvas

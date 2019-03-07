@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+    <title>Testrunner</title>
+    <script type="text/javascript" src="../helper.js"></script>
+    <script type="text/javascript" src="testrunner.js"></script>
+    <script type="text/javascript">
+        function Main() {
+            var tests = [
+                () => { TestHelperLongestStr(["abc", "a", "db"], "abc") }
+            ].forEach((test) => { test() });
+        }
+    </script>
+</head>
+
+<body onload="Main();">
+
+</body>
+
+</html>

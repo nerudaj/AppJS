@@ -22,15 +22,10 @@
 }
 
 /**
- *  @brief Return longest of two strings
- *  
- *  @param [in] str1 First string
- *  @param [in] str2 Second string
- *  @return Longer of both strings
+ *  @brief Get longest string in array
  */
-'static'; function maxStr(str1, str2) {
-	if (str1.length > str2.length) return str1;
-	return str2;
+'static'; function longestStr(arr) {
+	return arr.reduce(function (a, b) { return a.length > b.length ? a : b; });
 }
 
 /**

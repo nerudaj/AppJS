@@ -1,22 +1,18 @@
 'static'; function RenderScore() {
-	var canvas = this.app.canvas;
-	
-	var ScoreFontSize = null; // App might be resized, reset font size
-	var board = GetDrawingTemplate(canvas, false);
-	board.dom.className = '';
-	RenderBoard(board, this.app);
-	
-	//RenderToolbar(toolbar, this.app);
-	var buttons = [
-		new ButtonTemplate(TEXTS.whoStarts, function() { app.toggleView(ENUM('dice')); }),
-		new ButtonTemplate(TEXTS.timer, function() { app.toggleView(ENUM('timer')); }),
-		new ButtonTemplate(TEXTS.settings, function() { app.toggleView(ENUM('settings')); })
-	];
-	RenderToolbarTemplate(canvas, buttons, ID('CacheScoreToolbar'));
+	var board = PageTemplate(appx.canvas, "", [
+		new ButtonTemplate(TEXT_WHO_STARTS, () => { appx.toggleView(ENUM('dice')); }),
+		new ButtonTemplate(TEXT_TIMER,      () => { appx.toggleView(ENUM('timer')); }),
+		new ButtonTemplate(TEXT_SETTINGS,   () => { 
+			appx.backupContext();
+			appx.toggleView(ENUM('settings'));
+		})
+	], ID('CacheScoreToolbar'));
+	board.dom.className = ''; // Remove dark background
+	RenderBoard(board);
 }
 
-'static'; function RenderBoard(canvas, app) {
-	var playersLength = app.context.players.length;
+'static'; function RenderBoard(canvas) {
+	var playersLength = appx.context.players.length;
 	
 	var COL_COUNT = playersLength == 2 ? 1 : 2;
 	var ROW_COUNT = Math.ceil(playersLength / COL_COUNT);
@@ -31,9 +27,15 @@
 				ITEM_WIDTH = 1;
 			}
 			
-			var display = canvas.add(x * ITEM_WIDTH, y * ITEM_HEIGHT, ITEM_WIDTH, ITEM_HEIGHT);
-			display.setColor(app.context.players[pid].color);
-			RenderDisplay(pid, display, app);
+			// Create score and subscore displays
+			[ENUM('Score'), ENUM('Subscore')].forEach((item, index) => {
+				// ID is 'SContainer' + (score|subscore) + pid
+				var display = canvas.add(x * ITEM_WIDTH, y * ITEM_HEIGHT, ITEM_WIDTH, ITEM_HEIGHT, 'div', ID('SContainer') + item + pid);
+				display.setColor(appx.context.players[pid].color);
+				RenderDisplay(pid, display, item);
+			});
+			// By default, hide subscore
+			GetDOM(ID('SContainer') + ENUM('Subscore') + pid).style.display = 'none';
 			
 			pid++;
 			if (playersLength == pid) return;
@@ -41,29 +43,41 @@
 	}
 }
 
-'static'; function RenderDisplay(id, canvas, app) {
+'static'; function RenderDisplay(id, canvas, type) {
+	// Which display are we rendering
+	var which = (type == ENUM('Score') ? 'score' : 'subscore'); // Used for indexing into context
 	var FONT_SIZE = ReadFontSizeCache(canvas, 0.25, 1, 'XX', ID('CacheScoreDisplay'), 250);
-	
-	var score = canvas.add(0.25, 0, 0.5, 1, 'div', ID('DOMDisplayScore') + id);
+	var players = appx.context.players;
+
+	// Create display canvas
+	var score = canvas.add(0.25, 0, 0.5, 1, 'div', ID('DOMDisplay') + which + id);
 	score.dom.style.fontSize = FONT_SIZE + 'px';
+	if (type == ENUM('Subscore')) score.addClass('subscore'); // Use different font style for subscore
 	
-	var minus = canvas.add(0, 0, 0.25, 1, 'button');
-	minus.setText('−', false, FONT_SIZE);
-	minus.addEventCallback('click', function() { ModifyScore(app.context.players, id, -1); });
-	minus.addClass('score_btn');
-	
-	var plus = canvas.add(0.75, 0, 0.25, 1, 'button');
-	plus.setText('+', false, FONT_SIZE);
-	plus.addEventCallback('click', function() { ModifyScore(app.context.players, id, 1); });
-	plus.addClass('score_btn');
-	
-	ModifyScore(app.context.players, id, app.context.players[id].score, true);
+	// If subscore is used, make display clickable
+	if (appx.context.useSubscore) {
+		score.onClick(() => {
+			canvas.dom.style.display = 'none'; // Onclick hide this
+			// And reveal the other one
+			GetDOM(ID('SContainer') + (type == ENUM('Score') ? ENUM('Subscore') : ENUM('Score')) + id).style.display = '';
+		});
+	}
+
+	// Create -/+ buttons
+	['-', '+'].forEach((str, ind) => {
+		var dom = canvas.add(0.75 * ind, 0, 0.25, 1, 'button');
+		dom.setText(str, false, FONT_SIZE);
+		// Can directly index using which
+		dom.onClick(() => { ModifyScore(players, id, parseInt(str + '1'), false, which); });
+		dom.addClass('score_btn');
+	});
+
+	// Can directly index using which
+	ModifyScore(players, id, players[id][which], true, which);
 }
 
-'static'; function ModifyScore(players, id, amount, forceAssign) {
-	var forceAssign = DefaultArgument(forceAssign, false);
+'static'; function ModifyScore(players, id, amount, forceAssign, which) {
+	players[id][which] = (forceAssign ? 0 : parseInt(players[id][which])) + amount;
 	
-	players[id].score = (forceAssign ? 0 : parseInt(players[id].score)) + amount;
-	
-	GetDOM(ID('DOMDisplayScore') + id).innerHTML = players[id].score;
+	GetDOM(ID('DOMDisplay') + which + id).innerHTML = players[id][which];
 }

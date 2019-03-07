@@ -19,10 +19,6 @@ function ENUM(id) {return id;}
 	return document.getElementById(id);
 }
 
-'static'; function GetElementsByName(id) {
-	return document.getElementsByName(id);
-}
-
 /**
  *  @brief Display error message
  *  
@@ -101,11 +97,9 @@ function ENUM(id) {return id;}
 		
 		// Update resizer
 		resizer.style.fontSize = middle + "px";
-		var rw = resizer.offsetWidth;
-		var rh = resizer.offsetHeight;
 		
 		// Update bisection control variables
-		if (rw <= width && rh <= height) {
+		if (resizer.offsetWidth <= width && resizer.offsetHeight <= height) {
 			min = middle;
 		}
 		else {
@@ -141,7 +135,7 @@ function ENUM(id) {return id;}
  *  parent element. Example: To create an element that takes left half of the parent,
  *  use add(0, 0, 0.5, 1);
  */
-ClassElement.prototype.add = function(x, y, w, h, type, id) {
+'static'; ClassElement.prototype.add = function(x, y, w, h, type, id) {
 	type = DefaultArgument(type, "div");
 	id = DefaultArgument(id, null);
 
@@ -166,8 +160,8 @@ ClassElement.prototype.add = function(x, y, w, h, type, id) {
 	result.dom.style.height = result.height + "px";
 	
 	if (type == 'input') {
-		result.addEventCallback('focus', function() { PREVENT_RESIZE = true; });
-		result.addEventCallback('blur', function() { setTimeout(function() { PREVENT_RESIZE = false; }, 500); });
+		result.addEventCallback('focus', () => { PREVENT_RESIZE = true; });
+		result.addEventCallback('blur', () => { setTimeout(() => { PREVENT_RESIZE = false; }, 500); });
 	}
 
 	return result;
@@ -222,6 +216,10 @@ ClassElement.prototype.add = function(x, y, w, h, type, id) {
 	this.dom.addEventListener(event, action);
 }
 
+'static'; ClassElement.prototype.onClick = function(action) {
+	this.addEventCallback('click', action);
+}
+
 // ============ //
 // === VIEW === //
 // ============ //
@@ -238,9 +236,7 @@ ClassElement.prototype.add = function(x, y, w, h, type, id) {
  *  you can access the drawing canvas with this.app.canvas
  *  and you can also access app's shared data with this.app.context.
  */
-'static'; function ClassView() {
-	this.app = null; ///< Reference to the app object
-}
+'static'; function ClassView() {}
 
 /**
  *  @brief Render this view
@@ -250,17 +246,6 @@ ClassElement.prototype.add = function(x, y, w, h, type, id) {
  */
 'static'; ClassView.prototype.render = function() {
 	LogError("ClassView", "render", "This method is not implemented!");
-}
-
-/**
- *  @brief Bootstrap the view
- *  
- *  @param [in] canvas Reference to the \ref App object
- *  
- *  @details This method is called automatically by \ref App during \ref addView.
- */
-'static'; ClassView.prototype.bootstrap = function(app) {
-	this.app = app;
 }
 
 // =========== //
@@ -298,7 +283,7 @@ ClassElement.prototype.add = function(x, y, w, h, type, id) {
 	}
 	
 	views[name] = view;
-	views[name].bootstrap(this);
+	//views[name].bootstrap(this);
 	
 	return true;
 }
@@ -355,10 +340,9 @@ ClassElement.prototype.add = function(x, y, w, h, type, id) {
 'static'; ClassApp.prototype.bootstrap = function(id) {
 	this.canvas.dom = GetDOM(id);
 	
-	var that = this;
-	window.addEventListener('resize', function() {
+	window.addEventListener('resize', () => {
 		if (PREVENT_RESIZE) return;
 		ClearOptimizationCache();
-		that.render();
+		this.render();
 	});
 }
