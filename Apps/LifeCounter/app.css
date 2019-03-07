@@ -73,3 +73,18 @@ button:active {
 .button_separator {
 	border-left: 1px solid rgb(176, 176, 176);
 }
+
+.scrollable {
+	overflow-y: auto;
+	overflow-x: hidden;
+}
+
+/* This class adds stroke to text */
+.subscore {
+	color: white;
+	text-shadow:
+		-1px -1px 0 #000,  
+		1px -1px 0 #000,
+		-1px 1px 0 #000,
+		1px 1px 0 #000;
+}
