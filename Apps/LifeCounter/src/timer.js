@@ -6,6 +6,7 @@
 	var board = PageTemplate(appx.canvas, TEXT_COUNTDOWN, [
 		new ButtonTemplate(TEXT_SETTINGS, () => {
 			CountdownControl(ENUM('stop'));
+			appx.backupContext();
 			appx.toggleView(ENUM('timer_settings'));
 		}),
 		new ButtonTemplate(TEXT_BACK, () => {

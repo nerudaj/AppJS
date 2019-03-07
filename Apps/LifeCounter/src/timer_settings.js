@@ -1,17 +1,12 @@
-'static'; var TI_TMP_STORAGE = null;
-
 'static'; function RenderTimerSettings() {
-	// Backup initCountdown
-	TI_TMP_STORAGE = appx.context.initCountdown;
-	
 	// Render page template, obtain main canvas reference and draw to it
 	// Buttons are created directly in place of function argument
 	var board = PageTemplate(appx.canvas, TEXT_SETTINGS, [
 		new ButtonTemplate(TEXT_APPLY, () => {
-			appx.context.initCountdown = TI_TMP_STORAGE; // Apply modifications to initCountdown
 			appx.toggleView(ENUM('timer'));
 		}),
 		new ButtonTemplate(TEXT_BACK, () => {
+			appx.rollbackContext(); // All changes were cancelled
 			appx.toggleView(ENUM('timer'));
 		})
 	], ID('CacheToolbarSettingsToolbar'));
@@ -40,12 +35,14 @@
 }
 
 'static'; function ModifyInitCountdown(amount) {
-	if (TI_TMP_STORAGE + amount <= 0) {
-		TI_TMP_STORAGE = 1;
+	var context = appx.context;
+	
+	if (context.initCountdown + amount <= 0) {
+		context.initCountdown = 1;
 	}
 	else {
-		TI_TMP_STORAGE += amount;
+		context.initCountdown += amount;
 	}
 	
-	GetDOM(ID('DisplayInitCountdown')).innerHTML = IntToTimeStr(TI_TMP_STORAGE);
+	GetDOM(ID('DisplayInitCountdown')).innerHTML = IntToTimeStr(context.initCountdown);
 }
