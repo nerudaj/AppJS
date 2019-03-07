@@ -1,11 +1,20 @@
 // The most important global variable
 'static'; var appx = new ClassApp();
 
+'static'; ClassApp.prototype.backupContext = function() {
+	this.backup = JSON.parse(JSON.stringify(this.context));
+}
+
+'static'; ClassApp.prototype.rollbackContext = function() {
+	this.context = JSON.parse(JSON.stringify(this.backup));
+}
+
 // Main function will bootstrap the App
 function Main() {
 	appx.bootstrap('Canvas');
 	
 	// Setup appx context
+	appx.backup = {};
 	appx.context['players'] = [];
 	appx.context['initScore'] = 0;
 	appx.context['numOfPlayers'] = 4;
