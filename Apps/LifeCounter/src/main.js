@@ -17,11 +17,14 @@ function Main() {
 	appx.backup = {};
 	appx.context['players'] = [];
 	appx.context['initScore'] = 0;
+	appx.context['initSubscore'] = 0;
 	appx.context['numOfPlayers'] = 4;
 	appx.context['colorSetup'] = [ 0, 1, 2, 3, 4, 5 ];
 	appx.context['initCountdown'] = 30; // 30 seconds
 	appx.context['countdown'] = 0;
 	appx.context['cntIntHndl'] = null;
+	appx.context['useSubscore'] = false;
+	appx.context['useHistory'] = false;
 	
 	// Instantiate players
 	for (var i = 0; i < appx.context.numOfPlayers; i++) {
