@@ -16,3 +16,4 @@
 'static'; var TEXT_STOP       = '◻';
 'static'; var TEXT_RESTART    = '⟲';
 'static'; var TEXT_END        = 'KONEC';
+'static'; var TEXT_DICE_SIDES = ['⚀', '⚁', '⚂', '⚃', '⚄', '⚅'];
