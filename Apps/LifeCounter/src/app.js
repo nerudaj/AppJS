@@ -19,10 +19,6 @@ function ENUM(id) {return id;}
 	return document.getElementById(id);
 }
 
-'static'; function GetElementsByName(id) {
-	return document.getElementsByName(id);
-}
-
 /**
  *  @brief Display error message
  *  
@@ -101,11 +97,9 @@ function ENUM(id) {return id;}
 		
 		// Update resizer
 		resizer.style.fontSize = middle + "px";
-		var rw = resizer.offsetWidth;
-		var rh = resizer.offsetHeight;
 		
 		// Update bisection control variables
-		if (rw <= width && rh <= height) {
+		if (resizer.offsetWidth <= width && resizer.offsetHeight <= height) {
 			min = middle;
 		}
 		else {
