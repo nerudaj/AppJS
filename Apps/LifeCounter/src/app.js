@@ -1,6 +1,6 @@
 "use strict";
 
-var version = '2.0.0';
+var version = '3.0.0';
 
 'static'; var LOG_ERROR_LEVEL = 1;
 'static'; var PREVENT_RESIZE = false;
