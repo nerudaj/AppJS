@@ -1,4 +1,4 @@
-'static'; var Colors = [ 'red', 'lightgreen', 'lightblue', 'yellow', 'pink', 'orange', 'grey', '#f5f5f5' ];
+'static'; var COLOR_WHEEL = [ 'red', 'lightgreen', 'lightblue', 'yellow', 'pink', 'orange', 'grey', '#f5f5f5' ];
 
 'static'; function RenderSettings() {
 	// Render page template and obtain reference to main drawing board
@@ -123,14 +123,14 @@
 }
 
 'static'; function RenderFormPlayerColors(canvas) {
-	var COL_WIDTH  = 1 / Colors.length;
+	var COL_WIDTH  = 1 / COLOR_WHEEL.length;
 	var ROW_HEIGHT = 1 / appx.context.numOfPlayers;
 	
 	for (var i = 0; i < appx.context.numOfPlayers; i++) {
-		for (var p = 0; p < Colors.length; p++) {
+		for (var p = 0; p < COLOR_WHEEL.length; p++) {
 			(function(player, color) {
 				var option = canvas.add(color * COL_WIDTH, player * ROW_HEIGHT, COL_WIDTH, ROW_HEIGHT);
-				option.setColor(Colors[color]);
+				option.setColor(COLOR_WHEEL[color]);
 				
 				var checked = '';
 				if (appx.context.colorSetup[player] == color) {
@@ -154,7 +154,7 @@
 	while (context.numOfPlayers > players.length) players.push(new ClassPlayer());
 	
 	for (var i = 0; i < players.length; i++) {
-		players[i].color = Colors[context.colorSetup[i]];
+		players[i].color = COLOR_WHEEL[context.colorSetup[i]];
 		players[i].score = parseInt(context.initScore);
 		players[i].subscore = parseInt(context.initSubscore);
 	}
