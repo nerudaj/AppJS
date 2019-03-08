@@ -52,7 +52,7 @@
 	// Create display canvas
 	var score = canvas.add(0.25, 0, 0.5, 1, 'div', ID('DOMDisplay') + which + id);
 	score.dom.style.fontSize = FONT_SIZE + 'px';
-	if (type == ENUM('Subscore')) score.addClass('subscore'); // Use different font style for subscore
+	if (type == ENUM('Subscore')) score.addClass('outline'); // Use different font style for subscore
 	
 	// If subscore is used, make display clickable
 	if (appx.context.useSubscore) {
