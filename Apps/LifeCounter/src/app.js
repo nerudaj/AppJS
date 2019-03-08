@@ -303,6 +303,7 @@ function ENUM(id) {return id;}
 	
 	this.currentView = name;
 	this.render();
+	PREVENT_RESIZE = false;
 }
 
 /**
