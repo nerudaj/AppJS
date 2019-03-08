@@ -32,7 +32,7 @@ button:active {
 }
 
 .align_left {
-	padding: 10px;
+	padding-left: 10px;
 	justify-content: initial !important;
 	text-align: left;
 }
