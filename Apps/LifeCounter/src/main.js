@@ -25,12 +25,14 @@ function Main() {
 	appx.context['cntIntHndl'] = null;
 	appx.context['useSubscore'] = false;
 	appx.context['useHistory'] = false;
+	appx.context['history'] = "";
+	appx.context['diceCount'] = 3;
 	
 	// Instantiate players
 	for (var i = 0; i < appx.context.numOfPlayers; i++) {
 		appx.context.players.push(new ClassPlayer());
 		appx.context.players[i].score = appx.context.initScore;
-		appx.context.players[i].color = Colors[appx.context.colorSetup[i]];
+		appx.context.players[i].color = COLOR_WHEEL[appx.context.colorSetup[i]];
 	}
 	
 	// Setup views
