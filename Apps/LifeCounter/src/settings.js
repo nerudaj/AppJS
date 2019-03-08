@@ -1,5 +1,3 @@
-'static'; var MinPlayers = 2;
-'static'; var MaxPlayers = 8;
 'static'; var Colors = [ 'red', 'lightgreen', 'lightblue', 'yellow', 'pink', 'orange', 'grey', '#f5f5f5' ];
 
 'static'; function RenderSettings() {
@@ -36,10 +34,13 @@
 	
 	// Declare available options (and filter hidden ones)
 	var options = [
-		[RenderFormPlayerCount, 'select', '', TEXT_PL_COUNT],
-		[RenderNumericInput,    'input',  'initScore', TEXT_INIT_SCORE],
+		[(dom, ctx) => { RenderFormSelect(2, 8, dom, ctx); }, // 2 = MinPlayers, 8 = MaxPlayers
+								'select', 'numOfPlayers', TEXT_PL_COUNT],
+		[(dom, ctx) => { RenderFormSelect(1, 6, dom, ctx); },
+								'select', 'diceCount', TEXT_DICE_COUNT],
 		[RenderCheckboxInput,   'input',  'useSubscore', TEXT_USE_SUBSCR],
 		[RenderCheckboxInput,   'input',  'useHistory', TEXT_USE_HISTORY],
+		[RenderNumericInput,    'input',  'initScore', TEXT_INIT_SCORE],
 		(appx.context.useSubscore ? [RenderNumericInput, 'input', 'initSubscore', TEXT_INIT_SUBSCR] : null)
 	].filter(i => i);
 	
@@ -74,17 +75,22 @@
 }
 
 // *** Second level ***
-'static'; function RenderFormPlayerCount(canvas) {
-	for (var i = MinPlayers; i <= MaxPlayers; i++) {
+'static'; function RenderFormSelect(min, max, canvas, ctx) {
+	for (var i = min; i <= max; i++) {
 		(function(p) {
+			// Add option to select
 			var option = canvas.add(0, 0, 1, 1, 'option');
 			option.value = i;
 			option.setText(i);
+
+			// Set callback for onClick
 			option.onClick(() => {
-				appx.context.numOfPlayers = p;
-				appx.toggleView(ENUM('settings')); // <--- problem
+				appx.context[ctx] = p;
+				appx.toggleView(ENUM('settings'));
 			});
-			if (p == appx.context.numOfPlayers) {
+
+			// Option set in context should be selected
+			if (p == appx.context[ctx]) {
 				option.dom.selected = 'selected';
 			}
 		}(i));

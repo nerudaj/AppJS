@@ -22,10 +22,15 @@
 
 	// Render throw display
 	board.onClick(() => { RandomizationAnimation(); });
-	var display = board.add(0, 0, 1, 1, 'div', ID('DOMThrowResultBoard'));
-	
-	var FONT_SIZE = ReadFontSizeCache(display, 1, 1, '⚀⚀⚀', ID('CacheThrowDisplay'), Math.min(board.width, board.height));
 	var display = board.add(0, 0, 1, DISPLAY_HEIGHT, 'div', ID('DOMThrowResultBoard'));
+
+	// Needs to be recomputed each time this screen is accessed (variable number of dices)
+	var FONT_SIZE = GetOptimalFontSize(
+		longestStr([TEXT_DICE_SIDES[0].repeat(appx.context.diceCount), TEXT_COIN1, TEXT_COIN2]),
+		board.width,
+		board.height,
+		Math.min(board.width, board.height)
+	);
 	display.setText("??", false, FONT_SIZE);
 
 	// Render history
@@ -49,7 +54,7 @@
 'static'; function ThrowDice() {
 	var dom = GetDOM(ID('DOMThrowResultBoard'));
 	dom.innerHTML = '';
-	for (var i = 0; i < 3; i++) {
+	for (var i = 0; i < appx.context.diceCount; i++) {
 		dom.innerHTML += TEXT_DICE_SIDES[(Random(1, 6) - 1)];
 	}
 }
