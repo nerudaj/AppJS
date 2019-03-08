@@ -35,11 +35,11 @@
 
 	// Render history
 	if (appx.context.useHistory) {
-		var history = board.add(0, DISPLAY_HEIGHT, 1, HISTORY_HEIGHT, 'div', ID('DOMHistoryDisplay'));
-		var HFONT_SIZE = ReadFontSizeCache(history, 1, 1, 'Lorem ipsum dolor sit amet', ID('CacheHistoryDisplay'), 150);
-		history.setText(appx.context.history, false, HFONT_SIZE);
-		history.addClass('align_left');
-		history.addClass('nowrap');
+		var hist = board.add(0, DISPLAY_HEIGHT, 1, HISTORY_HEIGHT, 'div', ID('DOMHistoryDisplay'));
+		var HFONT_SIZE = ReadFontSizeCache(hist, 1, 1, 'Lorem ipsum dolor sit amet', ID('CacheHistoryDisplay'), 150);
+		hist.setText(appx.context.history, false, HFONT_SIZE);
+		hist.addClass('align_left');
+		hist.addClass('nowrap');
 	}
 }
 
