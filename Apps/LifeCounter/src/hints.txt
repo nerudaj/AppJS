@@ -8,3 +8,8 @@ countdown
 cntIntHndl
 callback
 canvas
+subscore
+useSubscore
+useHistory
+history
+initSubscore
