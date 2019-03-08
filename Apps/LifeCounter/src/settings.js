@@ -118,7 +118,7 @@
 	// Set callback for updating context
 	canvas.onClick(() => {
 		appx.context[ctxitem] = !appx.context[ctxitem];
-		appx.toggleView('settings');
+		appx.toggleView(ENUM('settings'));
 	});
 }
 
