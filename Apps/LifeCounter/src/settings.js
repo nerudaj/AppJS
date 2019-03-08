@@ -20,9 +20,9 @@
 	board.addClass('scrollable');
 	
 	// Create huge canvas inside, scrolling
-	// plCountSelect + initScore + useSubscore + ?initSubscore + plCount
+	// plCountSelect + initScore + useSubscore + useHistory + diceCount + ?initSubscore + plCount
 	// But at least 9 rows
-	var rowCount = Math.max(appx.context.numOfPlayers + appx.context.useSubscore + 3, 9);
+	var rowCount = Math.max(appx.context.numOfPlayers + appx.context.useSubscore + 5, 9);
 	var content = board.add(0, 0, 1, rowCount / 9); // Single label is always 1/9 of board height
 	
 	RenderSettingsBoard(content, rowCount);
@@ -39,11 +39,9 @@
 		[RenderFormPlayerCount, 'select', '', TEXT_PL_COUNT],
 		[RenderNumericInput,    'input',  'initScore', TEXT_INIT_SCORE],
 		[RenderCheckboxInput,   'input',  'useSubscore', TEXT_USE_SUBSCR],
+		[RenderCheckboxInput,   'input',  'useHistory', TEXT_USE_HISTORY],
 		(appx.context.useSubscore ? [RenderNumericInput, 'input', 'initSubscore', TEXT_INIT_SUBSCR] : null)
 	].filter(i => i);
-	
-	console.log(options.map(o => o[3]));
-	console.log(longestStr(options.map(o => o[3])));
 	
 	// Get current cached font size
 	var LABEL_FONT_SIZE = ReadFontSizeCache(
