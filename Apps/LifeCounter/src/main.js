@@ -25,6 +25,7 @@ function Main() {
 	appx.context['cntIntHndl'] = null;
 	appx.context['useSubscore'] = false;
 	appx.context['useHistory'] = false;
+	appx.context['history'] = "";
 	
 	// Instantiate players
 	for (var i = 0; i < appx.context.numOfPlayers; i++) {
