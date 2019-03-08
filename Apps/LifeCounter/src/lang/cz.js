@@ -10,6 +10,7 @@
 'static'; var TEXT_INIT_SCORE = 'Počáteční skóre';
 'static'; var TEXT_INIT_SUBSCR= 'Počáteční subskóre';
 'static'; var TEXT_USE_SUBSCR = 'Zapnout subskóre';
+'static'; var TEXT_USE_HISTORY= 'Zapnout historii hodů';
 'static'; var TEXT_PL_COUNT   = 'Počet hráčů';
 'static'; var TEXT_PL_COLORS  = 'Barvy hráčů';
 'static'; var TEXT_COUNTDOWN  = 'Odpočet';
