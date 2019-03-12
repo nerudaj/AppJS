@@ -22,7 +22,7 @@
 	// But at least 9 rows
 	var rowCount = Math.max(appx.context.numOfPlayers + appx.context.useSubscore + 5, 9);
 	var content = board.add(0, 0, 1, rowCount / 9); // Single label is always 1/9 of board height
-	
+
 	RenderSettingsBoard(content, rowCount);
 }
 
@@ -76,18 +76,18 @@
 
 // *** Second level ***
 'static'; function RenderFormSelect(min, max, canvas, ctx) {
+	canvas.addEventCallback('change', (event) => {
+		var d = event.target;
+		appx.context[ctx] = parseInt(d.options[d.selectedIndex].value);
+		appx.toggleView(ENUM('settings'));
+	});
+
 	for (var i = min; i <= max; i++) {
 		(function(p) {
 			// Add option to select
 			var option = canvas.add(0, 0, 1, 1, 'option');
 			option.value = i;
 			option.setText(i);
-
-			// Set callback for onClick
-			option.onClick(() => {
-				appx.context[ctx] = p;
-				appx.toggleView(ENUM('settings'));
-			});
 
 			// Option set in context should be selected
 			if (p == appx.context[ctx]) {
