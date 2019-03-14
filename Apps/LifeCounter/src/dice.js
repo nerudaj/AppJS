@@ -1,56 +1,83 @@
 'static'; var LAST_USED_FUNCTION = ThrowDice;
 
 'static'; function RenderDice() {
-	var canvas = this.app.canvas;
-
-	RenderHeaderTemplate(canvas, TEXTS.whoStarts);
-	
-	var board = GetDrawingTemplate(canvas);
-	RenderThrowDisplay(board);
-	
-	// Render toolbar
-	var buttons = [
-		new ButtonTemplate(TEXTS.throwDice, function() {
+	// Render page template and obtain reference to main drawing board
+	// Construct toolbar buttons in place of a function argument
+	var board = PageTemplate(appx.canvas, TEXT_WHO_STARTS, [
+		new ButtonTemplate(TEXT_THROW_DICE, () => {
 			LAST_USED_FUNCTION = ThrowDice;
 			RandomizationAnimation();
 		}),
-		new ButtonTemplate(TEXTS.tossCoin, function() {
+		new ButtonTemplate(TEXT_TOSS_COIN, () => {
 			LAST_USED_FUNCTION = TossCoin;
 			RandomizationAnimation();
 		}),
-		new ButtonTemplate(TEXTS.back, function() {
-			app.toggleView(ENUM('score'));
+		new ButtonTemplate(TEXT_BACK, () => {
+			appx.toggleView(ENUM('score'));
 		})
-	];
-	RenderToolbarTemplate(canvas, buttons, ID('CacheDiceToolbar'));
-}
-
-'static'; function RenderThrowDisplay(canvas) {
-	canvas.addEventCallback('click', function() { RandomizationAnimation(); });
-	var display = canvas.add(0, 0, 1, 1, 'div', ID('DOMThrowResultBoard'));
+	], ID('CacheDiceToolbar'));
 	
-	var FONT_SIZE = ReadFontSizeCache(display, 1, 1, '⚀⚀⚀', ID('CacheThrowDisplay'), Math.min(canvas.width, canvas.height));
+	var HISTORY_HEIGHT = (appx.context.useHistory ? 0.1 : 0);
+	var DISPLAY_HEIGHT = 1 - HISTORY_HEIGHT;
+
+	// Render throw display
+	board.onClick(() => { RandomizationAnimation(); });
+	var display = board.add(0, 0, 1, DISPLAY_HEIGHT, 'div', ID('DOMThrowResultBoard'));
+
+	// Needs to be recomputed each time this screen is accessed (variable number of dices)
+	var FONT_SIZE = GetOptimalFontSize(
+		longestStr([TEXT_DICE_SIDES[0].repeat(appx.context.diceCount), TEXT_COIN1, TEXT_COIN2]),
+		board.width,
+		board.height,
+		Math.min(board.width, board.height)
+	);
 	display.setText("??", false, FONT_SIZE);
+
+	// Render history
+	if (appx.context.useHistory) {
+		var hist = board.add(0, DISPLAY_HEIGHT, 1, HISTORY_HEIGHT, 'div', ID('DOMHistoryDisplay'));
+		var HFONT_SIZE = ReadFontSizeCache(hist, 1, 1, 'Lorem ipsum dolor sit amet', ID('CacheHistoryDisplay'), 150);
+		hist.setText(appx.context.history, false, HFONT_SIZE);
+		hist.addClass('align_left');
+		hist.addClass('nowrap');
+	}
 }
 
 'static'; function RandomizationAnimation() {
 	GetDOM(ID('DOMThrowResultBoard')).innerHTML = '...';
-	setTimeout(function() { LAST_USED_FUNCTION(); }, 500);
+	setTimeout(() => { 
+		LAST_USED_FUNCTION(); 
+		UpdateHistory();
+	}, 500);
 }
 
 'static'; function ThrowDice() {
-	var DICE_SIDES = ['⚀', '⚁', '⚂', '⚃', '⚄', '⚅'];
-
 	var dom = GetDOM(ID('DOMThrowResultBoard'));
 	dom.innerHTML = '';
-	for (var i = 0; i < 3; i++) {
-		dom.innerHTML += DICE_SIDES[(Random(1, 6) - 1)];
+	for (var i = 0; i < appx.context.diceCount; i++) {
+		dom.innerHTML += TEXT_DICE_SIDES[(Random(1, 6) - 1)];
 	}
 }
 
 'static'; function TossCoin() {
-	var COIN_SIDES = [TEXTS.coin1, TEXTS.coin2];
+	var COIN_SIDES = [TEXT_COIN1, TEXT_COIN2];
 	
-	var dom = GetDOM(ID('DOMThrowResultBoard'));
-	dom.innerHTML = COIN_SIDES[Random(1, 2) - 1];
+	GetDOM(ID('DOMThrowResultBoard')).innerHTML = COIN_SIDES[Random(1, 2) - 1];
+}
+
+'static'; function UpdateHistory() {
+	var context = appx.context;
+
+	// If history is disabled, return
+	if (!context.useHistory) return;
+
+	// Initialize delimiter
+	var delim = "";
+	if (context.history) delim = ", ";
+
+	// Compute new history - limit number of characters to remember
+	context.history = GetDOM(ID('DOMThrowResultBoard')).innerHTML + delim + context.history.substr(0, 1024);
+
+	// Write to DOM
+	GetDOM(ID('DOMHistoryDisplay')).innerHTML = context.history;
 }
