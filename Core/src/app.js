@@ -110,11 +110,9 @@ function ENUM(id) {return id;}
 		
 		// Update resizer
 		resizer.style.fontSize = middle + "px";
-		var rw = resizer.offsetWidth;
-		var rh = resizer.offsetHeight;
 		
 		// Update bisection control variables
-		if (rw <= width && rh <= height) {
+		if (resizer.offsetWidth <= width && resizer.offsetHeight <= height) {
 			min = middle;
 		}
 		else {
@@ -247,9 +245,7 @@ ClassElement.prototype.add = function(x, y, w, h, type, id) {
  *  you can access the drawing canvas with this.app.canvas
  *  and you can also access app's shared data with this.app.context.
  */
-'static'; function ClassView() {
-	this.app = null; ///< Reference to the app object
-}
+'static'; function ClassView() {}
 
 /**
  *  @brief Render this view
@@ -259,17 +255,6 @@ ClassElement.prototype.add = function(x, y, w, h, type, id) {
  */
 'static'; ClassView.prototype.render = function() {
 	LogError("ClassView", "render", "This method is not implemented!");
-}
-
-/**
- *  @brief Bootstrap the view
- *  
- *  @param [in] canvas Reference to the \ref App object
- *  
- *  @details This method is called automatically by \ref App during \ref addView.
- */
-'static'; ClassView.prototype.bootstrap = function(app) {
-	this.app = app;
 }
 
 // =========== //
@@ -307,7 +292,6 @@ ClassElement.prototype.add = function(x, y, w, h, type, id) {
 	}
 	
 	views[name] = view;
-	views[name].bootstrap(this);
 	
 	return true;
 }
@@ -327,6 +311,7 @@ ClassElement.prototype.add = function(x, y, w, h, type, id) {
 	
 	this.currentView = name;
 	this.render();
+	PREVENT_RESIZE = false;
 }
 
 /**
