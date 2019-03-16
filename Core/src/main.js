@@ -27,9 +27,9 @@ function Main() {
 	for (var i = 0; i < views.length; i++) {
 		var view = new ClassView();
 		view.render = views[i].callback;
-		app.addView(view, views[i].name);
+		appx.addView(view, views[i].name);
 	}
 	
 	// Toggle default view
-	app.toggleView(ENUM('mainpage'));
+	appx.toggleView(ENUM('mainpage'));
 }

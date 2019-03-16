@@ -229,6 +229,10 @@ ClassElement.prototype.add = function(x, y, w, h, type, id) {
 	this.dom.addEventListener(event, action);
 }
 
+'static'; ClassElement.prototype.onClick = function(action) {
+	this.addEventCallback('click', action);
+}
+
 // ============ //
 // === VIEW === //
 // ============ //

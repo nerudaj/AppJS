@@ -30,6 +30,12 @@ button:active {
 	z-index: 9999999;
 }
 
+.align_left {
+	padding-left: 10px;
+	justify-content: initial !important;
+	text-align: left;
+}
+
 .header {
 	background: rgb(31, 31, 31);
 	color: rgb(176, 176, 176);
@@ -57,6 +63,10 @@ button:active {
 }
 
 .scrollable {
-	overflow-y: scroll;
+	overflow-y: auto;
 	overflow-x: hidden;
+}
+
+.nowrap {
+	white-space: nowrap;
 }
