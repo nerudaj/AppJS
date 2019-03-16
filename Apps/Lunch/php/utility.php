@@ -8,6 +8,16 @@ function getSourceOfUrlSanitized($url) {
     return mb_convert_encoding($file, 'HTML-ENTITIES', "UTF-8");
 }
 
+function getSourceOfFile($path) {
+    $handle = @fopen($path, "r");
+    if (!$handle) return null;
+
+    $data = fread($handle, filesize($path));
+    fclose($handle);
+
+    return $data;
+}
+
 function getTodayNum() {
     return date('N') - 1;
 }
