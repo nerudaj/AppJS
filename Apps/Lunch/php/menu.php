@@ -27,4 +27,16 @@
         
         echo json_encode($result);
     }
+
+    if (isset($_GET['direct'])) {
+        $rests = [
+            "crow" => getCrowLunch,
+            "adam" => getAdamLunch,
+            "kos"  => getKosLunch,
+            "naber"=> getNaberLunch
+        ];
+        $key = $_GET['direct'];
+
+        echo json_encode($rests[$key]());
+    }
 ?>
