@@ -3,6 +3,7 @@
     include 'crow.php';
     include 'kos.php';
     include 'adam.php';
+    include 'rubin.php';
 
     if (isset($_GET['mode']) && $_GET['mode'] == "read") {
         $result = [
@@ -17,7 +18,11 @@
             [
                 "name" => "U Dvou kosů",
                 "food" => getKosLunch()
-            ]
+            ],
+			[
+			    "name" => "Restaurace Rubín",
+				"food" => getRubinLunch()
+			]
         ];
         
         echo json_encode($result);
