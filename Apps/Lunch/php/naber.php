@@ -8,8 +8,14 @@ function getNaberLunch() {
     $DOM = new DOMDocument;
     @$DOM->loadHTML($file);
 
+    // Get day of week
+    $todayNum = getTodayNum();
+    if ($todayNum >= 5) return ['Zavřeno'];
+    
     $tbodys = $DOM->getElementsByTagName('tbody');
 
-    echo $tbodys[0]->textContent;
+    $food = trim($tbodys[0]->textContent);
+    $food = str_replace("\n", "<br>", $food);
+    return [ $food ];
 }
 ?>

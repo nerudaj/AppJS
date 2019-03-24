@@ -1,6 +1,6 @@
 <?php
-function getAdamLunch() {
-    $URL = "adam.txt";
+function getAdamGrillLunch($filename) {
+    $URL = $filename;
 
     $file = getSourceOfFile($URL);
     if ($file == null) return [ "Nepodařilo se získat data" ];

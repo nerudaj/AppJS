@@ -2,8 +2,9 @@
     include 'utility.php';
     include 'crow.php';
     include 'kos.php';
-    include 'adam.php';
+    include 'adam_grill.php';
     include 'rubin.php';
+    include 'naber.php';
 
     if (isset($_GET['mode']) && $_GET['mode'] == "read") {
         $result = [
@@ -13,30 +14,26 @@
             ],
             [
                 "name" => "Hospůdka u Adama",
-                "food" => getAdamLunch()
+                "food" => getAdamGrillLunch('adam.txt')
+            ],
+            [
+                "name" => "Pizzeria na Place (Grill)",
+                "food" => getAdamGrillLunch('grill.txt');
             ],
             [
                 "name" => "U Dvou kosů",
                 "food" => getKosLunch()
             ],
-			[
-			    "name" => "Restaurace Rubín",
-				"food" => getRubinLunch()
-			]
+            [
+                "name" => "Restaurace Rubín",
+                "food" => getRubinLunch()
+            ],
+            [
+                "name" => "Naber si",
+                "food" => getNaberLunch()
+            ]
         ];
         
         echo json_encode($result);
-    }
-
-    if (isset($_GET['direct'])) {
-        $rests = [
-            "crow" => getCrowLunch,
-            "adam" => getAdamLunch,
-            "kos"  => getKosLunch,
-            "naber"=> getNaberLunch
-        ];
-        $key = $_GET['direct'];
-
-        echo json_encode($rests[$key]());
     }
 ?>
