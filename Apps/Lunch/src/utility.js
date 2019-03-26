@@ -20,17 +20,22 @@
 	return ajaxRequest;
 }
 
-'static'; function asyncJsonRequest(url, callback) {
+'static'; function asyncGetLunch(place) {
 	var ajaxRequest = initAjax();
 	
-		ajaxRequest.onreadystatechange = function(){	// callback
-			if(ajaxRequest.readyState == 4){
+	ajaxRequest.onreadystatechange = function(){	// callback
+		if(ajaxRequest.readyState == 4){
+			console.log(ajaxRequest.responseText);
+			try {
 				var output = JSON.parse(ajaxRequest.responseText);
-				callback(output);
+				RenderPlace(place, output);
+			} catch(e) {
+				//alert(e);
+				RenderError(place);
 			}
 		}
-		
-		//ajaxRequest.open("GET", "backend/proxy.php?url=" + encodeURIComponent("http://www.cafecrowbar.cz/poledni-menu.php"), true);
-		ajaxRequest.open("GET", url, true);
-		ajaxRequest.send();
+	}
+	
+	ajaxRequest.open("GET", "php/menu.php?where=" + place, true);
+	ajaxRequest.send();
 }

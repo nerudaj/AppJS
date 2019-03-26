@@ -1,8 +1,6 @@
 <?php
-function getAdamGrillLunch($filename) {
-    $URL = $filename;
-
-    $file = getSourceOfFile($URL);
+function getLunchFromFile($filename) {
+    $file = getSourceOfFile($filename);
     if ($file == null) return [ "Nepodařilo se získat data" ];
 
     $todayNum = getTodayNum();
