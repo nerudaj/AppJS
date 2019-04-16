@@ -9,7 +9,7 @@ function getKosLunch() {
     @$DOM->loadHTML($file);
     
     // Relevant elements for lunch parsing 
-    $divs = $DOM->getElementsByTagName('div');
+    $divs = $DOM->getElementsByTagName('p');
     
     
     // Get day of week
@@ -27,8 +27,9 @@ function getKosLunch() {
         if (!$div->hasAttributes()) continue;
         
         // Is of class text-content
-        if ($div->getAttribute("style") == "text-align: center; color: rgb(255, 149, 0);") {
+        if ($div->getAttribute("style") == "color: rgb(255, 149, 0);") {
             $text = $div->textContent;
+           // echo $text;
             if (startsWith($text, "1.") || startsWith($text, "2.")) {
                 $texts[] = $text;
             }
@@ -51,7 +52,8 @@ function getKosLunch() {
     }
 
     $soup = substr($soup, strlen($today) + 3);
+    $dishes = explode(') ', $texts[$todayNum]);
     
-    return [ $soup, $texts[$todayNum * 2], $texts[$todayNum * 2 + 1] ];
+    return [ $soup, $dishes[0].')', $dishes[1].')' ];
 }
 ?>
