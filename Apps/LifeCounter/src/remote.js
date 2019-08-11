@@ -16,7 +16,7 @@
     var header = canvas.add(0, 0, 1, 0.3);
     header.setText('Enter AppID of remote device:', true);
 
-    var keyinput = canvas.add(0.05, 0.35, 0.9, 0.2, 'input', ID("ApiKey"));
+    var keyinput = canvas.add(0.05, 0.35, 0.9, 0.2, 'input', ID('ApiKey'));
     RenderTextInput(keyinput);
 }
 
@@ -36,10 +36,8 @@
         }
         var x = e.clientX / appx.canvas.width;
         var y = e.clientY / appx.canvas.height;
-        var msg = JSON.stringify([x,y]);
-        //console.log(msg);
-        //console.log(apikey);
-        sock.send(msg);
+        
+        sock.send(JSON.stringify([x,y]));
     });
 }
 
