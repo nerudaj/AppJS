@@ -1,0 +1,2 @@
+LifeCounter v4.0.0 changelog:
+ * TODO
