@@ -25,7 +25,7 @@ function Main() {
 	appx.context['cntIntHndl'] = null;
 	appx.context['useSubscore'] = false;
 	appx.context['useRemote'] = false;
-	appx.context['useHistory'] = false;
+	appx.context['useHistory'] = true;
 	appx.context['history'] = "";
 	appx.context['diceCount'] = 3;
 	appx.context['apikey'] = GetRandomApiKey();
