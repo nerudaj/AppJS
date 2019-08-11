@@ -205,6 +205,31 @@ function ENUM(id) {return id;}
 		this.currentView = ""; ///< Index to current view
 	}
 
+	localStorageAvailable() {
+		var storage;
+		try {
+			storage = window.localStorage;
+			var x = '__storage_test__';
+			storage.setItem(x, x);
+			storage.removeItem(x);
+			return true;
+		}
+		catch(e) {
+			return e instanceof DOMException && (
+				// everything except Firefox
+				e.code === 22 ||
+				// Firefox
+				e.code === 1014 ||
+				// test name field too, because code might not be present
+				// everything except Firefox
+				e.name === 'QuotaExceededError' ||
+				// Firefox
+				e.name === 'NS_ERROR_DOM_QUOTA_REACHED') &&
+				// acknowledge QuotaExceededError only if there's something already stored
+				(storage && storage.length !== 0);
+		}
+	}
+
 	bootstrap(canvasID) {
 		this.canvas.dom = GetDOM(canvasID);
 		window.addEventListener('resize', () => {
@@ -222,6 +247,19 @@ function ENUM(id) {return id;}
 		}
 
 		views[name] = view;
+	}
+
+	saveToLocalStorage(item, id) {
+		if (this.localStorageAvailable()) {
+			window.localStorage.setItem(id, JSON.stringify(item));
+		}
+	}
+
+	loadFromLocalStorage(id, fallback) {
+		if (!this.localStorageAvailable()) return fallback;
+		var result = window.localStorage.getItem(id);
+		if (result == null) return fallback;
+		return JSON.parse(result);
 	}
 
 	toggleView(name) {
