@@ -3,15 +3,10 @@
 'static'; var TEMPLATE_TOOLBAR_HEIGHT = TEMPLATE_HEADER_HEIGHT;
 
 /**
- *  @brief Return longest of two strings
- *  
- *  @param [in] str1 First string
- *  @param [in] str2 Second string
- *  @return Longer of both strings
+ *  @brief Get longest string in array
  */
-'static'; function maxStr(str1, str2) {
-	if (str1.length > str2.length) return str1;
-	return str2;
+'static'; function longestStr(arr) {
+	return arr.reduce(function (a, b) { return a.length > b.length ? a : b; });
 }
 
 /**
@@ -45,27 +40,22 @@
 	var BUTTON_WIDTH = w / buttons.length;
 
 	if (GLOBAL_FONT_SIZE_CACHE[cacheID] == null) {
-		var longestStr = '';
-		for (var i = 0; i < buttons.length; i++) {
-			longestStr = maxStr(longestStr, buttons[i].label);
-		}
-
 		GLOBAL_FONT_SIZE_CACHE[cacheID] = GetOptimalFontSize(
-			longestStr,
+			longestStr(buttons.map(btn => btn.label)),
 			canvas.width * BUTTON_WIDTH,
 			canvas.height * h
 		);
 	}
 
-	for (var i = 0; i < buttons.length; i++) {
-		if (buttons[i] == null) continue;
-		(function(p) {
-			var opt = canvas.add(x + i * BUTTON_WIDTH, y, BUTTON_WIDTH, h, 'button', buttons[p].id);
-			opt.addEventCallback('click', buttons[p].action);
-			opt.setText(buttons[p].label, false, GLOBAL_FONT_SIZE_CACHE[cacheID]);
-			if (i > 0) opt.addClass('button_separator');
-		}(i));
-	}
+	buttons.forEach(function(button, index) {
+		if (!button) return;
+
+		var opt = canvas.add(x + index * BUTTON_WIDTH, y, BUTTON_WIDTH, h, 'button', button.id);
+		opt.onClick(button.action);
+		opt.setText(button.label, false, GLOBAL_FONT_SIZE_CACHE[cacheID]);
+
+		if (index > 0) opt.addClass('button_separator');
+	});
 }
 
 /**
@@ -119,9 +109,22 @@
  *  
  *  @details Use this in conjunction with \ref RenderToolbarTemplate and \ref RenderHeaderTemplate.
  */
-'static'; function GetDrawingTemplate(core, hasHeader) {
+'static'; function GetDrawingTemplate(core, hasHeader, hasToolbar) {
 	var HEADER_OFFSET = DefaultArgument(hasHeader, true) ? TEMPLATE_HEADER_HEIGHT : 0;
-	var result = core.add(0, HEADER_OFFSET, 1, 1 - HEADER_OFFSET - TEMPLATE_TOOLBAR_HEIGHT);
+	var TOOLBAR_OFFSET = DefaultArgument(hasToolbar, true) ? TEMPLATE_TOOLBAR_HEIGHT : 0;
+
+	var result = core.add(0, HEADER_OFFSET, 1, 1 - HEADER_OFFSET - TOOLBAR_OFFSET);
 	result.addClass('content');
 	return result;
+}
+
+'static'; function PageTemplate(canvas, label, buttons, cacheID) {
+	// Render header
+	if (label) RenderHeaderTemplate(canvas, label);
+	
+	// Render toolbar
+	if (buttons) RenderToolbarTemplate(canvas, buttons, cacheID);
+	
+	// Return drawing canvas
+	return GetDrawingTemplate(canvas, label, buttons);
 }

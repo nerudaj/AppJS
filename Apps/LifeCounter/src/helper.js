@@ -22,6 +22,15 @@
 }
 
 /**
+ *  @brief Generate random API key for remote control
+ * 
+ *  @return Random 8letter string
+ */
+'static'; function GetRandomApiKey() {
+	return Random(0x10000000, 0xFFFFFFFF).toString(16);
+}
+
+/**
  *  @brief Get longest string in array
  */
 'static'; function longestStr(arr) {

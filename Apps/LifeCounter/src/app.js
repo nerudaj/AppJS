@@ -283,7 +283,6 @@ function ENUM(id) {return id;}
 	}
 	
 	views[name] = view;
-	//views[name].bootstrap(this);
 	
 	return true;
 }

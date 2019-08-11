@@ -8,6 +8,10 @@
 			ApplySettings(); // Some post process has to be done
 			appx.toggleView(ENUM('score'));
 		}),
+		new ButtonTemplate(TEXT_REMOTE, () => {
+			ApplySettings();
+			appx.toggleView(ENUM('remote'));
+		}),
 		new ButtonTemplate(TEXT_BACK, () => {
 			appx.rollbackContext();
 			appx.toggleView(ENUM('score'));
@@ -41,7 +45,9 @@
 		[RenderCheckboxInput,   'input',  'useSubscore', TEXT_USE_SUBSCR],
 		[RenderCheckboxInput,   'input',  'useHistory', TEXT_USE_HISTORY],
 		[RenderNumericInput,    'input',  'initScore', TEXT_INIT_SCORE],
-		(appx.context.useSubscore ? [RenderNumericInput, 'input', 'initSubscore', TEXT_INIT_SUBSCR] : null)
+		(appx.context.useSubscore ? [RenderNumericInput, 'input', 'initSubscore', TEXT_INIT_SUBSCR] : null),
+		[RenderCheckboxInput,   'input',  'useRemote', TEXT_USE_REMOTE],
+		(appx.context.useRemote ? [RenderApiKey, 'div', 'apikey', TEXT_APPID] : null)
 	].filter(i => i);
 	
 	// Get current cached font size
@@ -122,6 +128,10 @@
 	});
 }
 
+'static'; function RenderApiKey(canvas, ctxitem) {
+	canvas.setText(appx.context[ctxitem]);
+}
+
 'static'; function RenderFormPlayerColors(canvas) {
 	var COL_WIDTH  = 1 / COLOR_WHEEL.length;
 	var ROW_HEIGHT = 1 / appx.context.numOfPlayers;
@@ -157,5 +167,9 @@
 		players[i].color = COLOR_WHEEL[context.colorSetup[i]];
 		players[i].score = parseInt(context.initScore);
 		players[i].subscore = parseInt(context.initSubscore);
+	}
+
+	if (appx.context.useRemote) {
+		StartDisplay();
 	}
 }

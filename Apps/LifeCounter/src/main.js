@@ -24,9 +24,11 @@ function Main() {
 	appx.context['countdown'] = 0;
 	appx.context['cntIntHndl'] = null;
 	appx.context['useSubscore'] = false;
-	appx.context['useHistory'] = false;
+	appx.context['useRemote'] = false;
+	appx.context['useHistory'] = true;
 	appx.context['history'] = "";
 	appx.context['diceCount'] = 3;
+	appx.context['apikey'] = GetRandomApiKey();
 	
 	// Instantiate players
 	for (var i = 0; i < appx.context.numOfPlayers; i++) {
@@ -41,7 +43,8 @@ function Main() {
 		{ callback: RenderSettings,      name: ENUM('settings') },
 		{ callback: RenderTimer,         name: ENUM('timer') },
 		{ callback: RenderTimerSettings, name: ENUM('timer_settings') },
-		{ callback: RenderDice,          name: ENUM('dice') }
+		{ callback: RenderDice,          name: ENUM('dice') },
+		{ callback: RenderRemote,        name: ENUM('remote') }
 	];
 	
 	// Instantiate views
