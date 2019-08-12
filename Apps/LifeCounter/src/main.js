@@ -11,6 +11,8 @@
 
 // Main function will bootstrap the App
 function Main() {
+	SetLanguageCzech();
+
 	appx.bootstrap('Canvas');
 	
 	// Setup appx context

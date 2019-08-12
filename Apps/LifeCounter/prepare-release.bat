@@ -12,7 +12,7 @@ rem Source jsbloat PATH
 call C:\tools\doomsh.cmd
 
 cd src
-jsbloat *.js lang\cz.js -H hints.txt
+jsbloat *.js -H hints.txt
 cmd /c minify concat.min.js -o ..\app.min.js
 del concat.min.js
 cd ..
