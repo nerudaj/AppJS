@@ -19,6 +19,7 @@
 'static'; function ButtonTemplate(label, action, id = null) {
 	this.label = label;
 	this.action = action;
+	this.id = id;
 }
 
 /**
