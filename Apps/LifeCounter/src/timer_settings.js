@@ -20,7 +20,7 @@
 	
 	// Draw display
 	var display = board.add(0, 0, DISPLAY_WIDTH, DISPLAY_HEIGHT, 'div', ID('DisplayInitCountdown'));
-	display.dom.style.fontSize = DISPLAY_FONT_SIZE + 'px';
+	display.setText('XX:XX', false, DISPLAY_FONT_SIZE);
 	
 	// Generate buttons out of array of labels
 	var buttons = ["-10", "-5", "-1", "+1", "+5", "+10"].map( elem => {
@@ -28,7 +28,7 @@
 			ModifyInitCountdown(parseInt(elem));
 		}); 
 	});
-	RenderButtonArray(board, buttons, 0, 0.4, 1, 0.1, ID('timer_settings_buttons'));
+	RenderButtonArray(board, buttons, 0, DISPLAY_HEIGHT, DISPLAY_WIDTH, 0.1, ID('timer_settings_buttons'));
 	
 	// Initialize display - will set text of display
 	ModifyInitCountdown(0);

@@ -23,11 +23,10 @@
 	// Reset countdown value
 	context.countdown = context.initCountdown;
 
-	var DISPLAY_FONT_SIZE = ReadFontSizeCache(board, DISPLAY_WIDTH, DISPLAY_HEIGHT, 'XX:XX', ID('timer_display'), 250);
+	var DISPLAY_FONT_SIZE = ReadFontSizeCache(board, DISPLAY_WIDTH, DISPLAY_HEIGHT, 'XX:XX', ID('CacheTimerDisplay'), 250);
 	
 	var countdownDisplay = board.add(0, 0, DISPLAY_WIDTH, DISPLAY_HEIGHT, 'div', ID('CountdownDisplay'));
-	countdownDisplay.dom.style.fontSize = DISPLAY_FONT_SIZE + 'px';
-	countdownDisplay.setText(IntToTimeStr(context.initCountdown));
+	countdownDisplay.setText(IntToTimeStr(context.initCountdown), false, DISPLAY_FONT_SIZE);
 
 	var buttons = [
 		new ButtonTemplate(TEXT_PLAY, () => {
@@ -42,7 +41,7 @@
 			CountdownControl(ENUM('play_pause'));
 		})
 	];
-	RenderButtonArray(board, buttons, 0, 0.4, 1, 0.1, ID('timer_buttons'));
+	RenderButtonArray(board, buttons, 0, DISPLAY_HEIGHT, DISPLAY_WIDTH, 0.1, ID('timer_buttons'));
 }
 
 'static'; function InitAudio() {
