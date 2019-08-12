@@ -84,33 +84,32 @@ function ENUM(id) {return id;}
 }
 
 // =============== //
-// === aELEMENT === //
+// === ELEMENT === //
 // =============== //
-'static'; class ClassElement {
-	constructor() {
-		this.dom = null; ///< DOM of the element
-		this.width = 0; ///< Width of the element in pixels
-		this.height = 0; ///< Height of the element in pixels
-	}
+'static'; function AppJsElement() {
+	this.dom = null; ///< DOM of the element
+	this.width = 0; ///< Width of the element in pixels
+	this.height = 0; ///< Height of the element in pixels
+}
 
-    /**
-     *  @brief Add sub element to element
-     *
-     *  @param [in] x X coordinate, in %.
-     *  @param [in] y Y coordinate, in %.
-     *  @param [in] w Width of the element, in %.
-     *  @param [in] h Height of the element, in %.
-     *  @param [in] type Type of the element. (Default: div)
-     *  @param [in] id ID of the DOM. (Default: none)
-     *  @return Reference to new element
-     *
-     *  @details Parent element defines the coordinate system for the subelement.
-     *  All % values are numbers from 0 to 1. XY goes from topleft corner of the
-     *  parent element. Example: To create an element that takes left half of the parent,
-     *  use add(0, 0, 0.5, 1);
-     */
-	add(x, y, w, h, type = "div", id = null) {
-		var result = new ClassElement();
+/**
+ *  @brief Add sub element to element
+ *
+ *  @param [in] x X coordinate, in %.
+ *  @param [in] y Y coordinate, in %.
+ *  @param [in] w Width of the element, in %.
+ *  @param [in] h Height of the element, in %.
+ *  @param [in] type Type of the element. (Default: div)
+ *  @param [in] id ID of the DOM. (Default: none)
+ *  @return Reference to new element
+ *
+ *  @details Parent element defines the coordinate system for the subelement.
+ *  All % values are numbers from 0 to 1. XY goes from topleft corner of the
+ *  parent element. Example: To create an element that takes left half of the parent,
+ *  use add(0, 0, 0.5, 1);
+ */
+'static'; AppJsElement.prototype.add = function(x, y, w, h, type = "div", id = null) {
+		var result = new AppJsElement();
 		var node = document.createElement(type);
 		
 		if (id != null) {
@@ -136,32 +135,28 @@ function ENUM(id) {return id;}
 		return result;
 	}
 
-	setColor(color) {
-		this.dom.style.background = color;
-	}
+'static'; AppJsElement.prototype.setColor = function(color) {
+	this.dom.style.background = color;
+}
 
-	setText(str, autofit = false, startSize = 100) {
-		var fontSize = startSize;
-		if (autofit) {
-			fontSize = GetOptimalFontSize(str, this.width, this.height, startSize);
-		}
+'static'; AppJsElement.prototype.setText = function(str, autofit = false, startSize = 100) {
+	var fontSize = autofit ? GetOptimalFontSize(str, this.width, this.height, startSize) : startSize;
 
-		var t = document.createTextNode(str);
-		this.dom.style.fontSize = fontSize + "px";
-		this.dom.appendChild(t);
-	}
+	var t = document.createTextNode(str);
+	this.dom.style.fontSize = fontSize + "px";
+	this.dom.appendChild(t);
+}
 
-	addClass(name) {
-		this.dom.className += ' ' + name;
-	}
+'static'; AppJsElement.prototype.addClass = function(name) {
+	this.dom.className += ' ' + name;
+}
 
-	addEventCallback(event, action) {
-		this.dom.addEventListener(event, action);
-	}
+'static'; AppJsElement.prototype.addEventCallback = function(event, action) {
+	this.dom.addEventListener(event, action);
+}
 
-	onClick(action) {
-		this.addEventCallback('click', action);
-	}
+'static'; AppJsElement.prototype.onClick = function(action) {
+	this.addEventCallback('click', action);
 }
 
 
@@ -181,11 +176,9 @@ function ENUM(id) {return id;}
  *  you can access the drawing canvas with this.app.canvas
  *  and you can also access app's shared data with this.app.context.
  */
-'static'; class ClassView {
-	constructor() { }
-	render() {
-		throw "this.render is not set!";
-	}
+'static'; function AppJsView() {}
+'static'; AppJsView.prototype.render = function() {
+	throw "this.render is not set!";
 }
 
 // =========== //
@@ -197,95 +190,93 @@ function ENUM(id) {return id;}
  *  @details App consists of drawing canvas, shared context
  *  and a number of view between which you can freely toggle.
  */
-'static'; class ClassApp {
-	constructor() {
-		this.context = {}; ///< Shared application context. Any data that should be persistent has to be saved there
-		this.canvas = new ClassElement(); ///< Core drawing canvas
-		this.views = {}; ///< Storage for views
-		this.currentView = ""; ///< Index to current view
-	}
+'static'; function AppJs() {
+	this.context = {}; ///< Shared application context. Any data that should be persistent has to be saved there
+	this.canvas = new AppJsElement(); ///< Core drawing canvas
+	this.views = {}; ///< Storage for views
+	this.currentView = ""; ///< Index to current view
+}
 
-	localStorageAvailable() {
-		var storage;
-		try {
-			storage = window.localStorage;
-			var x = '__storage_test__';
-			storage.setItem(x, x);
-			storage.removeItem(x);
-			return true;
-		}
-		catch(e) {
-			return e instanceof DOMException && (
-				// everything except Firefox
-				e.code === 22 ||
-				// Firefox
-				e.code === 1014 ||
-				// test name field too, because code might not be present
-				// everything except Firefox
-				e.name === 'QuotaExceededError' ||
-				// Firefox
-				e.name === 'NS_ERROR_DOM_QUOTA_REACHED') &&
-				// acknowledge QuotaExceededError only if there's something already stored
-				(storage && storage.length !== 0);
-		}
-	}
+'static'; AppJs.prototype.bootstrap = function(canvasId) {
+	this.canvas.dom = GetDOM(canvasId);
+	window.addEventListener('resize', () => {
+		if (PREVENT_RESIZE) return;
 
-	bootstrap(canvasID) {
-		this.canvas.dom = GetDOM(canvasID);
-		window.addEventListener('resize', () => {
-			if (PREVENT_RESIZE) return;
-
-			ClearOptimizationCache();
-			this.render();
-		});
-	}
-
-	addView(view, name) {
-		var views = this.views;
-		if (views.hasOwnProperty(name)) {
-			throw "View " + name + " already exists!";
-		}
-
-		views[name] = view;
-	}
-
-	saveToLocalStorage(item, id) {
-		if (this.localStorageAvailable()) {
-			window.localStorage.setItem(id, JSON.stringify(item));
-		}
-	}
-
-	loadFromLocalStorage(id, fallback) {
-		if (!this.localStorageAvailable()) return fallback;
-		var result = window.localStorage.getItem(id);
-		if (result == null) return fallback;
-		return JSON.parse(result);
-	}
-
-	toggleView(name) {
-		if (!this.views.hasOwnProperty(name)) {
-			throw "View " + name + " does not exist!";
-		}
-
-		this.currentView = name;
+		ClearOptimizationCache();
 		this.render();
-		PREVENT_RESIZE = false;
+	});
+}
+
+'static'; AppJs.prototype.addView = function(view, name) {
+	var views = this.views;
+	if (views.hasOwnProperty(name)) {
+		throw "View " + name + " already exists!";
 	}
 
-	render() {
-		var canvas = this.canvas;
-		
-		// Clear everything rendered so far
-		canvas.dom.innerHTML = "";
-		
-		// Resize canvas
-		canvas.width = window.innerWidth;
-		canvas.height = window.innerHeight;
-		canvas.dom.style.position = "absolute";
-		canvas.dom.style.width = canvas.width + "px";
-		canvas.dom.style.height = canvas.height + "px";
+	views[name] = view;
+}
 
-		// Render current view
-		this.views[this.currentView].render();
+'static'; AppJs.prototype.toggleView = function(name) {
+	if (!this.views.hasOwnProperty(name)) {
+		throw "View " + name + " does not exist!";
 	}
+
+	this.currentView = name;
+	this.render();
+	PREVENT_RESIZE = false;
+}
+
+'static'; AppJs.prototype.render = function() {
+	var canvas = this.canvas;
+	
+	// Clear everything rendered so far
+	canvas.dom.innerHTML = "";
+	
+	// Resize canvas
+	canvas.width = window.innerWidth;
+	canvas.height = window.innerHeight;
+	canvas.dom.style.position = "absolute";
+	canvas.dom.style.width = canvas.width + "px";
+	canvas.dom.style.height = canvas.height + "px";
+
+	// Render current view
+	this.views[this.currentView].render();
+}
+
+'static'; AppJs.prototype.localStorageAvailable = function() {
+	var storage;
+	try {
+		storage = window.localStorage;
+		var x = '__storage_test__';
+		storage.setItem(x, x);
+		storage.removeItem(x);
+		return true;
+	}
+	catch(e) {
+		return e instanceof DOMException && (
+			// everything except Firefox
+			e.code === 22 ||
+			// Firefox
+			e.code === 1014 ||
+			// test name field too, because code might not be present
+			// everything except Firefox
+			e.name === 'QuotaExceededError' ||
+			// Firefox
+			e.name === 'NS_ERROR_DOM_QUOTA_REACHED') &&
+			// acknowledge QuotaExceededError only if there's something already stored
+			(storage && storage.length !== 0);
+	}
+}
+
+'static'; AppJs.prototype.saveToLocalStorage = function(item, id) {
+	if (this.localStorageAvailable()) {
+		window.localStorage.setItem(id, JSON.stringify(item));
+	}
+}
+
+'static'; AppJs.prototype.loadFromLocalStorage = function(id, fallback) {
+	if (!this.localStorageAvailable()) return fallback;
+	var result = window.localStorage.getItem(id);
+	if (result == null) return fallback;
+	return JSON.parse(result);
 }
