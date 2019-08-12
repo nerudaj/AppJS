@@ -34,7 +34,7 @@
 	display.setText("??", false, FONT_SIZE);
 
 	// Render history
-	if (appx.context.useHistory) {
+	if (appx.advctx.useHistory) {
 		var hist = board.add(0, DISPLAY_HEIGHT, 1, HISTORY_HEIGHT, 'div', ID('DOMHistoryDisplay'));
 		var HFONT_SIZE = ReadFontSizeCache(hist, 1, 1, 'Lorem ipsum dolor sit amet', ID('CacheHistoryDisplay'), 150);
 		hist.setText(appx.context.history, false, HFONT_SIZE);
@@ -66,12 +66,10 @@
 }
 
 'static'; function UpdateHistory() {
-	var context = appx.context;
-
 	// If history is disabled, return
-	if (!context.useHistory) return;
+	if (!appx.advctxt.useHistory) return;
 
-	// Initialize delimiter
+	var context = appx.context;
 	var delim = "";
 	if (context.history) delim = ", ";
 

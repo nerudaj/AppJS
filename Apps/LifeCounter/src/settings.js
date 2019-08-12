@@ -28,7 +28,7 @@
 	// Create huge canvas inside, scrolling
 	// plCountSelect + initScore + useSubscore + useHistory + diceCount + ?initSubscore + plCount
 	// But at least 9 rows
-	var rowCount = Math.max(appx.context.numOfPlayers + appx.context.useSubscore + 5, 9);
+	var rowCount = Math.max(appx.context.numOfPlayers + appx.advctx.useSubscore + 3, 9);
 	var content = board.add(0, 0, 1, rowCount / 9); // Single label is always 1/9 of board height
 
 	RenderSettingsBoard(content, rowCount);
@@ -47,7 +47,7 @@
 		[(dom, ctx) => { RenderFormSelect(1, 6, dom, ctx); },
 								'select', 'diceCount', TEXT_DICE_COUNT],
 		[RenderNumericInput,    'input',  'initScore', TEXT_INIT_SCORE],
-		(appx.context.useSubscore ? [RenderNumericInput, 'input', 'initSubscore', TEXT_INIT_SUBSCR] : null)
+		(appx.advctx.useSubscore ? [RenderNumericInput, 'input', 'initSubscore', TEXT_INIT_SUBSCR] : null)
 	].filter(i => i);
 	
 	var LABEL_FONT_SIZE = RenderSettingsOptions(canvas, options, rowCount);
@@ -135,9 +135,5 @@
 		players[i].color = COLOR_WHEEL[context.colorSetup[i]];
 		players[i].score = parseInt(context.initScore);
 		players[i].subscore = parseInt(context.initSubscore);
-	}
-
-	if (appx.context.useRemote) {
-		StartDisplay();
 	}
 }

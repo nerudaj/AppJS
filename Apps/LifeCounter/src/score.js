@@ -55,7 +55,7 @@
 	if (type == ENUM('Subscore')) score.addClass('outline'); // Use different font style for subscore
 	
 	// If subscore is used, make display clickable
-	if (appx.context.useSubscore) {
+	if (appx.advctx.useSubscore) {
 		score.onClick(() => {
 			canvas.dom.style.display = 'none'; // Onclick hide this
 			// And reveal the other one

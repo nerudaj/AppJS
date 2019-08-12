@@ -11,8 +11,6 @@
 
 // Main function will bootstrap the App
 function Main() {
-	SetLanguageCzech();
-
 	appx.bootstrap('Canvas');
 	
 	// Setup appx context
@@ -25,13 +23,19 @@ function Main() {
 	appx.context['initCountdown'] = 30; // 30 seconds
 	appx.context['countdown'] = 0;
 	appx.context['cntIntHndl'] = null;
-	appx.context['useSubscore'] = false;
-	appx.context['useRemote'] = false;
-	appx.context['useHistory'] = true;
 	appx.context['history'] = "";
 	appx.context['diceCount'] = 3;
 	appx.context['apikey'] = GetRandomApiKey();
-	appx.context.language = 0;
+
+	// Advanced Context = locally stored
+	appx.advctx = {};
+	appx.advctx.language = 1;
+	appx.advctx.useRemote = false;
+	appx.advctx.useSubscore = false;
+	appx.advctx.useHistory = true;
+
+	appx.advctx = appx.loadFromLocalStorage("LifeCounter", appx.advctx);
+	SetLanguage(appx.advctx.language);
 	
 	// Instantiate players
 	for (var i = 0; i < appx.context.numOfPlayers; i++) {

@@ -4,12 +4,8 @@
 	// Render page template and obtain reference to main drawing board
 	// Craft buttons in place of function argument
 	var board = PageTemplate(appx.canvas, TEXT_A_SETTINGS, [
-		new ButtonTemplate(TEXT_APPLY, () => {
-			ApplySettings(); // Some post process has to be done
-			appx.toggleView(ENUM('settings'));
-		}),
 		new ButtonTemplate(TEXT_BACK, () => {
-			appx.rollbackContext();
+			ApplyAdvancedSettings();
 			appx.toggleView(ENUM('settings'));
 		})
 	], ID('CacheSettingsAdvancedToolbar'));
@@ -20,7 +16,7 @@
 	// Create huge canvas inside, scrolling
 	// plCountSelect + initScore + useSubscore + useHistory + diceCount + ?initSubscore + plCount
 	// But at least 9 rows
-	var rowCount = Math.max(appx.context.numOfPlayers + appx.context.useSubscore + 5, 9);
+	var rowCount = Math.max(appx.advctx.useRemote + 4, 9);
 	var content = board.add(0, 0, 1, rowCount / 9); // Single label is always 1/9 of board height
 
 	RenderAdvancedSettingsBoard(content, rowCount);
@@ -33,7 +29,7 @@
 		[RenderCheckboxInput,    'input',  'useHistory',  TEXT_USE_HISTORY],
 		[RenderCheckboxInput,    'input',  'useSubscore', TEXT_USE_SUBSCR],
 		[RenderCheckboxInput,    'input',  'useRemote',   TEXT_USE_REMOTE],
-		(appx.context.useRemote ? [RenderApiKey, 'div', 'apikey', TEXT_APPID] : null)
+		(appx.advctx.useRemote ? [RenderApiKey, 'div', 'apikey', TEXT_APPID] : null)
 	].filter(i => i);
 	
 	RenderSettingsOptions(canvas, options, rowCount);
@@ -68,12 +64,10 @@
 
 'static'; function RenderLanguageDropdown(canvas, ctx) {
 	var LANGUAGES = [ "Čeština", "English" ];
-	var SETTERS = [ SetLanguageCzech, SetLanguageEnglish ];
 
 	canvas.addEventCallback('change', (event) => {
-		appx.context[ctx] = event.target.selectedIndex;
-		console.log(appx.context[ctx]);
-		SETTERS[appx.context[ctx]]();
+		appx.advctx[ctx] = event.target.selectedIndex;
+		SetLanguage(appx.advctx[ctx]);
 
 		ClearOptimizationCache(); // Because strings have different sizes
 		appx.toggleView(ENUM('advanced_settings'));
@@ -84,7 +78,7 @@
 		var option = canvas.add(0, 0, 1, 1, 'option');
 		option.setText(l, true);
 
-		if (i == appx.context[ctx]) {
+		if (i == appx.advctx[ctx]) {
 			option.dom.selected = 'selected';
 		}
 		i++;
@@ -93,15 +87,23 @@
 
 'static'; function RenderCheckboxInput(canvas, ctxitem) {
 	canvas.dom.type = 'checkbox';
-	canvas.dom.checked = appx.context[ctxitem];
+	canvas.dom.checked = appx.advctx[ctxitem];
 	
 	// Set callback for updating context
 	canvas.onClick(() => {
-		appx.context[ctxitem] = !appx.context[ctxitem];
+		appx.advctx[ctxitem] = !appx.advctx[ctxitem];
 		appx.toggleView(ENUM('advanced_settings'));
 	});
 }
 
 'static'; function RenderApiKey(canvas, ctxitem) {
 	canvas.setText(appx.context[ctxitem]);
+}
+
+'static'; function ApplyAdvancedSettings() {
+	if (appx.context.useRemote) {
+		StartDisplay();
+	}
+
+	appx.saveToLocalStorage(appx.advctx, "LifeCounter");
 }
