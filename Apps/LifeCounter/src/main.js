@@ -31,6 +31,7 @@ function Main() {
 	appx.context['history'] = "";
 	appx.context['diceCount'] = 3;
 	appx.context['apikey'] = GetRandomApiKey();
+	appx.context.language = 0;
 	
 	// Instantiate players
 	for (var i = 0; i < appx.context.numOfPlayers; i++) {
@@ -41,12 +42,13 @@ function Main() {
 	
 	// Setup views
 	var views = [
-		{ callback: RenderScore,         name: ENUM('score') },
-		{ callback: RenderSettings,      name: ENUM('settings') },
-		{ callback: RenderTimer,         name: ENUM('timer') },
-		{ callback: RenderTimerSettings, name: ENUM('timer_settings') },
-		{ callback: RenderDice,          name: ENUM('dice') },
-		{ callback: RenderRemote,        name: ENUM('remote') }
+		{ callback: RenderScore,            name: ENUM('score') },
+		{ callback: RenderSettings,         name: ENUM('settings') },
+		{ callback: RenderAdvancedSettings, name: ENUM('advanced_settings') },
+		{ callback: RenderTimer,            name: ENUM('timer') },
+		{ callback: RenderTimerSettings,    name: ENUM('timer_settings') },
+		{ callback: RenderDice,             name: ENUM('dice') },
+		{ callback: RenderRemote,           name: ENUM('remote') }
 	];
 	
 	// Instantiate views

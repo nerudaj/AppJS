@@ -8,6 +8,10 @@
 			ApplySettings(); // Some post process has to be done
 			appx.toggleView(ENUM('score'));
 		}),
+		new ButtonTemplate(TEXT_A_SETTINGS, () => {
+			ApplySettings();
+			appx.toggleView(ENUM('advanced_settings'));
+		}),
 		new ButtonTemplate(TEXT_REMOTE, () => {
 			ApplySettings();
 			appx.toggleView(ENUM('remote'));
@@ -42,32 +46,11 @@
 								'select', 'numOfPlayers', TEXT_PL_COUNT],
 		[(dom, ctx) => { RenderFormSelect(1, 6, dom, ctx); },
 								'select', 'diceCount', TEXT_DICE_COUNT],
-		[RenderCheckboxInput,   'input',  'useSubscore', TEXT_USE_SUBSCR],
-		[RenderCheckboxInput,   'input',  'useHistory', TEXT_USE_HISTORY],
 		[RenderNumericInput,    'input',  'initScore', TEXT_INIT_SCORE],
-		(appx.context.useSubscore ? [RenderNumericInput, 'input', 'initSubscore', TEXT_INIT_SUBSCR] : null),
-		[RenderCheckboxInput,   'input',  'useRemote', TEXT_USE_REMOTE],
-		(appx.context.useRemote ? [RenderApiKey, 'div', 'apikey', TEXT_APPID] : null)
+		(appx.context.useSubscore ? [RenderNumericInput, 'input', 'initSubscore', TEXT_INIT_SUBSCR] : null)
 	].filter(i => i);
 	
-	// Get current cached font size
-	var LABEL_FONT_SIZE = ReadFontSizeCache(
-		canvas,
-		LABEL_WIDTH,
-		LABEL_HEIGHT,
-		longestStr(options.map(o => o[3])),
-		ID('CacheSettingsLabel')
-	);
-	
-	// And render them
-	options.forEach((input, index) => {
-		var label = canvas.add(0, index * LABEL_HEIGHT, LABEL_WIDTH, LABEL_HEIGHT);
-		label.addClass('align_left');
-		label.setText(input[3], false, LABEL_FONT_SIZE);
-		
-		var dom = canvas.add(LABEL_WIDTH, index * LABEL_HEIGHT, 1 - LABEL_WIDTH, LABEL_HEIGHT * 0.9, input[1]);
-		input[0](dom, input[2]);
-	});
+	var LABEL_FONT_SIZE = RenderSettingsOptions(canvas, options, rowCount);
 	
 	// Render colors label - must be done differently
 	var hskip = options.length;
@@ -93,7 +76,7 @@
 			// Add option to select
 			var option = canvas.add(0, 0, 1, 1, 'option');
 			option.value = i;
-			option.setText(i);
+			option.setText(i, true);
 
 			// Option set in context should be selected
 			if (p == appx.context[ctx]) {
@@ -115,21 +98,6 @@
 			appx.context[ctxitem] = canvas.dom.value;
 		}
 	});
-}
-
-'static'; function RenderCheckboxInput(canvas, ctxitem) {
-	canvas.dom.type = 'checkbox';
-	canvas.dom.checked = appx.context[ctxitem];
-	
-	// Set callback for updating context
-	canvas.onClick(() => {
-		appx.context[ctxitem] = !appx.context[ctxitem];
-		appx.toggleView(ENUM('settings'));
-	});
-}
-
-'static'; function RenderApiKey(canvas, ctxitem) {
-	canvas.setText(appx.context[ctxitem]);
 }
 
 'static'; function RenderFormPlayerColors(canvas) {

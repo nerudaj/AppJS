@@ -7,6 +7,8 @@
 'static'; var TEXT_COIN1      = '';
 'static'; var TEXT_COIN2      = '';
 'static'; var TEXT_SETTINGS   = '';
+'static'; var TEXT_A_SETTINGS = '';
+'static'; var TEXT_LANG       = '';
 'static'; var TEXT_TIMER      = '';
 'static'; var TEXT_REMOTE     = '';
 'static'; var TEXT_INIT_SCORE = '';
@@ -35,6 +37,8 @@
     TEXT_COIN1      = 'Hlava';
     TEXT_COIN2      = 'Orel';
     TEXT_SETTINGS   = 'Nastavení';
+    TEXT_A_SETTINGS = 'Pokročilé nastavení';
+    TEXT_LANG       = 'Jazyk';
     TEXT_TIMER      = 'Nezdržuj';
     TEXT_REMOTE     = 'Vzdálená správa';
     TEXT_INIT_SCORE = 'Počáteční skóre';
@@ -58,6 +62,8 @@
     TEXT_COIN1      = 'Head';
     TEXT_COIN2      = 'Tail';
     TEXT_SETTINGS   = 'Settings';
+    TEXT_A_SETTINGS = 'Advanced settings';
+    TEXT_LANG       = 'Language';
     TEXT_TIMER      = 'Timer';
     TEXT_REMOTE     = 'Remote control';
     TEXT_INIT_SCORE = 'Initial score';
