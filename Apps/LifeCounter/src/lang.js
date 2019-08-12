@@ -77,3 +77,10 @@
     TEXT_COUNTDOWN  = 'Countdown';
     TEXT_END        = 'TIME UP';
 }
+
+'static'; function SetLanguage(id) {
+    [
+        SetLanguageCzech,
+        SetLanguageEnglish
+    ][id]();
+}
