@@ -73,15 +73,13 @@
  *  
  *  @details If the cache is empty, new cache value is computed and stored
  */
-'static'; function ReadFontSizeCache(canvas, width, height, label, cacheID, hint) {
-	var hintedFontSize = DefaultArgument(hint, 100);
-	
+'static'; function ReadFontSizeCache(canvas, width, height, label, cacheID, hint = 100) {
 	if (GLOBAL_FONT_SIZE_CACHE[cacheID] == null) {
 		GLOBAL_FONT_SIZE_CACHE[cacheID] = GetOptimalFontSize(
 			label,
 			canvas.width * width,
 			canvas.height * height,
-			hintedFontSize
+			hint
 		);
 	}
 	return GLOBAL_FONT_SIZE_CACHE[cacheID];

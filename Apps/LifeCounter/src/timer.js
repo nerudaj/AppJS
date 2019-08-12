@@ -97,6 +97,6 @@
 		playbtn.innerHTML = TEXT_PLAY;
 	}
 	else {
-		LogError('Timer', 'CountdownControl', 'Invalid action name: ' + action);
+		throw "Invalid action name: " + action;
 	}
 }
