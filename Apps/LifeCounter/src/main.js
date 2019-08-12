@@ -1,11 +1,11 @@
 // The most important global variable
-'static'; var appx = new ClassApp();
+'static'; var appx = new AppJs();
 
-'static'; ClassApp.prototype.backupContext = function() {
+'static'; AppJs.prototype.backupContext = function() {
 	this.backup = JSON.parse(JSON.stringify(this.context));
 }
 
-'static'; ClassApp.prototype.rollbackContext = function() {
+'static'; AppJs.prototype.rollbackContext = function() {
 	this.context = JSON.parse(JSON.stringify(this.backup));
 }
 
@@ -49,7 +49,7 @@ function Main() {
 	
 	// Instantiate views
 	for (var i = 0; i < views.length; i++) {
-		var view = new ClassView();
+		var view = new AppJsView();
 		view.render = views[i].callback;
 		appx.addView(view, views[i].name);
 	}
