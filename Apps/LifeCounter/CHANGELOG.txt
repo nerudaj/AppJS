@@ -1,2 +1,18 @@
 LifeCounter v4.0.0 changelog:
- * TODO
+ * Remote control
+ * Throw history is enabled by default
+
+LifeCounter v3.0.0
+ * Subscores - enable them in settings and then click score display for any player!
+ * Up to 8 players
+ * Variable dice count - 1 to 6 dices
+ * Throw/toss history
+ * Sound notification when timer ends
+
+LifeCounter v2.0.0
+ * 2-6 player support
+ * customizable colours for each player
+ * countdown timer
+ * dice throw
+ * coin toss
+ * EN/CZ language versions
