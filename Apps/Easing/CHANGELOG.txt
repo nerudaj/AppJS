@@ -1,0 +1,2 @@
+Easing v1.0.0 changelog:
+ * Initial version
