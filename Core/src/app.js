@@ -198,7 +198,7 @@ function ENUM(id) {return id;}
 }
 
 'static'; AppJs.prototype.bootstrap = function(canvasId) {
-	this.canvas.dom = GetDOM(canvasID);
+	this.canvas.dom = GetDOM(canvasId);
 	window.addEventListener('resize', () => {
 		if (PREVENT_RESIZE) return;
 
