@@ -6,7 +6,7 @@
  *  @brief Get longest string in array
  */
 'static'; function longestStr(arr) {
-	return arr.reduce(function (a, b) { return a.length > b.length ? a : b; });
+	return arr.reduce((a, b) => { return a.length > b.length ? a : b; });
 }
 
 /**
@@ -19,6 +19,7 @@
 'static'; function ButtonTemplate(label, action, id = null) {
 	this.label = label;
 	this.action = action;
+	this.id = id;
 }
 
 /**
@@ -46,7 +47,7 @@
 		);
 	}
 
-	buttons.forEach(function(button, index) {
+	buttons.forEach((button, index) => {
 		if (!button) return;
 
 		var opt = canvas.add(x + index * BUTTON_WIDTH, y, BUTTON_WIDTH, h, 'button', button.id);
