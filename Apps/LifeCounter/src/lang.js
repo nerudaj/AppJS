@@ -43,8 +43,8 @@
     TEXT_REMOTE     = 'Vzdálená správa';
     TEXT_INIT_SCORE = 'Počáteční skóre';
     TEXT_INIT_SUBSCR= 'Počáteční subskóre';
-    TEXT_USE_SUBSCR = 'Zapnout subskóre';
-    TEXT_USE_HISTORY= 'Zapnout historii hodů';
+    TEXT_USE_SUBSCR = 'Povolit subskóre';
+    TEXT_USE_HISTORY= 'Povolit historii hodů';
     TEXT_USE_REMOTE = 'Povolit vzdálenou správu';
     TEXT_DICE_COUNT = 'Počet kostek';
     TEXT_PL_COUNT   = 'Počet hráčů';
