@@ -74,6 +74,8 @@
 		appx.context[ctx] = event.target.selectedIndex;
 		console.log(appx.context[ctx]);
 		SETTERS[appx.context[ctx]]();
+
+		ClearOptimizationCache(); // Because strings have different sizes
 		appx.toggleView(ENUM('advanced_settings'));
 	});
 
