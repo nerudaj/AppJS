@@ -16,10 +16,9 @@
  *  @param [in] action Function callback of the button
  *  @param [in] id Optional id assigned to the button
  */
-'static'; function ButtonTemplate(label, action, id) {
+'static'; function ButtonTemplate(label, action, id = null) {
 	this.label = label;
 	this.action = action;
-	this.id = DefaultArgument(id, null);
 }
 
 /**
@@ -109,9 +108,9 @@
  *  
  *  @details Use this in conjunction with \ref RenderToolbarTemplate and \ref RenderHeaderTemplate.
  */
-'static'; function GetDrawingTemplate(core, hasHeader, hasToolbar) {
-	var HEADER_OFFSET = DefaultArgument(hasHeader, true) ? TEMPLATE_HEADER_HEIGHT : 0;
-	var TOOLBAR_OFFSET = DefaultArgument(hasToolbar, true) ? TEMPLATE_TOOLBAR_HEIGHT : 0;
+'static'; function GetDrawingTemplate(core, hasHeader = true, hasToolbar = true) {
+	var HEADER_OFFSET = hasHeader ? TEMPLATE_HEADER_HEIGHT : 0;
+	var TOOLBAR_OFFSET = hasToolbar ? TEMPLATE_TOOLBAR_HEIGHT : 0;
 
 	var result = core.add(0, HEADER_OFFSET, 1, 1 - HEADER_OFFSET - TOOLBAR_OFFSET);
 	result.addClass('content');

@@ -11,7 +11,6 @@
 
 // Bootstrap app
 function Main() {
-	// Bootstrap app
 	appx.bootstrap('Canvas');
 
 	// Setup app context
