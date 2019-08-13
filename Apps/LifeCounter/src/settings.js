@@ -68,6 +68,7 @@
 	canvas.addEventCallback('change', (event) => {
 		var d = event.target;
 		appx.context[ctx] = parseInt(d.options[d.selectedIndex].value);
+		ClearOptimizationCache();
 		appx.toggleView(ENUM('settings'));
 	});
 
