@@ -11,5 +11,7 @@ canvas
 subscore
 useSubscore
 useHistory
+useRemote
 history
 initSubscore
+advctx
