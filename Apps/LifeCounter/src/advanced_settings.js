@@ -35,33 +35,6 @@
 	RenderSettingsOptions(canvas, options, rowCount);
 }
 
-'static'; function RenderSettingsOptions(canvas, options, rowCount) {
-	// Prepare variables
-	var LABEL_WIDTH  = 0.6;
-	var LABEL_HEIGHT = 1 / rowCount;
-
-	// Get current cached font size
-	var LABEL_FONT_SIZE = ReadFontSizeCache(
-		canvas,
-		LABEL_WIDTH,
-		LABEL_HEIGHT,
-		longestStr(options.map(o => o[3])),
-		ID('CacheSettingsLabel')
-	);
-
-	// And render them
-	options.forEach((input, index) => {
-		var label = canvas.add(0, index * LABEL_HEIGHT, LABEL_WIDTH, LABEL_HEIGHT);
-		label.addClass('align_left');
-		label.setText(input[3], false, LABEL_FONT_SIZE);
-		
-		var dom = canvas.add(LABEL_WIDTH, index * LABEL_HEIGHT, 1 - LABEL_WIDTH, LABEL_HEIGHT * 0.9, input[1]);
-		input[0](dom, input[2]);
-	});
-
-	return LABEL_FONT_SIZE;
-}
-
 'static'; function RenderLanguageDropdown(canvas, ctx) {
 	var LANGUAGES = [ "Čeština", "English" ];
 

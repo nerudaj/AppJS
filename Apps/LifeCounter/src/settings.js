@@ -37,7 +37,6 @@
 // *** TOP level ***
 'static'; function RenderSettingsBoard(canvas, rowCount) {
 	// Prepare variables
-	var LABEL_WIDTH  = 0.6;
 	var LABEL_HEIGHT = 1 / rowCount;
 	
 	// Declare available options (and filter hidden ones)
@@ -61,6 +60,33 @@
 	// Render color wheel
 	var colorwheel = canvas.add(0, hskip * LABEL_HEIGHT, 1, appx.context.numOfPlayers * LABEL_HEIGHT);
 	RenderFormPlayerColors(colorwheel);
+}
+
+'static'; function RenderSettingsOptions(canvas, options, rowCount) {
+	// Prepare variables
+	var LABEL_WIDTH  = 0.6;
+	var LABEL_HEIGHT = 1 / rowCount;
+
+	// Get current cached font size
+	var LABEL_FONT_SIZE = ReadFontSizeCache(
+		canvas,
+		LABEL_WIDTH,
+		LABEL_HEIGHT,
+		TEXT_USE_REMOTE,
+		ID('CacheSettingsLabel')
+	);
+
+	// And render them
+	options.forEach((input, index) => {
+		var label = canvas.add(0, index * LABEL_HEIGHT, LABEL_WIDTH, LABEL_HEIGHT);
+		label.addClass('align_left');
+		label.setText(input[3], false, LABEL_FONT_SIZE);
+		
+		var dom = canvas.add(LABEL_WIDTH, index * LABEL_HEIGHT, 1 - LABEL_WIDTH, LABEL_HEIGHT * 0.9, input[1]);
+		input[0](dom, input[2]);
+	});
+
+	return LABEL_FONT_SIZE;
 }
 
 // *** Second level ***
