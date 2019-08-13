@@ -71,15 +71,13 @@
 		appx.toggleView(ENUM('advanced_settings'));
 	});
 
-	var i = 0;
-	LANGUAGES.forEach(l => {
+	LANGUAGES.forEach((label, index) => {
 		var option = canvas.add(0, 0, 1, 1, 'option');
-		option.setText(l, true);
+		option.setText(label, true);
 
-		if (i == appx.advctx[ctx]) {
+		if (index == appx.advctx[ctx]) {
 			option.dom.selected = 'selected';
 		}
-		i++;
 	});
 }
 
