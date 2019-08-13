@@ -6,7 +6,7 @@
  *  @brief Get longest string in array
  */
 'static'; function longestStr(arr) {
-	return arr.reduce((a, b) => { return a.length > b.length ? a : b; });
+	return arr.reduce((a, b) => { return a.length >= b.length ? a : b; });
 }
 
 /**
