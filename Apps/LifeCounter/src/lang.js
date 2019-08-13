@@ -83,4 +83,5 @@
         SetLanguageCzech,
         SetLanguageEnglish
     ][id]();
+    ClearOptimizationCache();
 }
