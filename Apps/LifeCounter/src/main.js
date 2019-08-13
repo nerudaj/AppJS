@@ -35,7 +35,7 @@ function Main() {
 	appx.advctx.useHistory = true;
 
 	appx.advctx = appx.loadFromLocalStorage("LifeCounter", appx.advctx);
-	SetLanguage(appx.advctx.language);
+	SetLanguageById(appx.advctx.language);
 	
 	// Instantiate players
 	for (var i = 0; i < appx.context.numOfPlayers; i++) {

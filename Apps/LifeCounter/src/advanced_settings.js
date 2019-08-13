@@ -67,9 +67,7 @@
 
 	canvas.addEventCallback('change', (event) => {
 		appx.advctx[ctx] = event.target.selectedIndex;
-		SetLanguage(appx.advctx[ctx]);
-
-		ClearOptimizationCache(); // Because strings have different sizes
+		SetLanguageById(appx.advctx[ctx]);
 		appx.toggleView(ENUM('advanced_settings'));
 	});
 
