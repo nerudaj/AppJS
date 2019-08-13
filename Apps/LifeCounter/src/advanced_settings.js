@@ -97,7 +97,7 @@
 }
 
 'static'; function RenderApiKey(canvas, ctxitem) {
-	canvas.setText(appx.context[ctxitem]);
+	canvas.setText(appx.context[ctxitem], true);
 }
 
 'static'; function ApplyAdvancedSettings() {
