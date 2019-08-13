@@ -17,7 +17,7 @@
 		})
 	], ID('CacheDiceToolbar'));
 	
-	var HISTORY_HEIGHT = (appx.context.useHistory ? 0.1 : 0);
+	var HISTORY_HEIGHT = (appx.advctx.useHistory ? 0.1 : 0);
 	var DISPLAY_HEIGHT = 1 - HISTORY_HEIGHT;
 
 	// Render throw display
@@ -26,7 +26,7 @@
 
 	// Needs to be recomputed each time this screen is accessed (variable number of dices)
 	var FONT_SIZE = GetOptimalFontSize(
-		longestStr([TEXT_DICE_SIDES[0].repeat(appx.context.diceCount), TEXT_COIN1, TEXT_COIN2]),
+		longestStr([TEXT_DICE_SIDES[0].repeat(appx.context.diceCount + 1), TEXT_COIN1, TEXT_COIN2]),
 		board.width,
 		board.height,
 		Math.min(board.width, board.height)
@@ -67,7 +67,7 @@
 
 'static'; function UpdateHistory() {
 	// If history is disabled, return
-	if (!appx.advctxt.useHistory) return;
+	if (!appx.advctx.useHistory) return;
 
 	var context = appx.context;
 	var delim = "";
