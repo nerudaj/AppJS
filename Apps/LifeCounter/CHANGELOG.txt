@@ -1,3 +1,10 @@
+LifeCounter v4.X.X changelog:
+ * Fixed bad font size with AppID string and timer display
+ * Fixed bad font sizes after number of players or dices was changed
+ * Added advanced options with language selector (English, Czech)
+ * Advanced options are stored through localStorage (if browser supports it)
+ * Added an explicit switch button for swapping score and subscore displays
+
 LifeCounter v4.0.0 changelog:
  * Remote control
  * Throw history is enabled by default
