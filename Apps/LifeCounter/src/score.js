@@ -39,7 +39,7 @@
 
 			// Add a swap button if subscore is enabled
 			if (appx.advctx.useSubscore && ((i) => {
-				var swap = canvas.add((x + 0.65) * ITEM_WIDTH, y * ITEM_HEIGHT, ITEM_WIDTH * 0.1, ITEM_HEIGHT * 0.15, 'button');
+				var swap = canvas.add((x + 0.6) * ITEM_WIDTH, y * ITEM_HEIGHT, ITEM_WIDTH * 0.1, ITEM_HEIGHT * 0.15, 'button');
 				swap.setText('⇄', true);
 				swap.onClick(() => {
 					var subscore = GetDOM(ID('SContainer') + ENUM('Subscore') + i).style;
