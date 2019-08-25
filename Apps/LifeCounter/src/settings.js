@@ -28,7 +28,7 @@
 	// Create huge canvas inside, scrolling
 	// plCountSelect + initScore + useSubscore + useHistory + diceCount + ?initSubscore + plCount
 	// But at least 9 rows
-	var rowCount = Math.max(appx.context.numOfPlayers + appx.advctx.useSubscore + 3, 9);
+	var rowCount = Math.max(appx.context.$numOfPlayers + appx.advctx.$useSubscore + 3, 9);
 	var content = board.add(0, 0, 1, rowCount / 9); // Single label is always 1/9 of board height
 
 	RenderSettingsBoard(content, rowCount);
@@ -42,11 +42,11 @@
 	// Declare available options (and filter hidden ones)
 	var options = [
 		[(dom, ctx) => { RenderFormSelect(2, 8, dom, ctx); }, // 2 = MinPlayers, 8 = MaxPlayers
-								'select', 'numOfPlayers', TEXT_PL_COUNT],
+								'select', '$numOfPlayers', TEXT_PL_COUNT],
 		[(dom, ctx) => { RenderFormSelect(1, 6, dom, ctx); },
-								'select', 'diceCount', TEXT_DICE_COUNT],
-		[RenderNumericInput,    'input',  'initScore', TEXT_INIT_SCORE],
-		(appx.advctx.useSubscore ? [RenderNumericInput, 'input', 'initSubscore', TEXT_INIT_SUBSCR] : null)
+								'select', '$diceCount', TEXT_DICE_COUNT],
+		[RenderNumericInput,    'input',  '$initScore', TEXT_INIT_SCORE],
+		(appx.advctx.$useSubscore ? [RenderNumericInput, 'input', '$initSubscore', TEXT_INIT_SUBSCR] : null)
 	].filter(i => i);
 	
 	var LABEL_FONT_SIZE = RenderSettingsOptions(canvas, options, rowCount);
@@ -58,7 +58,7 @@
 	lcols.setText(TEXT_PL_COLORS, false, LABEL_FONT_SIZE);
 	
 	// Render color wheel
-	var colorwheel = canvas.add(0, hskip * LABEL_HEIGHT, 1, appx.context.numOfPlayers * LABEL_HEIGHT);
+	var colorwheel = canvas.add(0, hskip * LABEL_HEIGHT, 1, appx.context.$numOfPlayers * LABEL_HEIGHT);
 	RenderFormPlayerColors(colorwheel);
 }
 
@@ -129,23 +129,23 @@
 
 'static'; function RenderFormPlayerColors(canvas) {
 	var COL_WIDTH  = 1 / COLOR_WHEEL.length;
-	var ROW_HEIGHT = 1 / appx.context.numOfPlayers;
+	var ROW_HEIGHT = 1 / appx.context.$numOfPlayers;
 	
-	for (var i = 0; i < appx.context.numOfPlayers; i++) {
+	for (var i = 0; i < appx.context.$numOfPlayers; i++) {
 		for (var p = 0; p < COLOR_WHEEL.length; p++) {
 			(function(player, color) {
 				var option = canvas.add(color * COL_WIDTH, player * ROW_HEIGHT, COL_WIDTH, ROW_HEIGHT);
 				option.setColor(COLOR_WHEEL[color]);
 				
 				var checked = '';
-				if (appx.context.colorSetup[player] == color) {
+				if (appx.context.$colorSetup[player] == color) {
 					checked = 'checked';
 				}
 				
 				option.dom.innerHTML = '<input type="radio" name="' + ID('FormPlayerColor') + player + '" value="' + color + '" ' + checked + '>';
 
 				// Add TMP updater event
-				option.onClick(() => { appx.context.colorSetup[player] = color; });
+				option.onClick(() => { appx.context.$colorSetup[player] = color; });
 			}(i, p));
 		}
 	}
@@ -153,14 +153,14 @@
 
 'static'; function ApplySettings() {
 	var context = appx.context;
-	var players = context.players;
+	var players = context.$players;
 	
-	while (context.numOfPlayers < players.length) players.pop();
-	while (context.numOfPlayers > players.length) players.push(new ClassPlayer());
+	while (context.$numOfPlayers < players.length) players.pop();
+	while (context.$numOfPlayers > players.length) players.push(new ClassPlayer());
 	
 	for (var i = 0; i < players.length; i++) {
-		players[i].color = COLOR_WHEEL[context.colorSetup[i]];
-		players[i].score = parseInt(context.initScore);
-		players[i].subscore = parseInt(context.initSubscore);
+		players[i].color = COLOR_WHEEL[context.$colorSetup[i]];
+		players[i].score = parseInt(context.$initScore);
+		players[i].subscore = parseInt(context.$initSubscore);
 	}
 }

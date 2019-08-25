@@ -16,7 +16,7 @@
 	// Create huge canvas inside, scrolling
 	// plCountSelect + initScore + useSubscore + useHistory + diceCount + ?initSubscore + plCount
 	// But at least 9 rows
-	var rowCount = Math.max(appx.advctx.useRemote + 4, 9);
+	var rowCount = Math.max(appx.advctx.$useRemote + 4, 9);
 	var content = board.add(0, 0, 1, rowCount / 9); // Single label is always 1/9 of board height
 
 	RenderAdvancedSettingsBoard(content, rowCount);
@@ -25,10 +25,10 @@
 'static'; function RenderAdvancedSettingsBoard(canvas, rowCount) {
 	// Declare available options (and filter hidden ones)
 	var options = [
-		[RenderLanguageDropdown, 'select', 'language',    TEXT_LANG],
-		[RenderCheckboxInput,    'input',  'useHistory',  TEXT_USE_HISTORY],
-		[RenderCheckboxInput,    'input',  'useSubscore', TEXT_USE_SUBSCR],
-		[RenderCheckboxInput,    'input',  'useRemote',   TEXT_USE_REMOTE],
+		[RenderLanguageDropdown, 'select', '$language',    TEXT_LANG],
+		[RenderCheckboxInput,    'input',  '$useHistory',  TEXT_USE_HISTORY],
+		[RenderCheckboxInput,    'input',  '$useSubscore', TEXT_USE_SUBSCR],
+		[RenderCheckboxInput,    'input',  '$useRemote',   TEXT_USE_REMOTE],
 		(appx.advctx.useRemote ? [RenderApiKey, 'div', 'apikey', TEXT_APPID] : null)
 	].filter(i => i);
 	
@@ -70,7 +70,7 @@
 }
 
 'static'; function ApplyAdvancedSettings() {
-	if (appx.context.useRemote) {
+	if (appx.context.$useRemote) {
 		StartDisplay();
 	}
 

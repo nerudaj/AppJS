@@ -37,12 +37,12 @@
 'static'; function ModifyInitCountdown(amount) {
 	var context = appx.context;
 	
-	if (context.initCountdown + amount <= 0) {
-		context.initCountdown = 1;
+	if (context.$initCountdown + amount <= 0) {
+		context.$initCountdown = 1;
 	}
 	else {
-		context.initCountdown += amount;
+		context.$initCountdown += amount;
 	}
 	
-	GetDOM(ID('DisplayInitCountdown')).innerHTML = IntToTimeStr(context.initCountdown);
+	GetDOM(ID('DisplayInitCountdown')).innerHTML = IntToTimeStr(context.$initCountdown);
 }

@@ -15,33 +15,33 @@ function Main() {
 	
 	// Setup appx context
 	appx.backup = {};
-	appx.context['players'] = [];
-	appx.context['initScore'] = 0;
-	appx.context['initSubscore'] = 0;
-	appx.context['numOfPlayers'] = 4;
-	appx.context['colorSetup'] = [ 0, 1, 2, 3, 4, 5, 6, 7 ];
-	appx.context['initCountdown'] = 30; // 30 seconds
-	appx.context['countdown'] = 0;
-	appx.context['cntIntHndl'] = null;
-	appx.context['history'] = "";
-	appx.context['diceCount'] = 3;
-	appx.context['apikey'] = GetRandomApiKey();
+	appx.context['$players'] = [];
+	appx.context['$initScore'] = 0;
+	appx.context['$initSubscore'] = 0;
+	appx.context['$numOfPlayers'] = 4;
+	appx.context['$colorSetup'] = [ 0, 1, 2, 3, 4, 5, 6, 7 ];
+	appx.context['$initCountdown'] = 30; // 30 seconds
+	appx.context['$countdown'] = 0;
+	appx.context['$cntIntHndl'] = null;
+	appx.context['$history'] = "";
+	appx.context['$diceCount'] = 3;
+	appx.context['$apikey'] = GetRandomApiKey();
 
 	// Advanced Context = locally stored
 	appx.advctx = {};
-	appx.advctx.language = 1;
-	appx.advctx.useRemote = false;
-	appx.advctx.useSubscore = false;
-	appx.advctx.useHistory = true;
+	appx.advctx.$language = 1;
+	appx.advctx.$useRemote = false;
+	appx.advctx.$useSubscore = false;
+	appx.advctx.$useHistory = true;
 
 	appx.advctx = appx.loadFromLocalStorage("LifeCounter", appx.advctx);
-	SetLanguageById(appx.advctx.language);
+	SetLanguageById(appx.advctx.$language);
 	
 	// Instantiate players
-	for (var i = 0; i < appx.context.numOfPlayers; i++) {
-		appx.context.players.push(new ClassPlayer());
-		appx.context.players[i].score = appx.context.initScore;
-		appx.context.players[i].color = COLOR_WHEEL[appx.context.colorSetup[i]];
+	for (var i = 0; i < appx.context.$numOfPlayers; i++) {
+		appx.context.$players.push(new ClassPlayer());
+		appx.context.$players[i].score = appx.context.$initScore;
+		appx.context.$players[i].color = COLOR_WHEEL[appx.context.$colorSetup[i]];
 	}
 	
 	// Setup views

@@ -42,7 +42,7 @@
 }
 
 'static'; function StartDisplay() {
-    var sock = CreateSocket(appx.context.apikey, 'GET');
+    var sock = CreateSocket(appx.context.$apikey, 'GET');
     
     sock.onreadystatechange = function() {
         //console.log(sock.readyState + "\n" + sock.status);
