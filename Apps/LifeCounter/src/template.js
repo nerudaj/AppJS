@@ -40,11 +40,16 @@
 	var BUTTON_WIDTH = w / buttons.length;
 
 	if (GLOBAL_FONT_SIZE_CACHE[cacheID] == null) {
-		GLOBAL_FONT_SIZE_CACHE[cacheID] = GetOptimalFontSize(
-			longestStr(buttons.map(btn => btn.label)),
+		var longest = longestStr(buttons.map(btn => btn.label));
+		GLOBAL_FONT_SIZE_CACHE[cacheID] = Math.max(GetOptimalFontSize(
+			longest,
 			canvas.width * BUTTON_WIDTH,
 			canvas.height * h
-		);
+		), GetOptimalFontSize(
+			longest.replace(" ", "<br>"),
+			canvas.width * BUTTON_WIDTH,
+			canvas.height * h
+		));
 	}
 
 	buttons.forEach((button, index) => {
