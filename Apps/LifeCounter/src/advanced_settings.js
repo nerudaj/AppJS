@@ -29,7 +29,7 @@
 		[RenderCheckboxInput,    'input',  '$useHistory',  TEXT_USE_HISTORY],
 		[RenderCheckboxInput,    'input',  '$useSubscore', TEXT_USE_SUBSCR],
 		[RenderCheckboxInput,    'input',  '$useRemote',   TEXT_USE_REMOTE],
-		(appx.advctx.useRemote ? [RenderApiKey, 'div', 'apikey', TEXT_APPID] : null)
+		(appx.advctx.$useRemote ? [RenderApiKey, 'div', '$apikey', TEXT_APPID] : null)
 	].filter(i => i);
 	
 	RenderSettingsOptions(canvas, options, rowCount);
@@ -70,7 +70,7 @@
 }
 
 'static'; function ApplyAdvancedSettings() {
-	if (appx.context.$useRemote) {
+	if (appx.advctx.$useRemote) {
 		StartDisplay();
 	}
 
