@@ -4,6 +4,7 @@ LifeCounter v4.X.X changelog:
  * Added advanced options with language selector (English, Czech)
  * Advanced options are stored through localStorage (if browser supports it)
  * Added an explicit switch button for swapping score and subscore displays
+ * Added a Readme.md
 
 LifeCounter v4.0.0 changelog:
  * Remote control
