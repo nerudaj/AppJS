@@ -28,7 +28,7 @@ set outdir=RELEASE\LifeCounter-%version%
 
 echo Phase 3 - Building output filesys
 mkdir %outdir%
-robocopy . %outdir% index.html app.min.js app.min.css favicon.ico favicon.png CHANGELOG.txt
+robocopy . %outdir% index.html app.min.js app.min.css favicon.ico favicon.png CHANGELOG.txt Readme.md
 
 echo Phase 4 - Cleanup
 rmdir css-dist

@@ -12,7 +12,7 @@
 }
 
 'static'; function RenderBoard(canvas) {
-	var playersLength = appx.context.players.length;
+	var playersLength = appx.context.$players.length;
 	
 	var COL_COUNT = playersLength == 2 ? 1 : 2;
 	var ROW_COUNT = Math.ceil(playersLength / COL_COUNT);
@@ -28,14 +28,26 @@
 			}
 			
 			// Create score and subscore displays
-			[ENUM('Score'), ENUM('Subscore')].forEach((item, index) => {
+			[ENUM('Score'), ENUM('Subscore')].forEach(item => {
 				// ID is 'SContainer' + (score|subscore) + pid
 				var display = canvas.add(x * ITEM_WIDTH, y * ITEM_HEIGHT, ITEM_WIDTH, ITEM_HEIGHT, 'div', ID('SContainer') + item + pid);
-				display.setColor(appx.context.players[pid].color);
+				display.setColor(appx.context.$players[pid].color);
 				RenderDisplay(pid, display, item);
 			});
 			// By default, hide subscore
 			GetDOM(ID('SContainer') + ENUM('Subscore') + pid).style.display = 'none';
+
+			// Add a swap button if subscore is enabled
+			if (appx.advctx.$useSubscore && ((i) => {
+				var swap = canvas.add((x + 0.45) * ITEM_WIDTH, y * ITEM_HEIGHT, ITEM_WIDTH * 0.1, ITEM_HEIGHT * 0.15, 'button');
+				swap.setText('⇄', true);
+				swap.onClick(() => {
+					var subscore = GetDOM(ID('SContainer') + ENUM('Subscore') + i).style;
+					var score = GetDOM(ID('SContainer') + ENUM('Score') + i).style.display = subscore.display;
+					subscore.display = (score == '' ? 'none' : '');
+				});
+			}) (pid));
+			
 			
 			pid++;
 			if (playersLength == pid) return;
@@ -47,21 +59,12 @@
 	// Which display are we rendering
 	var which = (type == ENUM('Score') ? 'score' : 'subscore'); // Used for indexing into context
 	var FONT_SIZE = ReadFontSizeCache(canvas, 0.25, 1, 'XX', ID('CacheScoreDisplay'), 250);
-	var players = appx.context.players;
+	var players = appx.context.$players;
 
 	// Create display canvas
 	var score = canvas.add(0.25, 0, 0.5, 1, 'div', ID('DOMDisplay') + which + id);
 	score.dom.style.fontSize = FONT_SIZE + 'px';
 	if (type == ENUM('Subscore')) score.addClass('outline'); // Use different font style for subscore
-	
-	// If subscore is used, make display clickable
-	if (appx.advctx.useSubscore) {
-		score.onClick(() => {
-			canvas.dom.style.display = 'none'; // Onclick hide this
-			// And reveal the other one
-			GetDOM(ID('SContainer') + (type == ENUM('Score') ? ENUM('Subscore') : ENUM('Score')) + id).style.display = '';
-		});
-	}
 
 	// Create -/+ buttons
 	['-', '+'].forEach((str, ind) => {

@@ -23,7 +23,7 @@
 	display.setText('XX:XX', false, DISPLAY_FONT_SIZE);
 	
 	// Generate buttons out of array of labels
-	var buttons = ["-10", "-5", "-1", "+1", "+5", "+10"].map( elem => {
+	var buttons = ["-10", "-5", "-1", "+1", "+5", "+10 "].map( elem => {
 		return new ButtonTemplate(elem, () => {
 			ModifyInitCountdown(parseInt(elem));
 		}); 
@@ -37,12 +37,12 @@
 'static'; function ModifyInitCountdown(amount) {
 	var context = appx.context;
 	
-	if (context.initCountdown + amount <= 0) {
-		context.initCountdown = 1;
+	if (context.$initCountdown + amount <= 0) {
+		context.$initCountdown = 1;
 	}
 	else {
-		context.initCountdown += amount;
+		context.$initCountdown += amount;
 	}
 	
-	GetDOM(ID('DisplayInitCountdown')).innerHTML = IntToTimeStr(context.initCountdown);
+	GetDOM(ID('DisplayInitCountdown')).innerHTML = IntToTimeStr(context.$initCountdown);
 }

@@ -17,7 +17,7 @@
 		})
 	], ID('CacheDiceToolbar'));
 	
-	var HISTORY_HEIGHT = (appx.advctx.useHistory ? 0.1 : 0);
+	var HISTORY_HEIGHT = (appx.advctx.$useHistory ? 0.1 : 0);
 	var DISPLAY_HEIGHT = 1 - HISTORY_HEIGHT;
 
 	// Render throw display
@@ -26,7 +26,7 @@
 
 	// Needs to be recomputed each time this screen is accessed (variable number of dices)
 	var FONT_SIZE = GetOptimalFontSize(
-		longestStr([TEXT_DICE_SIDES[0].repeat(appx.context.diceCount + 1), TEXT_COIN1, TEXT_COIN2]),
+		longestStr([TEXT_DICE_SIDES[0].repeat(appx.context.$diceCount + 1), TEXT_COIN1, TEXT_COIN2]),
 		board.width,
 		board.height,
 		Math.min(board.width, board.height)
@@ -34,10 +34,10 @@
 	display.setText("??", false, FONT_SIZE);
 
 	// Render history
-	if (appx.advctx.useHistory) {
+	if (appx.advctx.$useHistory) {
 		var hist = board.add(0, DISPLAY_HEIGHT, 1, HISTORY_HEIGHT, 'div', ID('DOMHistoryDisplay'));
 		var HFONT_SIZE = ReadFontSizeCache(hist, 1, 1, 'Lorem ipsum dolor sit amet', ID('CacheHistoryDisplay'), 150);
-		hist.setText(appx.context.history, false, HFONT_SIZE);
+		hist.setText(appx.context.$history, false, HFONT_SIZE);
 		hist.addClass('align_left');
 		hist.addClass('nowrap');
 	}
@@ -54,7 +54,7 @@
 'static'; function ThrowDice() {
 	var dom = GetDOM(ID('DOMThrowResultBoard'));
 	dom.innerHTML = '';
-	for (var i = 0; i < appx.context.diceCount; i++) {
+	for (var i = 0; i < appx.context.$diceCount; i++) {
 		dom.innerHTML += TEXT_DICE_SIDES[(Random(1, 6) - 1)];
 	}
 }
@@ -67,15 +67,15 @@
 
 'static'; function UpdateHistory() {
 	// If history is disabled, return
-	if (!appx.advctx.useHistory) return;
+	if (!appx.advctx.$useHistory) return;
 
 	var context = appx.context;
 	var delim = "";
-	if (context.history) delim = ", ";
+	if (context.$history) delim = ", ";
 
 	// Compute new history - limit number of characters to remember
-	context.history = GetDOM(ID('DOMThrowResultBoard')).innerHTML + delim + context.history.substr(0, 1024);
+	context.$history = GetDOM(ID('DOMThrowResultBoard')).innerHTML + delim + context.$history.substr(0, 1024);
 
 	// Write to DOM
-	GetDOM(ID('DOMHistoryDisplay')).innerHTML = context.history;
+	GetDOM(ID('DOMHistoryDisplay')).innerHTML = context.$history;
 }

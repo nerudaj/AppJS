@@ -78,9 +78,10 @@
     TEXT_END        = 'TIME UP';
 }
 
-'static'; function SetLanguage(id) {
+'static'; function SetLanguageById(id) {
     [
         SetLanguageCzech,
-        SetLanguageEnglish
+        SetLanguageEnglish,
     ][id]();
+    ClearOptimizationCache();
 }
