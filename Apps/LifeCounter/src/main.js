@@ -32,9 +32,10 @@ function Main() {
 	appx.advctx.$language = 1;
 	appx.advctx.$useRemote = false;
 	appx.advctx.$useSubscore = false;
-	appx.advctx.$useHistory = true;
+	appx.advctx.$useThrowHistory = true;
+	appx.advctx.$useScoreHistory = false;
 
-	appx.advctx = appx.loadFromLocalStorage("LifeCounter", appx.advctx);
+	appx.advctx = appx.loadFromLocalStorage("LifeCounterV4", appx.advctx);
 	SetLanguageById(appx.advctx.$language);
 	
 	// Instantiate players

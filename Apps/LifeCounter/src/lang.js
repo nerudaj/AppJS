@@ -14,7 +14,8 @@
 'static'; var TEXT_INIT_SCORE = '';
 'static'; var TEXT_INIT_SUBSCR= '';
 'static'; var TEXT_USE_SUBSCR = '';
-'static'; var TEXT_USE_HISTORY= '';
+'static'; var TEXT_USE_THROW_HISTORY = '';
+'static'; var TEXT_USE_SCORE_HISTORY = '';
 'static'; var TEXT_USE_REMOTE = '';
 'static'; var TEXT_APPID      = 'AppID';
 'static'; var TEXT_DICE_COUNT = '';
@@ -45,7 +46,8 @@
     TEXT_INIT_SCORE = 'Počáteční skóre';
     TEXT_INIT_SUBSCR= 'Počáteční subskóre';
     TEXT_USE_SUBSCR = 'Povolit subskóre';
-    TEXT_USE_HISTORY= 'Povolit historii hodů';
+    TEXT_USE_THROW_HISTORY = 'Povolit historii hodů';
+    TEXT_USE_SCORE_HISTORY = 'Povolit historii skóre';
     TEXT_USE_REMOTE = 'Povolit vzdálenou správu';
     TEXT_DICE_COUNT = 'Počet kostek';
     TEXT_PL_COUNT   = 'Počet hráčů';
@@ -70,7 +72,8 @@
     TEXT_INIT_SCORE = 'Initial score';
     TEXT_INIT_SUBSCR= 'Initial subscore';
     TEXT_USE_SUBSCR = 'Enable subscore';
-    TEXT_USE_HISTORY= 'Enable throw history';
+    TEXT_USE_THROW_HISTORY = 'Enable throw history';
+    TEXT_USE_SCORE_HISTORY = 'Enable score history';
     TEXT_USE_REMOTE = 'Enable remote control';
     TEXT_DICE_COUNT = 'Dice count';
     TEXT_PL_COUNT   = 'Player count';

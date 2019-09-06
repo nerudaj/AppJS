@@ -17,7 +17,7 @@
 		})
 	], ID('CacheDiceToolbar'));
 	
-	var HISTORY_HEIGHT = (appx.advctx.$useHistory ? 0.1 : 0);
+	var HISTORY_HEIGHT = (appx.advctx.$useThrowHistory ? 0.1 : 0);
 	var DISPLAY_HEIGHT = 1 - HISTORY_HEIGHT;
 
 	// Render throw display
@@ -34,7 +34,7 @@
 	display.setText("??", false, FONT_SIZE);
 
 	// Render history
-	if (appx.advctx.$useHistory) {
+	if (appx.advctx.$useThrowHistory) {
 		var hist = board.add(0, DISPLAY_HEIGHT, 1, HISTORY_HEIGHT, 'div', ID('DOMHistoryDisplay'));
 		var HFONT_SIZE = ReadFontSizeCache(hist, 1, 1, 'Lorem ipsum dolor sit amet', ID('CacheHistoryDisplay'), 150);
 		hist.setText(appx.context.$history, false, HFONT_SIZE);
@@ -67,7 +67,7 @@
 
 'static'; function UpdateHistory() {
 	// If history is disabled, return
-	if (!appx.advctx.$useHistory) return;
+	if (!appx.advctx.$useThrowHistory) return;
 
 	var context = appx.context;
 	var delim = "";
