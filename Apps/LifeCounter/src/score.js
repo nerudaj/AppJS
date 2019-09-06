@@ -41,11 +41,9 @@ var SCORE_HISTORY_ID = 0;
 			// By default, hide subscore
 			GetDOM(ID('SContainer') + ENUM('Subscore') + pid).style.display = 'none';
 
-			var SPECIAL_BUTTON_SIZE = 0.15;
-
 			// Add a swap button if subscore is enabled
 			if (appx.advctx.$useSubscore && ((i) => {
-				var swap = canvas.add((x + 0.45) * ITEM_WIDTH, y * ITEM_HEIGHT, ITEM_WIDTH * 0.1, ITEM_HEIGHT * SPECIAL_BUTTON_SIZE, 'button');
+				var swap = canvas.add((x + 0.45) * ITEM_WIDTH, y * ITEM_HEIGHT, ITEM_WIDTH * 0.1, ITEM_HEIGHT * 0.15, 'button');
 				swap.setText('⇄', true);
 				swap.onClick(() => {
 					var subscore = GetDOM(ID('SContainer') + ENUM('Subscore') + i).style;
@@ -53,20 +51,7 @@ var SCORE_HISTORY_ID = 0;
 					subscore.display = (score == '' ? 'none' : '');
 				});
 			}) (pid));
-			
-			// Add a swap button if score history is enabled
-			if (appx.advctx.$useScoreHistory && ((i) => {
-				var hist = canvas.add((x + 0.45) * ITEM_WIDTH, (y + 1) * ITEM_HEIGHT - ITEM_HEIGHT * SPECIAL_BUTTON_SIZE, ITEM_WIDTH * 0.1, ITEM_HEIGHT * SPECIAL_BUTTON_SIZE, 'button');
-				hist.setText('✎', true); //📓, ▤
-				hist.dom.style.color = 'black';
-				hist.onClick(() => {
-					clearTimeout(SCORE_TIMEOUT_HANDLE);
-					LogScoreHistory();
-					alert(appx.context.$players[i].$scoreHistory);
-					// TODO: display history for currently selected mode
-				});
-			}) (pid));
-			
+
 			pid++;
 			if (playersLength == pid) return;
 		}
@@ -92,6 +77,19 @@ var SCORE_HISTORY_ID = 0;
 		dom.onClick(() => { ModifyScore(players, id, parseInt(str + '1'), false, which); });
 		dom.addClass('score_btn');
 	});
+	
+	// Add a show button if score history is enabled
+	if (appx.advctx.$useScoreHistory) {
+		var hist = canvas.add(0.45, 0.85, 0.1, 0.15, 'button');
+		hist.setText('✎', true); //📓, ▤
+		hist.onClick(() => {
+			if(SCORE_TIMEOUT_HANDLE) {
+				clearTimeout(SCORE_TIMEOUT_HANDLE);
+				LogScoreHistory();
+			}
+			alert("Player " + (id + 1) + ' ' + which + ' history:\n' + appx.context.$players[id]['$' + which + 'History']);
+		});
+	}
 
 	// Can directly index using which
 	ModifyScore(players, id, players[id][which], true, which);
@@ -99,7 +97,8 @@ var SCORE_HISTORY_ID = 0;
 
 'static'; function LogScoreHistory() {
 	var pid = SCORE_HISTORY_ID % 10;
-	var which = (SCORE_HISTORY_ID > 10 ? 'sub' : '') + 'score';
+	console.log(SCORE_HISTORY_ID);
+	var which = (SCORE_HISTORY_ID >= 10 ? 'sub' : '') + 'score';
 	appx.context.$players[pid]['$' + which + 'History'] += (appx.context.$players[pid][which] + ' (' + (SCORE_DIFFERENCE > 0 ? '+' + SCORE_DIFFERENCE : SCORE_DIFFERENCE) + ')') + '\n';
 	SCORE_TIMEOUT_HANDLE = null;
 }
@@ -108,6 +107,7 @@ var SCORE_HISTORY_ID = 0;
 	players[id][which] = (forceAssign ? 0 : parseInt(players[id][which])) + amount;
 
 	if (!forceAssign) {
+		console.log(which);
 		var hid = (which == 'score' ? 0 : 1) * 10 + id;
 
 		if (SCORE_TIMEOUT_HANDLE) {

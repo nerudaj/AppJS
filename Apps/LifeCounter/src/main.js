@@ -31,9 +31,9 @@ function Main() {
 	appx.advctx = {};
 	appx.advctx.$language = 1;
 	appx.advctx.$useRemote = false;
-	appx.advctx.$useSubscore = false;
+	appx.advctx.$useSubscore = true;
 	appx.advctx.$useThrowHistory = true;
-	appx.advctx.$useScoreHistory = false;
+	appx.advctx.$useScoreHistory = true;
 
 	appx.advctx = appx.loadFromLocalStorage("LifeCounterV4.1", appx.advctx);
 	SetLanguageById(appx.advctx.$language);
