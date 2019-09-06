@@ -28,7 +28,6 @@
 'static'; var TEXT_RESTART    = '⟲';
 'static'; var TEXT_END        = 'KONEC';
 'static'; var TEXT_DICE_SIDES = ['⚀', '⚁', '⚂', '⚃', '⚄', '⚅'];
-'static'; var TEXT_SCORE_HIST = '📓';
 
 'static'; function SetLanguageCzech() {
     TEXT_WHO_STARTS = 'Kdo začne?';

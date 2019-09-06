@@ -162,5 +162,7 @@
 		players[i].color = COLOR_WHEEL[context.$colorSetup[i]];
 		players[i].score = parseInt(context.$initScore);
 		players[i].subscore = parseInt(context.$initSubscore);
+		players[i].$scoreHistory = context.$initScore + '\n';
+		players[i].$subscoreHistory = context.$initSubscore + '\n';
 	}
 }

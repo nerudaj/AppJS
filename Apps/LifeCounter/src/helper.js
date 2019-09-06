@@ -7,6 +7,8 @@
 	this.score = 0;
 	this.subscore = 0;
 	this.color = "red";
+	this.$scoreHistory = '';
+	this.$subscoreHistory = '';
 }
 
 /**

@@ -1,3 +1,7 @@
+var SCORE_TIMEOUT_HANDLE = null;
+var SCORE_DIFFERENCE = 0;
+var SCORE_HISTORY_ID = 0;
+
 'static'; function RenderScore() {
 	var board = PageTemplate(appx.canvas, "", [
 		new ButtonTemplate(TEXT_WHO_STARTS, () => { appx.toggleView(ENUM('dice')); }),
@@ -37,9 +41,11 @@
 			// By default, hide subscore
 			GetDOM(ID('SContainer') + ENUM('Subscore') + pid).style.display = 'none';
 
+			var SPECIAL_BUTTON_SIZE = 0.15;
+
 			// Add a swap button if subscore is enabled
 			if (appx.advctx.$useSubscore && ((i) => {
-				var swap = canvas.add((x + 0.45) * ITEM_WIDTH, y * ITEM_HEIGHT, ITEM_WIDTH * 0.1, ITEM_HEIGHT * 0.15, 'button');
+				var swap = canvas.add((x + 0.45) * ITEM_WIDTH, y * ITEM_HEIGHT, ITEM_WIDTH * 0.1, ITEM_HEIGHT * SPECIAL_BUTTON_SIZE, 'button');
 				swap.setText('⇄', true);
 				swap.onClick(() => {
 					var subscore = GetDOM(ID('SContainer') + ENUM('Subscore') + i).style;
@@ -48,6 +54,18 @@
 				});
 			}) (pid));
 			
+			// Add a swap button if score history is enabled
+			if (appx.advctx.$useScoreHistory && ((i) => {
+				var hist = canvas.add((x + 0.45) * ITEM_WIDTH, (y + 1) * ITEM_HEIGHT - ITEM_HEIGHT * SPECIAL_BUTTON_SIZE, ITEM_WIDTH * 0.1, ITEM_HEIGHT * SPECIAL_BUTTON_SIZE, 'button');
+				hist.setText('✎', true); //📓, ▤
+				hist.dom.style.color = 'black';
+				hist.onClick(() => {
+					clearTimeout(SCORE_TIMEOUT_HANDLE);
+					LogScoreHistory();
+					alert(appx.context.$players[i].$scoreHistory);
+					// TODO: display history for currently selected mode
+				});
+			}) (pid));
 			
 			pid++;
 			if (playersLength == pid) return;
@@ -79,8 +97,37 @@
 	ModifyScore(players, id, players[id][which], true, which);
 }
 
+'static'; function LogScoreHistory() {
+	var pid = SCORE_HISTORY_ID % 10;
+	var which = (SCORE_HISTORY_ID > 10 ? 'sub' : '') + 'score';
+	appx.context.$players[pid]['$' + which + 'History'] += (appx.context.$players[pid][which] + ' (' + (SCORE_DIFFERENCE > 0 ? '+' + SCORE_DIFFERENCE : SCORE_DIFFERENCE) + ')') + '\n';
+	SCORE_TIMEOUT_HANDLE = null;
+}
+
 'static'; function ModifyScore(players, id, amount, forceAssign, which) {
 	players[id][which] = (forceAssign ? 0 : parseInt(players[id][which])) + amount;
-	
+
+	if (!forceAssign) {
+		var hid = (which == 'score' ? 0 : 1) * 10 + id;
+
+		if (SCORE_TIMEOUT_HANDLE) {
+			clearTimeout(SCORE_TIMEOUT_HANDLE);
+
+			if (SCORE_HISTORY_ID == hid) {
+				SCORE_DIFFERENCE += amount;
+			}
+			else {
+				LogScoreHistory();
+				SCORE_DIFFERENCE = amount;
+			}
+		}
+		else {
+			SCORE_DIFFERENCE = amount;
+		}
+
+		SCORE_HISTORY_ID = hid;
+		SCORE_TIMEOUT_HANDLE = setTimeout(LogScoreHistory, 2000);
+	}
+
 	GetDOM(ID('DOMDisplay') + which + id).innerHTML = players[id][which];
 }
