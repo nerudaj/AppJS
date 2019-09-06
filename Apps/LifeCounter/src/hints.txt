@@ -10,8 +10,11 @@ callback
 canvas
 $subscore
 $useSubscore
-$useHistory
+$useThrowHistory
+$useScoreHistory
 $useRemote
 $history
 $initSubscore
 advctx
+$subscoreHistory
+$scoreHistory

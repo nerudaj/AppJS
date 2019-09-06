@@ -1,3 +1,7 @@
+var SCORE_TIMEOUT_HANDLE = null;
+var SCORE_DIFFERENCE = 0;
+var SCORE_HISTORY_ID = 0;
+
 'static'; function RenderScore() {
 	var board = PageTemplate(appx.canvas, "", [
 		new ButtonTemplate(TEXT_WHO_STARTS, () => { appx.toggleView(ENUM('dice')); }),
@@ -47,8 +51,7 @@
 					subscore.display = (score == '' ? 'none' : '');
 				});
 			}) (pid));
-			
-			
+
 			pid++;
 			if (playersLength == pid) return;
 		}
@@ -74,13 +77,57 @@
 		dom.onClick(() => { ModifyScore(players, id, parseInt(str + '1'), false, which); });
 		dom.addClass('score_btn');
 	});
+	
+	// Add a show button if score history is enabled
+	if (appx.advctx.$useScoreHistory) {
+		var hist = canvas.add(0.45, 0.85, 0.1, 0.15, 'button');
+		hist.setText('✎', true); //📓, ▤
+		hist.onClick(() => {
+			if(SCORE_TIMEOUT_HANDLE) {
+				clearTimeout(SCORE_TIMEOUT_HANDLE);
+				LogScoreHistory();
+			}
+			alert("Player " + (id + 1) + ' ' + which + ' history:\n' + appx.context.$players[id]['$' + which + 'History']);
+		});
+	}
 
 	// Can directly index using which
 	ModifyScore(players, id, players[id][which], true, which);
 }
 
+'static'; function LogScoreHistory() {
+	var pid = SCORE_HISTORY_ID % 10;
+	console.log(SCORE_HISTORY_ID);
+	var which = (SCORE_HISTORY_ID >= 10 ? 'sub' : '') + 'score';
+	appx.context.$players[pid]['$' + which + 'History'] += (appx.context.$players[pid][which] + ' (' + (SCORE_DIFFERENCE > 0 ? '+' + SCORE_DIFFERENCE : SCORE_DIFFERENCE) + ')') + '\n';
+	SCORE_TIMEOUT_HANDLE = null;
+}
+
 'static'; function ModifyScore(players, id, amount, forceAssign, which) {
 	players[id][which] = (forceAssign ? 0 : parseInt(players[id][which])) + amount;
-	
+
+	if (!forceAssign) {
+		console.log(which);
+		var hid = (which == 'score' ? 0 : 1) * 10 + id;
+
+		if (SCORE_TIMEOUT_HANDLE) {
+			clearTimeout(SCORE_TIMEOUT_HANDLE);
+
+			if (SCORE_HISTORY_ID == hid) {
+				SCORE_DIFFERENCE += amount;
+			}
+			else {
+				LogScoreHistory();
+				SCORE_DIFFERENCE = amount;
+			}
+		}
+		else {
+			SCORE_DIFFERENCE = amount;
+		}
+
+		SCORE_HISTORY_ID = hid;
+		SCORE_TIMEOUT_HANDLE = setTimeout(LogScoreHistory, 2000);
+	}
+
 	GetDOM(ID('DOMDisplay') + which + id).innerHTML = players[id][which];
 }
