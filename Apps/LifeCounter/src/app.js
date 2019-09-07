@@ -253,6 +253,7 @@ function ENUM(id) {return id;}
 		return true;
 	}
 	catch(e) {
+		console.info("Local storage not available");
 		return e instanceof DOMException && (
 			// everything except Firefox
 			e.code === 22 ||

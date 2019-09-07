@@ -1,3 +1,5 @@
+$subscoreHistory
+$scoreHistory
 $context
 $players
 $initScore
@@ -8,7 +10,6 @@ $countdown
 $cntIntHndl
 callback
 canvas
-$subscore
 $useSubscore
 $useThrowHistory
 $useScoreHistory
@@ -16,5 +17,6 @@ $useRemote
 $history
 $initSubscore
 advctx
-$subscoreHistory
-$scoreHistory
+$diceCount
+$language
+$apikey

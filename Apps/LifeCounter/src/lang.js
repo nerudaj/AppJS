@@ -78,7 +78,7 @@
     TEXT_PL_COUNT   = 'Player count';
     TEXT_PL_COLORS  = 'Player colors';
     TEXT_COUNTDOWN  = 'Countdown';
-    TEXT_END        = 'TIME UP';
+    TEXT_END        = 'TIME\'S UP';
 }
 
 'static'; function SetLanguageById(id) {

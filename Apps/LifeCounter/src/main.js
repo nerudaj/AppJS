@@ -31,11 +31,11 @@ function Main() {
 	appx.advctx = {};
 	appx.advctx.$language = 1;
 	appx.advctx.$useRemote = false;
-	appx.advctx.$useSubscore = true;
+	appx.advctx.$useSubscore = false;
 	appx.advctx.$useThrowHistory = true;
-	appx.advctx.$useScoreHistory = true;
+	appx.advctx.$useScoreHistory = false;
 
-	appx.advctx = appx.loadFromLocalStorage("LifeCounterV4.1", appx.advctx);
+	appx.advctx = appx.loadFromLocalStorage("LCv4.4.3", appx.advctx);
 	SetLanguageById(appx.advctx.$language);
 	
 	// Instantiate players

@@ -1,6 +1,7 @@
-var SCORE_TIMEOUT_HANDLE = null;
-var SCORE_DIFFERENCE = 0;
-var SCORE_HISTORY_ID = 0;
+'static'; var SCORE_TIMEOUT_HANDLE = null;
+'static'; var SCORE_DIFFERENCE = 0;
+'static'; var SCORE_HISTORY_ID = 0;
+'static'; var SCORE_HISTORY_SLOT = [ '$subscoreHistory', '$scoreHistory' ];
 
 'static'; function RenderScore() {
 	var board = PageTemplate(appx.canvas, "", [
@@ -87,7 +88,8 @@ var SCORE_HISTORY_ID = 0;
 				clearTimeout(SCORE_TIMEOUT_HANDLE);
 				LogScoreHistory();
 			}
-			alert("Player " + (id + 1) + ' ' + which + ' history:\n' + appx.context.$players[id]['$' + which + 'History']);
+
+			alert("Player " + (id + 1) + ' ' + which + ' history:\n' + appx.context.$players[id][SCORE_HISTORY_SLOT[which == 'score'?1:0]]);
 		});
 	}
 
@@ -97,9 +99,8 @@ var SCORE_HISTORY_ID = 0;
 
 'static'; function LogScoreHistory() {
 	var pid = SCORE_HISTORY_ID % 10;
-	console.log(SCORE_HISTORY_ID);
 	var which = (SCORE_HISTORY_ID >= 10 ? 'sub' : '') + 'score';
-	appx.context.$players[pid]['$' + which + 'History'] += (appx.context.$players[pid][which] + ' (' + (SCORE_DIFFERENCE > 0 ? '+' + SCORE_DIFFERENCE : SCORE_DIFFERENCE) + ')') + '\n';
+	appx.context.$players[pid][SCORE_HISTORY_SLOT[which == 'score'?1:0]] += (appx.context.$players[pid][which] + " (" + (SCORE_DIFFERENCE > 0 ? '+' + SCORE_DIFFERENCE : SCORE_DIFFERENCE) + ')') + '\n';
 	SCORE_TIMEOUT_HANDLE = null;
 }
 
@@ -107,7 +108,6 @@ var SCORE_HISTORY_ID = 0;
 	players[id][which] = (forceAssign ? 0 : parseInt(players[id][which])) + amount;
 
 	if (!forceAssign) {
-		console.log(which);
 		var hid = (which == 'score' ? 0 : 1) * 10 + id;
 
 		if (SCORE_TIMEOUT_HANDLE) {
