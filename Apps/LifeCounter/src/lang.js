@@ -26,7 +26,7 @@
 'static'; var TEXT_PAUSE      = '❘ ❘';
 'static'; var TEXT_STOP       = '◻';
 'static'; var TEXT_RESTART    = '⟲';
-'static'; var TEXT_END        = 'KONEC';
+'static'; var TEXT_END        = '--:--';
 'static'; var TEXT_DICE_SIDES = ['⚀', '⚁', '⚂', '⚃', '⚄', '⚅'];
 
 'static'; function SetLanguageCzech() {
@@ -38,7 +38,7 @@
     TEXT_COIN1      = 'Hlava';
     TEXT_COIN2      = 'Orel';
     TEXT_SETTINGS   = 'Nastavení';
-    TEXT_A_SETTINGS = 'Pokročilé nastavení';
+    TEXT_A_SETTINGS = 'Pokročilé';
     TEXT_LANG       = 'Jazyk';
     TEXT_TIMER      = 'Nezdržuj';
     TEXT_REMOTE     = 'Vzdálená správa';
@@ -52,7 +52,6 @@
     TEXT_PL_COUNT   = 'Počet hráčů';
     TEXT_PL_COLORS  = 'Barvy hráčů';
     TEXT_COUNTDOWN  = 'Odpočet';
-    TEXT_END        = 'KONEC';
 }
 
 'static'; function SetLanguageEnglish() {
@@ -64,7 +63,7 @@
     TEXT_COIN1      = 'Head';
     TEXT_COIN2      = 'Tail';
     TEXT_SETTINGS   = 'Settings';
-    TEXT_A_SETTINGS = 'Advanced settings';
+    TEXT_A_SETTINGS = 'Advanced';
     TEXT_LANG       = 'Language';
     TEXT_TIMER      = 'Timer';
     TEXT_REMOTE     = 'Remote control';
@@ -78,7 +77,6 @@
     TEXT_PL_COUNT   = 'Player count';
     TEXT_PL_COLORS  = 'Player colors';
     TEXT_COUNTDOWN  = 'Countdown';
-    TEXT_END        = 'TIME\'S UP';
 }
 
 'static'; function SetLanguageById(id) {
