@@ -1,3 +1,10 @@
+LifeCounter v4.4.5 changelog:
+ * Display dice throw sum in throw history
+ * Tweak texts
+
+Known issues:
+ * Countdown will reset if the resolution is changed
+
 LifeCounter v4.4.3 changelog:
  * Fixed bad font size with AppID string and timer display
  * Fixed bad font sizes after number of players or dices was changed
