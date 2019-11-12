@@ -47,34 +47,38 @@
 	GetDOM(ID('DOMThrowResultBoard')).innerHTML = '...';
 	setTimeout(() => { 
 		LAST_USED_FUNCTION(); 
-		UpdateHistory();
 	}, 500);
 }
 
 'static'; function ThrowDice() {
-	var dom = GetDOM(ID('DOMThrowResultBoard'));
-	dom.innerHTML = '';
+	var sum = 0;
+	var output = '';
 	for (var i = 0; i < appx.context.$diceCount; i++) {
-		dom.innerHTML += TEXT_DICE_SIDES[(Random(1, 6) - 1)];
+		var throwResult = Random(1, 6);
+		output += TEXT_DICE_SIDES[(throwResult - 1)];
+		sum += throwResult;
 	}
+
+	GetDOM(ID('DOMThrowResultBoard')).innerHTML = output;
+	UpdateHistory(output + '(' + sum + ')');
 }
 
 'static'; function TossCoin() {
 	var COIN_SIDES = [TEXT_COIN1, TEXT_COIN2];
-	
-	GetDOM(ID('DOMThrowResultBoard')).innerHTML = COIN_SIDES[Random(1, 2) - 1];
+	var throwResult = COIN_SIDES[Random(1, 2) - 1];
+
+	GetDOM(ID('DOMThrowResultBoard')).innerHTML = throwResult;
+	UpdateHistory(throwResult);
 }
 
-'static'; function UpdateHistory() {
+'static'; function UpdateHistory(str) {
 	// If history is disabled, return
 	if (!appx.advctx.$useThrowHistory) return;
 
 	var context = appx.context;
-	var delim = "";
-	if (context.$history) delim = ", ";
 
 	// Compute new history - limit number of characters to remember
-	context.$history = GetDOM(ID('DOMThrowResultBoard')).innerHTML + delim + context.$history.substr(0, 1024);
+	context.$history = str + (context.$history ? ', ' : '') + context.$history.substr(0, 1024);
 
 	// Write to DOM
 	GetDOM(ID('DOMHistoryDisplay')).innerHTML = context.$history;
