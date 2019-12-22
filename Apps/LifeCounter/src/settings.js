@@ -78,7 +78,7 @@
 
 	// And render them
 	options.forEach((input, index) => {
-		var label = canvas.add(0, index * LABEL_HEIGHT, LABEL_WIDTH, LABEL_HEIGHT);
+		var label = canvas.add(0, index * LABEL_HEIGHT, LABEL_WIDTH * 0.9, LABEL_HEIGHT);
 		label.addClass('align_left');
 		label.setText(input[3], false, LABEL_FONT_SIZE);
 		
