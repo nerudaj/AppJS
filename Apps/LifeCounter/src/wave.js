@@ -1,3 +1,7 @@
+'static'; function SmoothStop(t) {
+	return 1 - t * t;
+}
+
 /**
  *  @brief Generate synthetic tone
  *  
@@ -14,7 +18,7 @@
 	var T = sampleRate / frequency;
 	
 	for (var i = 0; i < data.length; i++) {
-		data[i] = 126 * Math.sin(i * 2 * Math.PI / T) + 128;		
+		data[i] = SmoothStop(i / data.length) * 126 * Math.sin(i * 2 * Math.PI / T) + 128;		
 	}
 	
 	var out = [
