@@ -27,6 +27,7 @@ function Main() {
 	appx.context['$cntIntHndl'] = null;
 	appx.context['$history'] = "";
 	appx.context['$diceCount'] = 3;
+	appx.context['$gameTime'] = 0;
 
 	// Advanced Context = locally stored
 	appx.advctx = {};
@@ -34,6 +35,8 @@ function Main() {
 	appx.advctx.$useSubscore = false;
 	appx.advctx.$useThrowHistory = true;
 	appx.advctx.$useScoreHistory = false;
+	appx.advctx.$useTimeTracking = false;
+	appx.advctx.$timeTrackingHndl = null;
 
 	appx.advctx = appx.loadFromLocalStorage(LOCAL_STORAGE_ACCESS_KEY, appx.advctx);
 	SetLanguageById(appx.advctx.$language);

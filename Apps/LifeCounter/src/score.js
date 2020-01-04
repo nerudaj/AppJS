@@ -3,8 +3,17 @@
 'static'; var SCORE_HISTORY_ID = 0;
 'static'; var SCORE_HISTORY_SLOT = [ '$subscoreHistory', '$scoreHistory' ];
 
+'static'; function UpdateTimeTracking() {
+	appx.context.$gameTime++;
+
+	if (appx.currentView == ENUM('score')) {
+		var display = document.getElementsByClassName("header")[0];
+		display.innerHTML = IntToTimeStr(appx.context.$gameTime, true);
+	}
+}
+
 'static'; function RenderScore() {
-	var board = PageTemplate(appx.canvas, "", [
+	var board = PageTemplate(appx.canvas, appx.advctx.$useTimeTracking ? IntToTimeStr(appx.context.$gameTime, true) : "", [
 		new ButtonTemplate(TEXT_WHO_STARTS, () => { appx.toggleView(ENUM('dice')); }),
 		new ButtonTemplate(TEXT_TIMER,      () => { appx.toggleView(ENUM('timer')); }),
 		new ButtonTemplate(TEXT_SETTINGS,   () => { 

@@ -15,6 +15,7 @@
 'static'; var TEXT_USE_SUBSCR = '';
 'static'; var TEXT_USE_THROW_HISTORY = '';
 'static'; var TEXT_USE_SCORE_HISTORY = '';
+'static'; var TEXT_USE_TIME_TRACK = '';
 'static'; var TEXT_DICE_COUNT = '';
 'static'; var TEXT_PL_COUNT   = '';
 'static'; var TEXT_PL_COLORS  = '';
@@ -43,6 +44,7 @@
     TEXT_USE_SUBSCR = 'Povolit subskóre';
     TEXT_USE_THROW_HISTORY = 'Povolit historii hodů';
     TEXT_USE_SCORE_HISTORY = 'Povolit historii skóre';
+    TEXT_USE_TIME_TRACK = 'Povolit sledování času';
     TEXT_DICE_COUNT = 'Počet kostek';
     TEXT_PL_COUNT   = 'Počet hráčů';
     TEXT_PL_COLORS  = 'Barvy hráčů';
@@ -66,6 +68,7 @@
     TEXT_USE_SUBSCR = 'Enable subscore';
     TEXT_USE_THROW_HISTORY = 'Enable throw history';
     TEXT_USE_SCORE_HISTORY = 'Enable score history';
+    TEXT_USE_TIME_TRACK = 'Enable time tracking';
     TEXT_DICE_COUNT = 'Dice count';
     TEXT_PL_COUNT   = 'Player count';
     TEXT_PL_COLORS  = 'Player colors';

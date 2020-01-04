@@ -28,7 +28,8 @@
 		[RenderLanguageDropdown, 'select', '$language',    TEXT_LANG],
 		[RenderCheckboxInput,    'input',  '$useThrowHistory',  TEXT_USE_THROW_HISTORY],
 		[RenderCheckboxInput,    'input',  '$useScoreHistory',  TEXT_USE_SCORE_HISTORY],
-		[RenderCheckboxInput,    'input',  '$useSubscore', TEXT_USE_SUBSCR]
+		[RenderCheckboxInput,    'input',  '$useSubscore', TEXT_USE_SUBSCR],
+		[RenderCheckboxInput,    'input',  '$useTimeTracking', TEXT_USE_TIME_TRACK]
 	].filter(i => i);
 	
 	RenderSettingsOptions(canvas, options, rowCount);
@@ -65,5 +66,14 @@
 }
 
 'static'; function ApplyAdvancedSettings() {
-	appx.saveToLocalStorage(appx.advctx, LOCAL_STORAGE_ACCESS_KEY);
+	var advctx = appx.advctx;
+
+	appx.saveToLocalStorage(advctx, LOCAL_STORAGE_ACCESS_KEY);
+
+	if (advctx.$useTimeTracking && !advctx.$timeTrackingHndl) {
+		advctx.$timeTrackingHndl = setInterval(UpdateTimeTracking, 1000);
+	}
+	else if (!advctx.$useTimeTracking && advctx.$timeTrackingHndl) {
+		advctx.$timeTrackingHndl = ReallyClearInterval(advctx.$timeTrackingHndl);
+	}
 }

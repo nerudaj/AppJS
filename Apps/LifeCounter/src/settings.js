@@ -161,4 +161,6 @@
 		players[i].$scoreHistory = '';
 		players[i].$subscoreHistory = '';
 	}
+
+	context.$gameTime = 0;
 }
