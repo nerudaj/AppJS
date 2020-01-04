@@ -1,9 +1,19 @@
+LifeCounter vX.X.X changelog:
+ * Removed remote control
+ * Fixed access to local storage
+ * Changed font apperance
+ * Many buttons were renamed
+
+---
+
 LifeCounter v4.4.5 changelog:
  * Display dice throw sum in throw history
  * Tweak texts
 
 Known issues:
  * Countdown will reset if the resolution is changed
+
+---
 
 LifeCounter v4.4.3 changelog:
  * Fixed bad font size with AppID string and timer display
@@ -14,16 +24,22 @@ LifeCounter v4.4.3 changelog:
  * Added a Readme.md
  * Added (sub)score history button which can be enabled in advanced settings
 
+---
+
 LifeCounter v4.0.0 changelog:
  * Remote control
  * Throw history is enabled by default
 
+---
+
 LifeCounter v3.0.0
  * Subscores - enable them in settings and then click score display for any player!
- * Up to 8 players
+ * Up to 8 players support
  * Variable dice count - 1 to 6 dices
  * Throw/toss history
  * Sound notification when timer ends
+
+---
 
 LifeCounter v2.0.0
  * 2-6 player support
