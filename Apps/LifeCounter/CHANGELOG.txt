@@ -1,4 +1,4 @@
-LifeCounter vX.X.X changelog:
+LifeCounter v4.6.5 changelog:
  * Added game time tracking (enable in advanced options)
  * Fixed access to local storage
  * Fixed broken font sizes on big screens
