@@ -16,8 +16,6 @@
 'static'; var TEXT_USE_SUBSCR = '';
 'static'; var TEXT_USE_THROW_HISTORY = '';
 'static'; var TEXT_USE_SCORE_HISTORY = '';
-'static'; var TEXT_USE_REMOTE = '';
-'static'; var TEXT_APPID      = 'AppID';
 'static'; var TEXT_DICE_COUNT = '';
 'static'; var TEXT_PL_COUNT   = '';
 'static'; var TEXT_PL_COLORS  = '';
@@ -41,7 +39,6 @@
     TEXT_A_SETTINGS = 'Pokročilé';
     TEXT_LANG       = 'Jazyk';
     TEXT_TIMER      = 'Nezdržuj';
-    TEXT_REMOTE     = 'Vzdálená správa';
     TEXT_INIT_SCORE = 'Počáteční skóre';
     TEXT_INIT_SUBSCR= 'Počáteční subskóre';
     TEXT_USE_SUBSCR = 'Povolit subskóre';
@@ -66,7 +63,6 @@
     TEXT_A_SETTINGS = 'Advanced';
     TEXT_LANG       = 'Language';
     TEXT_TIMER      = 'Timer';
-    TEXT_REMOTE     = 'Remote control';
     TEXT_INIT_SCORE = 'Initial score';
     TEXT_INIT_SUBSCR= 'Initial subscore';
     TEXT_USE_SUBSCR = 'Enable subscore';

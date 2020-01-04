@@ -12,10 +12,6 @@
 			ApplySettings();
 			appx.toggleView(ENUM('advanced_settings'));
 		}),
-		new ButtonTemplate(TEXT_REMOTE, () => {
-			ApplySettings();
-			appx.toggleView(ENUM('remote'));
-		}),
 		new ButtonTemplate(TEXT_BACK, () => {
 			appx.rollbackContext();
 			appx.toggleView(ENUM('score'));

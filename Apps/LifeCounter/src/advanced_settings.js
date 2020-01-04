@@ -16,7 +16,7 @@
 	// Create huge canvas inside, scrolling
 	// plCountSelect + initScore + useSubscore + useThrowHistory + diceCount + ?initSubscore + plCount
 	// But at least 9 rows
-	var rowCount = Math.max(appx.advctx.$useRemote + 4, 9);
+	var rowCount = Math.max(4, 9);
 	var content = board.add(0, 0, 1, rowCount / 9); // Single label is always 1/9 of board height
 
 	RenderAdvancedSettingsBoard(content, rowCount);
@@ -28,9 +28,7 @@
 		[RenderLanguageDropdown, 'select', '$language',    TEXT_LANG],
 		[RenderCheckboxInput,    'input',  '$useThrowHistory',  TEXT_USE_THROW_HISTORY],
 		[RenderCheckboxInput,    'input',  '$useScoreHistory',  TEXT_USE_SCORE_HISTORY],
-		[RenderCheckboxInput,    'input',  '$useSubscore', TEXT_USE_SUBSCR],
-		[RenderCheckboxInput,    'input',  '$useRemote',   TEXT_USE_REMOTE],
-		(appx.advctx.$useRemote ? [RenderApiKey, 'div', '$apikey', TEXT_APPID] : null)
+		[RenderCheckboxInput,    'input',  '$useSubscore', TEXT_USE_SUBSCR]
 	].filter(i => i);
 	
 	RenderSettingsOptions(canvas, options, rowCount);
@@ -66,14 +64,6 @@
 	});
 }
 
-'static'; function RenderApiKey(canvas, ctxitem) {
-	canvas.setText(appx.context[ctxitem], true);
-}
-
 'static'; function ApplyAdvancedSettings() {
-	if (appx.advctx.$useRemote) {
-		StartDisplay();
-	}
-
 	appx.saveToLocalStorage(appx.advctx, "LifeCounter");
 }

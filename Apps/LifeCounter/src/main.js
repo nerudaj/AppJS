@@ -25,12 +25,10 @@ function Main() {
 	appx.context['$cntIntHndl'] = null;
 	appx.context['$history'] = "";
 	appx.context['$diceCount'] = 3;
-	appx.context['$apikey'] = GetRandomApiKey();
 
 	// Advanced Context = locally stored
 	appx.advctx = {};
 	appx.advctx.$language = 1;
-	appx.advctx.$useRemote = false;
 	appx.advctx.$useSubscore = false;
 	appx.advctx.$useThrowHistory = true;
 	appx.advctx.$useScoreHistory = false;
@@ -52,8 +50,7 @@ function Main() {
 		{ callback: RenderAdvancedSettings, name: ENUM('advanced_settings') },
 		{ callback: RenderTimer,            name: ENUM('timer') },
 		{ callback: RenderTimerSettings,    name: ENUM('timer_settings') },
-		{ callback: RenderDice,             name: ENUM('dice') },
-		{ callback: RenderRemote,           name: ENUM('remote') }
+		{ callback: RenderDice,             name: ENUM('dice') }
 	];
 	
 	// Instantiate views
