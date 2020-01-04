@@ -20,3 +20,6 @@ advctx
 $diceCount
 $language
 $apikey
+$useTimeTracking
+$timeTrackingHndl
+$gameTime
