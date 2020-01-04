@@ -1,8 +1,10 @@
 LifeCounter vX.X.X changelog:
+ * Added game time tracking (enable in advanced options)
  * Fixed access to local storage
  * Fixed broken font sizes on big screens
  * Changed font apperance
  * Changed button labels
+ * Countdown tone uses smooth stop to be less annoying
  * Removed remote control
 
 Known issues:
