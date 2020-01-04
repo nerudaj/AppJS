@@ -72,7 +72,7 @@ function ENUM(id) {return id;}
 		resizer.style.fontSize = middle + "px";
 		
 		// Update bisection control variables
-		if (resizer.offsetWidth <= width && resizer.offsetHeight <= height) {
+		if (resizer.offsetWidth <= width * xless && resizer.offsetHeight <= height * yless) {
 			min = middle;
 		}
 		else {

@@ -34,7 +34,6 @@ button:active {
 .align_left {
 	padding-left: 10px;
 	justify-content: initial !important;
-	text-align: left;
 }
 
 .score_btn {
@@ -88,6 +87,7 @@ button:active {
 		1px -1px 0 #000,
 		-1px 1px 0 #000,
 		1px 1px 0 #000;
+	font-family: 'Segoe UI';
 }
 
 .nowrap {

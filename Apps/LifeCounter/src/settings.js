@@ -68,7 +68,7 @@
 		canvas,
 		LABEL_WIDTH,
 		LABEL_HEIGHT,
-		TEXT_USE_REMOTE,
+		TEXT_USE_SCORE_HISTORY,
 		ID('CacheSettingsLabel')
 	);
 

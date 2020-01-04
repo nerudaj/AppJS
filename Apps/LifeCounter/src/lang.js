@@ -10,7 +10,6 @@
 'static'; var TEXT_A_SETTINGS = '';
 'static'; var TEXT_LANG       = '';
 'static'; var TEXT_TIMER      = '';
-'static'; var TEXT_REMOTE     = '';
 'static'; var TEXT_INIT_SCORE = '';
 'static'; var TEXT_INIT_SUBSCR= '';
 'static'; var TEXT_USE_SUBSCR = '';
@@ -44,7 +43,6 @@
     TEXT_USE_SUBSCR = 'Povolit subskóre';
     TEXT_USE_THROW_HISTORY = 'Povolit historii hodů';
     TEXT_USE_SCORE_HISTORY = 'Povolit historii skóre';
-    TEXT_USE_REMOTE = 'Povolit vzdálenou správu';
     TEXT_DICE_COUNT = 'Počet kostek';
     TEXT_PL_COUNT   = 'Počet hráčů';
     TEXT_PL_COLORS  = 'Barvy hráčů';
@@ -68,7 +66,6 @@
     TEXT_USE_SUBSCR = 'Enable subscore';
     TEXT_USE_THROW_HISTORY = 'Enable throw history';
     TEXT_USE_SCORE_HISTORY = 'Enable score history';
-    TEXT_USE_REMOTE = 'Enable remote control';
     TEXT_DICE_COUNT = 'Dice count';
     TEXT_PL_COUNT   = 'Player count';
     TEXT_PL_COLORS  = 'Player colors';
