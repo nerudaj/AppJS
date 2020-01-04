@@ -65,5 +65,5 @@
 }
 
 'static'; function ApplyAdvancedSettings() {
-	appx.saveToLocalStorage(appx.advctx, "LifeCounter");
+	appx.saveToLocalStorage(appx.advctx, LOCAL_STORAGE_ACCESS_KEY);
 }

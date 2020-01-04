@@ -9,6 +9,8 @@
 	this.context = JSON.parse(JSON.stringify(this.backup));
 }
 
+'static'; var LOCAL_STORAGE_ACCESS_KEY = "LCv4.4.3";
+
 // Main function will bootstrap the App
 function Main() {
 	appx.bootstrap('Canvas');
@@ -33,7 +35,7 @@ function Main() {
 	appx.advctx.$useThrowHistory = true;
 	appx.advctx.$useScoreHistory = false;
 
-	appx.advctx = appx.loadFromLocalStorage("LCv4.4.3", appx.advctx);
+	appx.advctx = appx.loadFromLocalStorage(LOCAL_STORAGE_ACCESS_KEY, appx.advctx);
 	SetLanguageById(appx.advctx.$language);
 	
 	// Instantiate players
