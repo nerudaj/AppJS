@@ -30,9 +30,9 @@
 'static'; var TEXT_DICE_SIDES = ['⚀', '⚁', '⚂', '⚃', '⚄', '⚅'];
 
 'static'; function SetLanguageCzech() {
-    TEXT_WHO_STARTS = 'Kdo začne?';
-    TEXT_THROW_DICE = 'Hoď kostkami';
-    TEXT_TOSS_COIN  = 'Hoď mincí';
+    TEXT_WHO_STARTS = 'Náhoda';
+    TEXT_THROW_DICE = 'Kostky';
+    TEXT_TOSS_COIN  = 'Mince';
     TEXT_APPLY      = 'Použít';
     TEXT_BACK       = 'Zpět';
     TEXT_COIN1      = 'Hlava';
@@ -55,9 +55,9 @@
 }
 
 'static'; function SetLanguageEnglish() {
-    TEXT_WHO_STARTS = 'Who\'ll start?';
-    TEXT_THROW_DICE = 'Throw dice';
-    TEXT_TOSS_COIN  = 'Toss coin';
+    TEXT_WHO_STARTS = 'Chance';
+    TEXT_THROW_DICE = 'Dice';
+    TEXT_TOSS_COIN  = 'Coin';
     TEXT_APPLY      = 'Apply';
     TEXT_BACK       = 'Back';
     TEXT_COIN1      = 'Head';
