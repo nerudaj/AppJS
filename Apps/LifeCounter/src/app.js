@@ -142,9 +142,10 @@ function ENUM(id) {return id;}
 'static'; AppJsElement.prototype.setText = function(str, autofit = false, startSize = 100) {
 	var fontSize = autofit ? GetOptimalFontSize(str, this.width, this.height, startSize) : startSize;
 
-	var t = document.createTextNode(str);
+	//var t = document.createTextNode(str);
 	this.dom.style.fontSize = fontSize + "px";
-	this.dom.appendChild(t);
+	this.dom.innerHTML = str;
+	//this.dom.appendChild(t);
 }
 
 'static'; AppJsElement.prototype.addClass = function(name) {
