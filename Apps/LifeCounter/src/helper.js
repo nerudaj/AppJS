@@ -20,7 +20,7 @@
  */
 'static'; function IntToTimeStr(t, longfmt = false) {
 	var seconds = '0' + String(t % 60);
-	var minutes = '0' + String(Math.floor(t / 60));
+	var minutes = '0' + String(Math.floor(t / 60) % 60);
 	var hours = String(Math.floor(t / 3600));
 	return (longfmt ? hours.slice(-1) + ':' : '') + minutes.slice(-2) + ':' + seconds.slice(-2);
 }
