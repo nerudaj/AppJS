@@ -68,7 +68,8 @@
 			// Add a swap button if subscore is enabled
 			if (appx.advctx.$useSubscore && ((i) => {
 				var swap = canvas.add((x + 0.45) * ITEM_WIDTH, y * ITEM_HEIGHT, ITEM_WIDTH * 0.1, ITEM_HEIGHT * 0.15, 'button');
-				swap.setText('⇄', true);
+				var fontSize = ReadFontSizeCache(swap, 1, 1, '⇄', ID('CacheScoreAuxSymbol'));
+				swap.setText('⇄', false, fontSize);
 				swap.onClick(() => {
 					var subscore = GetDOM(ID('SContainer') + ENUM('Subscore') + i).style;
 					var score = GetDOM(ID('SContainer') + ENUM('Score') + i).style.display = subscore.display;
@@ -105,7 +106,8 @@
 	// Add a show button if score history is enabled
 	if (appx.advctx.$useScoreHistory) {
 		var hist = canvas.add(0.45, 0.85, 0.1, 0.15, 'button');
-		hist.setText('☰', true); //📓, ▤, ✎
+		var fontSize = ReadFontSizeCache(hist, 1, 1, '⇄', ID('CacheScoreAuxSymbol'));
+		hist.setText('☰', false, fontSize);
 		hist.onClick(() => {
 			if(SCORE_TIMEOUT_HANDLE) {
 				clearTimeout(SCORE_TIMEOUT_HANDLE);
