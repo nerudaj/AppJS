@@ -1,6 +1,3 @@
-// Global variables
-'static'; var appx = new AppJs();
-
 'static'; AppJs.prototype.backupContext = function() {
 	this.backup = JSON.parse(JSON.stringify(this.context));
 }
@@ -19,15 +16,16 @@ function Main() {
 
 	// Setup views
 	var views = [
-		{ callback: RenderMainPage, name: ENUM('mainpage') }
+		{ callback: RenderMainPage, name: ENUM('mainpage') },
+		{ callback: RenderNextPage, name: ENUM('nextpage') }
 	];
 	
 	// Add views to app
-	for (var i = 0; i < views.length; i++) {
+	views.forEach(pair => {
 		var view = new AppJsView();
-		view.render = views[i].callback;
-		appx.addView(view, views[i].name);
-	}
+		view.render = pair.callback;
+		appx.addView(view, pair.name);
+	})
 	
 	// Toggle default view
 	appx.toggleView(ENUM('mainpage'));

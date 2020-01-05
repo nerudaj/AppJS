@@ -1,2 +1,9 @@
+AppJS v2.0.0 changelog:
+ * template.js rewritten to be simpler and more versatile
+ * OpenModal/CloseModal added to template.js
+ * ReadFontSizeCache added to app.js
+ * AppJsElement.setText supports text with HTML tags
+ * GetDOM renamed to just $
+
 AppJS v1.0.0 changelog:
  * Initial release

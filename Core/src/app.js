@@ -14,19 +14,39 @@ function ENUM(id) {return id;}
 // =============== //
 // === METHODS === //
 // =============== //
-'static'; function ClearOptimizationCache() {
+/**
+ *  @brief Get a value from a cache
+ * 
+ *  @param[in]  canvas   Parent canvas for computation
+ *  @param[in]  label    Label to autosize
+ *  @param[in]  cacheID  Index into cache
+ * 
+ *  @return Font size stored in cache
+ * 
+ *  If there is a record in cache for ID, it is returned.
+ *  If there is no record, new record is computed (label is autofitted into canvas),
+ *  stored in cache and returned.
+ */
+'static'; function ReadFontSizeCache(canvas, label, cacheID) {
+	if (GLOBAL_FONT_SIZE_CACHE[cacheID] == null) {
+		GLOBAL_FONT_SIZE_CACHE[cacheID] = GetOptimalFontSize(label, canvas.width, canvas.height);
+	}
+
+	return GLOBAL_FONT_SIZE_CACHE[cacheID];
+}
+
+/**
+ *  @brief Delete all records from font size cache
+ */
+'static'; function ClearFontSizeCache() {
 	GLOBAL_FONT_SIZE_CACHE = {};
 }
 
 /**
- *  @brief Get reference to DOM object by id
+ *  @brief Get element with given id
  */
-'static'; function GetDOM(id) {
+function $(id) {
 	return document.getElementById(id);
-}
-
-'static'; function GetElementsByName(id) {
-	return document.getElementsByName(id);
 }
 
 /**
@@ -42,25 +62,25 @@ function ENUM(id) {return id;}
 /**
  *  @brief How big the font should be to text fit the given boundaries
  *  
- *  @param [in] str     Text that should fit
- *  @param [in] width   Width of the bounding box
- *  @param [in] height  Height of the bounding box
- *  @param [in] max     Maximum possible size for a text
+ *  @param[in]  str     Text that should fit
+ *  @param[in]  width   Width of the bounding box
+ *  @param[in]  height  Height of the bounding box
+ *  @param[in]  xless   Size of text should not exceed width * xless (Default: 0.8)
+ *  @param[in]  yless   Size of text should not exceed height * yless (Default: 0.8)
  *  @return Optimal font size
  *  
- *  @details This function does not take into account word breaking. Also, the algorithm looks for
- *  the first fontSize that fit, so if you're element is bigger than a text at fontSize 100, try
- *  tweaking the \p startSize to higher values like 500.
+ *  @details This function does not take into account word breaking.
  *  
  *  For this to work, the html file must contain element with id 'HiddenResizer'. This element
  *  has to be span with visibility:hidden.
  */
-'static'; function GetOptimalFontSize(str, width, height, max = 100, xless = 0.8, yless = 0.8) {
+'static'; function GetOptimalFontSize(str, width, height, xless = 0.8, yless = 0.8) {
 	// Initialize bisection boundaries
 	var min = 1;
+	var max = height;
 
 	// Access resizer and insert string
-	var resizer = GetDOM("HiddenResizer");
+	var resizer = $("HiddenResizer");
 	resizer.innerHTML = str;
 	
 	// Perform bisection
@@ -72,7 +92,7 @@ function ENUM(id) {return id;}
 		resizer.style.fontSize = middle + "px";
 		
 		// Update bisection control variables
-		if (resizer.offsetWidth <= width && resizer.offsetHeight <= height) {
+		if (resizer.offsetWidth <= width * xless && resizer.offsetHeight <= height * yless) {
 			min = middle;
 		}
 		else {
@@ -139,12 +159,11 @@ function ENUM(id) {return id;}
 	this.dom.style.background = color;
 }
 
-'static'; AppJsElement.prototype.setText = function(str, autofit = false, startSize = 100) {
-	var fontSize = autofit ? GetOptimalFontSize(str, this.width, this.height, startSize) : startSize;
+'static'; AppJsElement.prototype.setText = function(str, fontSize = 0) {
+	fontSize = fontSize == 0 ? GetOptimalFontSize(str, this.width, this.height) : fontSize;
 
-	var t = document.createTextNode(str);
 	this.dom.style.fontSize = fontSize + "px";
-	this.dom.appendChild(t);
+	this.dom.innerHTML = str;
 }
 
 'static'; AppJsElement.prototype.addClass = function(name) {
@@ -198,11 +217,11 @@ function ENUM(id) {return id;}
 }
 
 'static'; AppJs.prototype.bootstrap = function(canvasId) {
-	this.canvas.dom = GetDOM(canvasId);
+	this.canvas.dom = $(canvasId);
 	window.addEventListener('resize', () => {
 		if (PREVENT_RESIZE) return;
 
-		ClearOptimizationCache();
+		ClearFontSizeCache();
 		this.render();
 	});
 }
@@ -280,3 +299,5 @@ function ENUM(id) {return id;}
 	if (result == null) return fallback;
 	return JSON.parse(result);
 }
+
+'static'; var appx = new AppJs(); // This variable holds the application context
