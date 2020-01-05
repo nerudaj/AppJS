@@ -1,6 +1,7 @@
 'static'; var TEXT_WHO_STARTS = '';
 'static'; var TEXT_THROW_DICE = '';
 'static'; var TEXT_TOSS_COIN  = '';
+'static'; var TEXT_WHOLL_START= '';
 'static'; var TEXT_APPLY      = '';
 'static'; var TEXT_START      = 'Start';
 'static'; var TEXT_BACK       = '';
@@ -31,6 +32,7 @@
     TEXT_WHO_STARTS = 'Náhoda';
     TEXT_THROW_DICE = 'Kostky';
     TEXT_TOSS_COIN  = 'Mince';
+    TEXT_WHOLL_START= 'Kdo začne?';
     TEXT_APPLY      = 'Použít';
     TEXT_BACK       = 'Zpět';
     TEXT_COIN1      = 'Hlava';
@@ -55,6 +57,7 @@
     TEXT_WHO_STARTS = 'Chance';
     TEXT_THROW_DICE = 'Dice';
     TEXT_TOSS_COIN  = 'Coin';
+    TEXT_WHOLL_START= 'Who\'ll start?';
     TEXT_APPLY      = 'Apply';
     TEXT_BACK       = 'Back';
     TEXT_COIN1      = 'Head';

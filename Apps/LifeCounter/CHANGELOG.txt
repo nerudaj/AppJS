@@ -1,4 +1,5 @@
-LifeCounter v4.6.5 changelog:
+LifeCounter vX.X.X changelog:
+ * Added chance button for explicitly picking the first player
  * Added game time tracking (enable in advanced options)
  * Fixed access to local storage
  * Fixed broken font sizes on big screens

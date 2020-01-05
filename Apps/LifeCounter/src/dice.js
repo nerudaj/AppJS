@@ -12,6 +12,10 @@
 			LAST_USED_FUNCTION = TossCoin;
 			RandomizationAnimation();
 		}),
+		new ButtonTemplate(TEXT_WHOLL_START, () => {
+			LAST_USED_FUNCTION = PickFirstPlayer;
+			RandomizationAnimation();
+		}),
 		new ButtonTemplate(TEXT_BACK, () => {
 			appx.toggleView(ENUM('score'));
 		})
@@ -37,7 +41,9 @@
 	if (appx.advctx.$useThrowHistory) {
 		var hist = board.add(0, DISPLAY_HEIGHT, 1, HISTORY_HEIGHT, 'div', ID('DOMHistoryDisplay'));
 		var HFONT_SIZE = ReadFontSizeCache(hist, 1, 1, 'Lorem ipsum dolor sit amet', ID('CacheHistoryDisplay'), 150);
-		hist.setText(appx.context.$history, false, HFONT_SIZE);
+		hist.setText('', false, HFONT_SIZE);
+		// Set text bypasses interpretation of HTML tags which may be part of history since Who'll start update
+		GetDOM(ID('DOMHistoryDisplay')).innerHTML = appx.context.$history; // This fixes it
 		hist.addClass('align_left');
 		hist.addClass('nowrap');
 	}
@@ -54,9 +60,9 @@
 	var sum = 0;
 	var output = '';
 	for (var i = 0; i < appx.context.$diceCount; i++) {
-		var throwResult = Random(1, 6);
-		output += TEXT_DICE_SIDES[(throwResult - 1)];
-		sum += throwResult;
+		var throwResult = Random(0, 6);
+		output += TEXT_DICE_SIDES[(throwResult)];
+		sum += throwResult + 1;
 	}
 
 	GetDOM(ID('DOMThrowResultBoard')).innerHTML = output;
@@ -65,10 +71,19 @@
 
 'static'; function TossCoin() {
 	var COIN_SIDES = [TEXT_COIN1, TEXT_COIN2];
-	var throwResult = COIN_SIDES[Random(1, 2) - 1];
+	var throwResult = COIN_SIDES[Random(0, 2)];
 
 	GetDOM(ID('DOMThrowResultBoard')).innerHTML = throwResult;
 	UpdateHistory(throwResult);
+}
+
+'static'; function PickFirstPlayer() {
+	var players = appx.context.$players;
+	var playerCount = players.length;
+	var firstPlayer = Random(0, playerCount);
+	var result = "<span style='color:" + players[firstPlayer].color + "'>■</span>";
+	GetDOM(ID('DOMThrowResultBoard')).innerHTML = result;
+	UpdateHistory(result);
 }
 
 'static'; function UpdateHistory(str) {

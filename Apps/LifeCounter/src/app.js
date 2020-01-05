@@ -32,7 +32,7 @@ function ENUM(id) {return id;}
 /**
  *  @brief Get random integer number
  *  
- *  @param [in] min Minimum value (exclusive)
+ *  @param [in] min Minimum value (inclusive)
  *  @param [in] max Maximum value (exclusive)
  */
 'static'; function Random(min, max) {
