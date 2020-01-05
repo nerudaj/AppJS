@@ -1,4 +1,4 @@
-LifeCounter vX.X.X changelog:
+LifeCounter v4.8.6 changelog:
  * Score history is now displayed on modal instead of system alert
  * Added chance button for explicitly picking the first player
  * Added game time tracking (enable in advanced options)
