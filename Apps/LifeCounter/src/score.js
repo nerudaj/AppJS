@@ -105,7 +105,7 @@
 	// Add a show button if score history is enabled
 	if (appx.advctx.$useScoreHistory) {
 		var hist = canvas.add(0.45, 0.85, 0.1, 0.15, 'button');
-		hist.setText('✎', true); //📓, ▤
+		hist.setText('☰', true); //📓, ▤, ✎
 		hist.onClick(() => {
 			if(SCORE_TIMEOUT_HANDLE) {
 				clearTimeout(SCORE_TIMEOUT_HANDLE);
