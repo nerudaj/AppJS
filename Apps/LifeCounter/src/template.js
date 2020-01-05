@@ -143,19 +143,20 @@
 	var modal = modalWrapper.add((1 - w) / 2, (1 - h) / 2, w, h);
 	modal.onClick(e => e.stopPropagation()); // Clicking into modal will not close modal
 
-	var title = modal.add(0, 0, 1, 0.1);
-	var fontSize = ReadFontSizeCache(title, 1, 1, header, ID('ModalCache'));
+	var fontSize = ReadFontSizeCache(modal, 1, 0.1, header + 'AAA', ID('ModalCache')); // + 'AAA' is a hotfix, remove in the future
+
+	var title = modal.add(0, 0, 0.9, 0.1);
 	title.setText(header, false, fontSize);
 	title.addClass('header');
 	
 	var close = modal.add(0.9, 0, 0.1, 0.1, 'button');
-	close.setText('🗙', false, fontSize);
+	close.setText('✕', false, fontSize);
 	close.addClass('toolbar');
 	close.onClick(() => {
 		document.getElementById(ID('ModalWrapper')).remove();
 	});
 
 	var content = modal.add(0, 0.1, 1, 0.9);
-	content.addClass('scrollable content');
+	content.addClass('scrollable content modal');
 	content.setText(text, false, fontSize);
 }

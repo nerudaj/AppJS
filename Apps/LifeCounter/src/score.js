@@ -114,8 +114,8 @@
 				LogScoreHistory();
 			}
 
-			//alert("Player " + (id + 1) + ' ' + which + ' history:\n' + appx.context.$players[id][SCORE_HISTORY_SLOT[which == 'score'?1:0]]);
-			OpenModal("Player " + (id + 1) + ' ' + which + ' history:', appx.context.$players[id][SCORE_HISTORY_SLOT[which == 'score'?1:0]], 0.5, 0.8);
+			var modalWidth = appx.canvas.width * 0.9 > 500 ? 500 / appx.canvas.width : 0.9; // Modal window must be max 500px wide or 90% wide
+			OpenModal("Player " + (id + 1) + ' ' + which + ' history:', appx.context.$players[id][SCORE_HISTORY_SLOT[which == 'score'? 1 : 0]], modalWidth, 0.8);
 		});
 	}
 

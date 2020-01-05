@@ -51,6 +51,8 @@ button:active {
 .header {
 	background: rgb(31, 31, 31);
 	color: rgb(176, 176, 176);
+	display: flex;
+	align-items: center;
 }
 
 .content, .content button {
@@ -88,6 +90,11 @@ button:active {
 		-1px 1px 0 #000,
 		1px 1px 0 #000;
 	font-family: 'Segoe UI';
+}
+
+.modal {
+	display: flex;
+	align-items: baseline !important;
 }
 
 .nowrap {
