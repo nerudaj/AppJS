@@ -133,3 +133,29 @@
 	// Return drawing canvas
 	return GetDrawingTemplate(canvas, label, buttons);
 }
+
+'static'; function OpenModal(header, text, w, h) {
+	var modalWrapper = appx.canvas.add(0, 0, 1, 1, 'div', ID('ModalWrapper'));
+	modalWrapper.onClick(() => { // Clicking outside modal will close the modal
+		document.getElementById(ID('ModalWrapper')).remove();
+	})
+
+	var modal = modalWrapper.add((1 - w) / 2, (1 - h) / 2, w, h);
+	modal.onClick(e => e.stopPropagation()); // Clicking into modal will not close modal
+
+	var title = modal.add(0, 0, 1, 0.1);
+	var fontSize = ReadFontSizeCache(title, 1, 1, header, ID('ModalCache'));
+	title.setText(header, false, fontSize);
+	title.addClass('header');
+	
+	var close = modal.add(0.9, 0, 0.1, 0.1, 'button');
+	close.setText('🗙', false, fontSize);
+	close.addClass('toolbar');
+	close.onClick(() => {
+		document.getElementById(ID('ModalWrapper')).remove();
+	});
+
+	var content = modal.add(0, 0.1, 1, 0.9);
+	content.addClass('scrollable content');
+	content.setText(text, false, fontSize);
+}

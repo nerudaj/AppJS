@@ -112,7 +112,8 @@
 				LogScoreHistory();
 			}
 
-			alert("Player " + (id + 1) + ' ' + which + ' history:\n' + appx.context.$players[id][SCORE_HISTORY_SLOT[which == 'score'?1:0]]);
+			//alert("Player " + (id + 1) + ' ' + which + ' history:\n' + appx.context.$players[id][SCORE_HISTORY_SLOT[which == 'score'?1:0]]);
+			OpenModal("Player " + (id + 1) + ' ' + which + ' history:', appx.context.$players[id][SCORE_HISTORY_SLOT[which == 'score'?1:0]], 0.5, 0.8);
 		});
 	}
 
@@ -123,7 +124,7 @@
 'static'; function LogScoreHistory() {
 	var pid = SCORE_HISTORY_ID % 10;
 	var which = (SCORE_HISTORY_ID >= 10 ? 'sub' : '') + 'score';
-	appx.context.$players[pid][SCORE_HISTORY_SLOT[which == 'score'?1:0]] += (appx.context.$players[pid][which] + " (" + (SCORE_DIFFERENCE > 0 ? '+' + SCORE_DIFFERENCE : SCORE_DIFFERENCE) + ')') + '\n';
+	appx.context.$players[pid][SCORE_HISTORY_SLOT[which == 'score'?1:0]] += (appx.context.$players[pid][which] + " (" + (SCORE_DIFFERENCE > 0 ? '+' + SCORE_DIFFERENCE : SCORE_DIFFERENCE) + ')') + '<br>';
 	SCORE_TIMEOUT_HANDLE = null;
 }
 
