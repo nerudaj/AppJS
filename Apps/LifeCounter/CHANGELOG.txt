@@ -5,6 +5,7 @@ LifeCounter vX.X.X changelog:
  * Fixed broken font sizes on big screens
  * Changed font apperance
  * Changed button labels
+ * Changed icon of score history
  * Countdown tone uses smooth stop to be less annoying
  * Removed remote control
 
