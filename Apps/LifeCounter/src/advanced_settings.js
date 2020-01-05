@@ -66,14 +66,5 @@
 }
 
 'static'; function ApplyAdvancedSettings() {
-	var advctx = appx.advctx;
-
-	appx.saveToLocalStorage(advctx, LOCAL_STORAGE_ACCESS_KEY);
-
-	if (advctx.$useTimeTracking && !advctx.$timeTrackingHndl) {
-		advctx.$timeTrackingHndl = setInterval(UpdateTimeTracking, 1000);
-	}
-	else if (!advctx.$useTimeTracking && advctx.$timeTrackingHndl) {
-		advctx.$timeTrackingHndl = ReallyClearInterval(advctx.$timeTrackingHndl);
-	}
+	appx.saveToLocalStorage(appx.advctx, LOCAL_STORAGE_ACCESS_KEY);
 }

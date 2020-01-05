@@ -13,6 +13,20 @@
 }
 
 'static'; function RenderScore() {
+	// Bootstrap time tracking
+	/*
+		NOTE: This code cannot be anywhere else. If it is in main, then it is not affected by settings at run-time
+		If it is in settings then it is not affected by start of the application.
+		It has to be here.
+	*/
+	var context = appx.context;
+	if (appx.advctx.$useTimeTracking && !context.$timeTrackingHndl) {
+		context.$timeTrackingHndl = setInterval(UpdateTimeTracking, 1000);
+	}
+	else if (!appx.advctx.$useTimeTracking && context.$timeTrackingHndl) {
+		context.$timeTrackingHndl = ReallyClearInterval(context.$timeTrackingHndl);
+	}
+
 	var board = PageTemplate(appx.canvas, appx.advctx.$useTimeTracking ? IntToTimeStr(appx.context.$gameTime, true) : "", [
 		new ButtonTemplate(TEXT_WHO_STARTS, () => { appx.toggleView(ENUM('dice')); }),
 		new ButtonTemplate(TEXT_TIMER,      () => { appx.toggleView(ENUM('timer')); }),
