@@ -41,9 +41,7 @@
 	if (appx.advctx.$useThrowHistory) {
 		var hist = board.add(0, DISPLAY_HEIGHT, 1, HISTORY_HEIGHT, 'div', ID('DOMHistoryDisplay'));
 		var HFONT_SIZE = ReadFontSizeCache(hist, 1, 1, 'Lorem ipsum dolor sit amet', ID('CacheHistoryDisplay'), 150);
-		hist.setText('', false, HFONT_SIZE);
-		// Set text bypasses interpretation of HTML tags which may be part of history since Who'll start update
-		GetDOM(ID('DOMHistoryDisplay')).innerHTML = appx.context.$history; // This fixes it
+		hist.setText(appx.context.$history, false, HFONT_SIZE);
 		hist.addClass('align_left');
 		hist.addClass('nowrap');
 	}
