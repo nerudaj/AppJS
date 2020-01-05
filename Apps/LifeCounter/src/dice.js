@@ -30,7 +30,7 @@
 
 	// Needs to be recomputed each time this screen is accessed (variable number of dices)
 	var FONT_SIZE = GetOptimalFontSize(
-		longestStr([TEXT_DICE_SIDES[0].repeat(appx.context.$diceCount + 1), TEXT_COIN1, TEXT_COIN2]),
+		longestStr([TEXT_DICE_SIDES[0].repeat(appx.context.$diceCount + 1)].concat(TEXT_COIN_SIDES)),
 		board.width,
 		board.height,
 		Math.min(board.width, board.height)
@@ -70,8 +70,7 @@
 }
 
 'static'; function TossCoin() {
-	var COIN_SIDES = [TEXT_COIN1, TEXT_COIN2];
-	var throwResult = COIN_SIDES[Random(0, 2)];
+	var throwResult = TEXT_COIN_SIDES[Random(0, 2)];
 
 	GetDOM(ID('DOMThrowResultBoard')).innerHTML = throwResult;
 	UpdateHistory(throwResult);
