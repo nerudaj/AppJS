@@ -55,7 +55,7 @@ function ENUM(id) {return id;}
  *  For this to work, the html file must contain element with id 'HiddenResizer'. This element
  *  has to be span with visibility:hidden.
  */
-'static'; function GetOptimalFontSize(str, width, height, max = 100, xless = 0.8, yless = 0.8) {
+'static'; function GetOptimalFontSize(str, width, height, max = height, xless = 0.8, yless = 0.8) {
 	// Initialize bisection boundaries
 	var min = 1;
 

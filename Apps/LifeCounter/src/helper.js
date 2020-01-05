@@ -73,8 +73,8 @@
 		GLOBAL_FONT_SIZE_CACHE[cacheID] = GetOptimalFontSize(
 			label,
 			canvas.width * width,
-			canvas.height * height,
-			hint
+			canvas.height * height/*,
+			canvas.height * height*/
 		);
 	}
 	return GLOBAL_FONT_SIZE_CACHE[cacheID];
