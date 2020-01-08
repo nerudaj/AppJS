@@ -43,7 +43,7 @@ function $(id) {
  *  @brief Get longest string in an array of strings
  */
 'static'; function LongestString(strings) {
-    return strings.reduce((a, b) => a.length > b.length ? a : b);
+    return strings.length ? strings.reduce((a, b) => a.length > b.length ? a : b) : "";
 }
 
 /**
@@ -214,8 +214,8 @@ function $(id) {
 
         var flatten = arr => [].concat(...arr); // HOTFIX: Edge does not support Array.prototype.flat
         var rawPages = flatten(Object.entries(this.pages)).filter((p,i) => i % 2 == 1);
-        this.longestHeader = LongestString(rawPages.map(i => i.$header));
-        this.longestBtnLabel = LongestString(flatten(rawPages.map(i => i.$buttons)).map(i => i.label));
+        this.longestHeader = LongestString(rawPages.map(i => i.$header).filter(i => i));
+        this.longestBtnLabel = LongestString(flatten(rawPages.map(i => i.$buttons)).filter(i => i).map(i => i.label));
 
         this.Render();
     });
