@@ -33,13 +33,6 @@ function ID(id) {return id;}
 }
 
 /**
- *  @brief Delete all records from font size cache
- */
-'static'; function ClearFontSizeCache() {
-    GLOBAL_FONT_SIZE_CACHE = {};
-}
-
-/**
  *  @brief Get element with given id
  */
 function $(id) {
@@ -217,11 +210,12 @@ function $(id) {
     window.addEventListener('resize', () => {
         if (PREVENT_RESIZE) return;
 
-        ClearFontSizeCache();
+        GLOBAL_FONT_SIZE_CACHE = {}; // Clear font size cache
 
-        var rawPages = Object.entries(this.pages).flat(1).filter((p,i) => i % 2 == 1);
+        var flatten = arr => [].concat(...arr); // HOTFIX: Edge does not support Array.prototype.flat
+        var rawPages = flatten(Object.entries(this.pages)).filter((p,i) => i % 2 == 1);
         this.longestHeader = LongestString(rawPages.map(i => i.$header));
-        this.longestBtnLabel = LongestString(rawPages.map(i => i.$buttons).flat(1).map(i => i.label));
+        this.longestBtnLabel = LongestString(flatten(rawPages.map(i => i.$buttons)).map(i => i.label));
 
         this.Render();
     });
