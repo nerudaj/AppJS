@@ -141,8 +141,8 @@ function $(id) {
     result.dom.style.height = result.height + "px";
 
     if (type == 'input') {
-        result.addEventCallback('focus', function () { PREVENT_RESIZE = true; });
-        result.addEventCallback('blur', function () { setTimeout(function () { PREVENT_RESIZE = false; }, 500); });
+        result.addEventCallback('focus', () => { PREVENT_RESIZE = true; });
+        result.addEventCallback('blur', () => { setTimeout(() => { PREVENT_RESIZE = false; }, 500); });
     }
 
     return result;
