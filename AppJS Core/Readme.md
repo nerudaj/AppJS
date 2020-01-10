@@ -70,6 +70,8 @@ We will cover callbacks to content drawing [later](#drawing-content).
 
 At this point, `appx` object exists, some pages are registered with the app and Javascript has been loaded. If you examine the HTML files, you notice that when `<body>` is loaded, it'll fire the `Main` function. At the end of the main function, there is a call to `DisplayPage` which displays the page called `PageMain`. And thus the page is rendered and application has started and can be used. Hooray!
 
+[Top](#appjs-core---tutorial)
+
 ## Drawing content
 
 So far you know how to setup the application, but how can you actually draw anything useful? It'll be covered in this section. First, some design philosophy.
@@ -190,6 +192,8 @@ Following example showcases button array - basically the same stuff used in tool
 
 The most important thing about button array is that you need a container object that will be fully filled with buttons. Since buttons have transparent backgrounds, you can style the parent element if you need it to stand out. Note the `$` function used to retrieve dom by ID.
 
+[Top](#appjs-core---tutorial)
+
 ## Resizing the window and responsiveness
 
 As you might have noticed, AppJs is trying desperately to be always responsive. That is hard. Not only you have to compute optimal font sizes, but have to deal with window resizing, landscape vs portrait display orientations and weird behaviours of particular browsers. This section brings further light on how exactly does AppJs deal with that.
@@ -216,9 +220,9 @@ function IsWidescreen(appx) {
 }
 ```
 
-## Writing compact code
+[Top](#appjs-core---tutorial)
 
-TODO: 'static', ID, jsbloat, hints
+## Writing compact code
 
 AppJs was born from the need to create the most minified applications ever. For that purpose, your standard issue minifiers (not even babel) can really do the trick. AppJs employ a couple more tricks that try their best to be as less invasive as possible, but they put an extra requirement on the programmer. It also requires an extra step during compilation with a tool called `jsbloat`.
 
@@ -228,7 +232,7 @@ You should put a string `'static';` in front of every top level function (with t
 
 ### ID()
 
-By default, AppJs contains definition for function `ID` which does a single thing: it returns whatever it gets on input. So once again, it has **no effect** on your development. When compiled with `jsbloat`, all occurences of `ID(<string>)`, where `<string>` is a text encapsulated by single quotes, will be collected, strings will be once again obfuscated and minified and calls to ID will be completely replaced with those obfuscated strings. For example code: `var row = parent.AddElem(0, 0, 1, 1, 'div', ID('RowXXX'));` will be replaced with `var row = parent.pA(0, 0, 1, 1, 'div', 'x');' (taking into account transformation with static). Unless you have a really good amount of IDs, obfuscated strings will be 1 or 2 bytes.
+By default, AppJs contains definition for function `ID` which does a single thing: it returns whatever it gets on input. So once again, it has **no effect** on your development. When compiled with `jsbloat`, all occurences of `ID(<string>)`, where `<string>` is a text encapsulated by single quotes, will be collected, strings will be once again obfuscated and minified and calls to ID will be completely replaced with those obfuscated strings. For example code: `var row = parent.AddElem(0, 0, 1, 1, 'div', ID('RowXXX'));` will be replaced with `var row = parent.pA(0, 0, 1, 1, 'div', 'x');` (taking into account transformation with static). Unless you have a really good amount of IDs, obfuscated strings will be 1 or 2 bytes.
 
 ### hints
 
@@ -242,6 +246,8 @@ longestHeader
 context
 ```
 
+[Top](#appjs-core---tutorial)
+
 ## Compiling app
 
 ### Prerequisities
@@ -251,3 +257,5 @@ TODO: jsbloat, babel-minify, css-minify
 ### Toolchain
 
 TODO: Commands
+
+[Top](#appjs-core---tutorial)
