@@ -1,4 +1,4 @@
-# AppJS Core
+# AppJS Core - Tutorial
 
 This is a demo application showcasing AppJS API, which can be used as a startup project. To use this as a startup project, simply copy and rename this folder to match your needs. Then, you'll need to edit some stuff in following files:
 
@@ -14,9 +14,11 @@ Now, what are all the files doing?
  * `app/src/main.js` - This file instantiates the application and renders the default page. If you need to add something to persistent context of the application, the `Main` function is a good place to do it. Also, if your entry point is called anything else than `PageMain`, you'll need to change it there as well.
  * `app/src/pages.js` - This file contains all the code needed for creating content of the application you can see when running `debug.html`. Study it, then you can delete it and replace it with your own.
 
+> **NOTE ON BROWSER COMPATIBILITY:** Your browser has to support spread operator, fat arrow syntax, Array.prototype.concat, Array.prototype.map, Array.prototype.reduce and Array.prototype.filter (which should be supported in all major browsers).
+
 That's all. Now let's examine, how the app is written.
 
-# App architecture
+## App architecture
 
 Basically, file `main.js` defines a global variable called `appx`. It is of type `AppJs` and contains everything - root DOM element, persistent context, all the pages and logic for manipulating with all of those. The point of this being global is twofold. First, you can easily register new pages with the application and second, you can save a few bytes you'll otherwise need to pass it to every other function.
 
@@ -126,20 +128,119 @@ Go ahead, try it! Notice how subelements only care about position inside of pare
 
 ### Scrollable content
 
-TODO: hodně řádků s random textem a scrollováním
+This example showcases page with many rows and scrollable canvas.
+
+```js
+'static'; function RenderManyRowsExample(canvas) {
+    var rows = [
+        "Lorem ipsum",
+        "Dolor sit amet",
+        "consekventur elit.",
+        "Duis aute irure dolor",
+        "in reprehenderit",
+        "in voluptate velit",
+        "esse cillum dolore",
+        "eu fugiat nulla",
+        "pariatur. Pellentesque",
+        "arcu. Duis risus.",
+        "Etiam dictum tincidunt",
+        "diam. Aenean fermentum",
+        "risus id tortor.",
+        "Aenean id metus id",
+        "velit ullamcorper",
+        "pulvinar. Integer in",
+        "sapien. Praesent dapibus."
+    ];
+
+    var LONGEST_ROW_TEXT = LongestString(rows);
+    var ROW_HEIGHT = 1/10;
+
+    canvas.AddClass('scrollable');
+
+    rows.forEach((text, i) => {
+        var row = canvas.AddElem(0, i * ROW_HEIGHT, 1, ROW_HEIGHT);
+        var fontSize = ReadFontSizeCache(row, LONGEST_ROW_TEXT, ID('ExampleRows'));
+        row.SetText(i + ": " + text, fontSize);
+        row.AddClass('align_left');
+    });
+}
+```
+
+As you can see, you have to add `scrollable` class to parent element and then you can add items even outside bounds of this parent. This example also uses font size caching. First it computes the longest string possible to occur on the row and then it uses to access the cache. The cherry on top is the class `align_left`.
 
 ### Button array example
 
-TODO: par buttonu, co nastavi text na display
-NOTE: Ukazka ID, $
+Following example showcases button array - basically the same stuff used in toolbar, but you can render it anywhere in the content. For example control bar for something. This example has big display and three buttons that set text to it.
+
+```js
+'static'; function RenderButtonArrayExample(canvas) {
+    var display = canvas.AddElem(0, 0, 1, 0.5, 'div', ID('Display'));
+    display.SetText('-----');
+
+    var buttons = [
+        new AppJsButton('TEXT1', () => { $(ID('Display')).innerHTML = 'TEXT1'; }),
+        new AppJsButton('TEXT2', () => { $(ID('Display')).innerHTML = 'TEXT2'; }),
+        new AppJsButton('TEXT3', () => { $(ID('Display')).innerHTML = 'TEXT3'; })
+    ];
+
+    var buttonWrapper = canvas.AddElem(0, 0.5, 1, 0.25);
+    buttonWrapper.AddButtonArray(buttons);
+}
+```
+
+The most important thing about button array is that you need a container object that will be fully filled with buttons. Since buttons have transparent backgrounds, you can style the parent element if you need it to stand out. Note the `$` function used to retrieve dom by ID.
 
 ## Resizing the window and responsiveness
 
-TODO: inputs, deleting dom, modals, font sizes
+As you might have noticed, AppJs is trying desperately to be always responsive. That is hard. Not only you have to compute optimal font sizes, but have to deal with window resizing, landscape vs portrait display orientations and weird behaviours of particular browsers. This section brings further light on how exactly does AppJs deal with that.
+
+### Resize event
+
+Each time you call `DisplayPage` or window resolution is changed (resize event, swapping between portrait/landscape, debugger opened or onscreen keyboard is displayed), the **whole** DOM is deleted and then the page currently set as active is rendered (meaning **your** content callbacks will be called). This implies that you cannot store any data in DOM, you have to cleverly store it into javascript variables. It also implies that modal windows will be closed and interactive objects can reset their behaviour if coded uncarefully. Also, when `resize` event is triggered (any beforementioned event with the exception of `DisplayPage`), the whole font size cache gets wiped (for obvious reasons).
+
+This approach works... most of the time. Some browsers/devices has quite annoying behaviour - their onscreen keyboard is not rendered atop of anything else, but as a physical part of the viewport. This normally means that clicking an input item will open keyboard, keyboard will trigger resize, resize will delete whole DOM including selected input, and since there is no active input anymore, keyboard will get closed, triggering another resize.
+
+For this reason, there is a global variable `PREVENT_RESIZE`. When set to true, AppJs will still capture all resize event, but will ignore them. Note that **all** HTML elements of type `<input>` created using AppJs has a build in callbacks that will manage `PREVENT_RESIZE` to prevent bug mentioned earlier. If you want to get rid of this behaviour, you need to override their `focus` and `blur` events. On the other hand, if there are other elements you need to sanitize, those two events are a good start.
+
+Note that behaviour of AppJs is weird if resize events are prevented. But whenever this poses a problem, simply drop the `PREVENT_RESIZE` flag and either call `ChangePage` or force resize event to fix it on runtime.
+
+### Detecting display orientation
+
+Since all units in AppJs are by default relative, you might not see how to detect display orientation. However, it is simple. Considering you have your global AppJs object instantiated and called `appx`, it has an attribute `canvas`, which is top level AppJsElement (for whole window) and you can read its attributes `width` and `height` which are in pixels.
+
+So it is possible to write this code:
+
+```js
+function IsWidescreen(appx) {
+    return appx.canvas.width > appx.canvas.height;
+}
+```
 
 ## Writing compact code
 
 TODO: 'static', ID, jsbloat, hints
+
+AppJs was born from the need to create the most minified applications ever. For that purpose, your standard issue minifiers (not even babel) can really do the trick. AppJs employ a couple more tricks that try their best to be as less invasive as possible, but they put an extra requirement on the programmer. It also requires an extra step during compilation with a tool called `jsbloat`.
+
+### 'static';
+
+You should put a string `'static';` in front of every top level function (with the exception of `Main`), prototype function and global variable. It has **no effect** whatsoever on your code when debugging. It is just a plain string that does nothing. But when such code is run through `jsbloat`, it collects all identifiers declared as static and obfuscates their names, shortening them by a great amount (2 bytes per identifier in middle sized applications). There are still some rules - all identifiers of functions will start with letter f, global variables with letter v and prototype methods with letter p.
+
+### ID()
+
+By default, AppJs contains definition for function `ID` which does a single thing: it returns whatever it gets on input. So once again, it has **no effect** on your development. When compiled with `jsbloat`, all occurences of `ID(<string>)`, where `<string>` is a text encapsulated by single quotes, will be collected, strings will be once again obfuscated and minified and calls to ID will be completely replaced with those obfuscated strings. For example code: `var row = parent.AddElem(0, 0, 1, 1, 'div', ID('RowXXX'));` will be replaced with `var row = parent.pA(0, 0, 1, 1, 'div', 'x');' (taking into account transformation with static). Unless you have a really good amount of IDs, obfuscated strings will be 1 or 2 bytes.
+
+### hints
+
+Even though static and ID transformation really help a lot when minifying code, there are many strings that really no tool is able to collect and minify. Like attributes of prototypes. But if you can come up with really unique identifiers (ideally prefix them with $), you can use hints file to instruct jsbloat to obfuscate those as well. Hints file is a simple text file where each line contains a single string to obfuscate and globally replace. Following example showcases hints file for pure AppJs:
+
+```js
+pages
+currentPage
+longestBtnLabel
+longestHeader
+context
+```
 
 ## Compiling app
 
