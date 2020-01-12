@@ -192,6 +192,67 @@ Following example showcases button array - basically the same stuff used in tool
 
 The most important thing about button array is that you need a container object that will be fully filled with buttons. Since buttons have transparent backgrounds, you can style the parent element if you need it to stand out. Note the `$` function used to retrieve dom by ID.
 
+### Inputs
+
+This example shows how to correctly make a checkbox, number input and a select dropdown. The code is a little bit longer, each function shows how to create each element. You need to have some persistent context set up (normally this would be `appx.context` and it would be set up in `Main`, but for the sake of simplicity, there is another global variable).
+
+```js
+'static'; var context = {
+    number: 0,
+    flag: false,
+    option: 0
+};
+
+'static'; function RenderCheckbox(canvas, x, y, w, h, ctxID) {
+    var checkbox = canvas.AddElem(x, y, w, h, 'input');
+    checkbox.dom.type = 'checkbox';
+
+    if (context[ctxID]) checkbox.dom.checked = 'checked';
+
+    checkbox.OnClick(e => {
+        context[ctxID] = !context[ctxID];
+        e.target.blur(); // Should be manually blurred to drop the PREVENT_RESIZE flag
+    });
+}
+
+'static'; function RenderSelect(canvas, x, y, w, h, options, ctxID) {
+    var select = canvas.AddElem(x, y, w, h, 'select');
+    select.AddEventCallback('change', e => {
+        context[ctxID] = parseInt(e.target.selectedIndex);
+    });
+
+    options.forEach((label, i) => {
+        var option = select.AddElem(0, 0, 1, 1,  'option');
+        option.value = i;
+        option.SetText(label);
+
+        if (i == context[ctxID]) option.dom.selected = 'selected';
+    });
+}
+
+'static'; function RenderNumberInput(canvas, x, y, w, h, ctxID) {
+    var input = canvas.AddElem(x, y, w, h, 'input');
+    input.dom.type = 'number';
+    input.dom.value = context[ctxID];
+    input.dom.autocomplete = 'off';
+	
+	// Set callback for updating context
+	input.AddEventCallback('input', e => {
+		if (e.target.validity.valid) {
+			context[ctxID] = e.target.value;
+		}
+	});
+}
+
+'static'; function RenderInputs(canvas) {
+    RenderCheckbox(canvas, 0, 0, 0.25, 0.20, 'flag');
+    RenderSelect(canvas, 0, 0.25, 0.25, 0.20, ["label 1", "label 2", "label 3"], 'option');
+    RenderNumberInput(canvas, 0, 0.50, 0.20, 'number');
+}
+```
+
+You can notice that whenever you change something, you can resize the window or even switch pages and the changes will remain persistent. But of course it sucks that each element has differently named callback to deal with.
+
 [Top](#appjs-core---tutorial)
 
 ## Resizing the window and responsiveness
