@@ -361,7 +361,7 @@ function $(id) {
         callback(CreateContentCanvas(canvas, header, buttons));
     }
     var page = this.pages[this.currentPage];
-    render(appx.canvas, page.$header, page.$callback, page.$buttons);
+    render(this.canvas, page.$header, page.$callback, page.$buttons);
 }
 
 'static'; AppJs.prototype.LocalStorageAvailable = function() {
