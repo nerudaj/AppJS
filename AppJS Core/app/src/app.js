@@ -141,8 +141,8 @@ function $(id) {
     result.dom.style.height = result.height + "px";
 
     if (type == 'input') {
-        result.addEventCallback('focus', () => { PREVENT_RESIZE = true; });
-        result.addEventCallback('blur', () => { setTimeout(() => { PREVENT_RESIZE = false; }, 500); });
+        result.AddEventCallback('focus', () => { PREVENT_RESIZE = true; });
+        result.AddEventCallback('blur', () => { setTimeout(() => { PREVENT_RESIZE = false; }, 500); });
     }
 
     return result;
@@ -179,12 +179,12 @@ function $(id) {
     this.dom.className += ' ' + name;
 }
 
-'static'; AppJsElement.prototype.addEventCallback = function(event, action) {
+'static'; AppJsElement.prototype.AddEventCallback = function(event, action) {
     this.dom.addEventListener(event, action);
 }
 
 'static'; AppJsElement.prototype.OnClick = function(action) {
-    this.addEventCallback('click', action);
+    this.AddEventCallback('click', action);
 }
 
 // =========== //
