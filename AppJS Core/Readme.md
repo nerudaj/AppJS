@@ -305,6 +305,9 @@ currentPage
 longestBtnLabel
 longestHeader
 context
+$header
+$callback
+$buttons
 ```
 
 [Top](#appjs-core---tutorial)
