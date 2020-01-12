@@ -316,10 +316,39 @@ $buttons
 
 ### Prerequisities
 
-TODO: jsbloat, babel-minify, css-minify
+There are three prerequisities for compiling AppJs application. Two of them are distributed via npm:
+
+ * css-minify
+ * babel-minify
+
+And you can install them with following commands:
+
+```
+npm install babel-minify -g
+npm install css-minify -g
+```
+
+Third prerequisity is a binary called `jsbloat` which is part of [dsh suite](https://github.com/nerudaj/dsh/releases/tag/v1.0.0). It works under Windows and Ubuntu. On Windows, prefer the VSx64 release where the binary works out of the box as long as you have up to date Visual C++ Redistributable packages. Put the `jsbloat` binary somewhere where it will be in `%PATH%`.
 
 ### Toolchain
 
-TODO: Commands
+When building a production version of the application, three steps has to be taken: first two will compile the Javascript, third one will minify the CSS. Following commands are for Windows command line, but can be easily adapted for different shells:
+
+```
+rem Navigate to app/src folder. Assuming all your *.js files are here
+jsbloat *.js -H hints.txt
+cmd /c minify concat.min.js -o ..\app.min.js
+del concat.min.js
+cd ..
+
+rem Now we are in app folder and app.min.js is there as well
+rem Minifiying CSS
+mkdir css-dist
+cmd /c css-minify -d . -f app.css
+move css-dist\app.min.css app.min.css
+rmdir css-dist
+```
+
+After executing these commands, the `app` folder will contain two new files: `app.min.js` and `app.min.css`. Now you can run `index.html` and verify that everything works as expected.
 
 [Top](#appjs-core---tutorial)
