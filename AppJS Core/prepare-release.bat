@@ -6,13 +6,10 @@ set appname=AppJS
 rem ## Build src
 echo Phase 1 - Minifying Javascript
 
-rem Delete old minified sources and auxiliary files
-cd app
-del app.min.js src\concat.min.js
-
 rem Source jsbloat PATH
 call C:\tools\doomsh.cmd
 
+cd app
 cd src
 jsbloat *.js -H hints.txt
 cmd /c minify concat.min.js -o ..\app.min.js
@@ -31,5 +28,6 @@ set outdir=..\RELEASE\%appname%-%version%
 
 echo Phase 3 - Building output filesys
 mkdir %outdir%
-robocopy . %outdir% index.html app.min.js app.min.css favicon.ico favicon.png CHANGELOG.txt
+robocopy . %outdir% index.html app.min.js app.min.css CHANGELOG.txt
+del app.min.js app.min.css
 cd ..
