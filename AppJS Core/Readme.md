@@ -328,7 +328,7 @@ npm install babel-minify -g
 npm install css-minify -g
 ```
 
-Third prerequisity is a binary called `jsbloat` which is part of [dsh suite](https://github.com/nerudaj/dsh/releases/tag/v1.0.0). It works under Windows and Ubuntu. On Windows, prefer the VSx64 release where the binary works out of the box as long as you have up to date Visual C++ Redistributable packages. Put the `jsbloat` binary somewhere where it will be in `%PATH%`.
+Third prerequisity is a binary called `jsbloat` which is part of [dsh suite](https://github.com/nerudaj/dsh/releases/tag/v1.0.0). It works under Windows and Ubuntu. ~~On Windows, prefer the VSx64 release where the binary works out of the box as long as you have up to date Visual C++ Redistributable packages.~~ Put the `jsbloat` binary somewhere where it will be in `%PATH%`.
 
 ### Toolchain
 
