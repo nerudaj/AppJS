@@ -1,41 +1,43 @@
-'static'; function RenderTimerSettings() {
-	// Render page template, obtain main canvas reference and draw to it
-	// Buttons are created directly in place of function argument
-	var board = PageTemplate(appx.canvas, TEXT_SETTINGS, [
-		new ButtonTemplate(TEXT_APPLY, () => {
-			appx.toggleView(ENUM('timer'));
+appx.AddPage(
+	ID('PageTimerSettings'),
+	TEXT_SETTINGS,
+	RenderPageTimerSettings,
+	[
+		new AppJsButton(TEXT_APPLY, () => {
+			appx.DisplayPage(ID('PageTimer'));
 		}),
-		new ButtonTemplate(TEXT_BACK, () => {
+		new AppJsButton(TEXT_BACK, () => {
 			appx.rollbackContext(); // All changes were cancelled
-			appx.toggleView(ENUM('timer'));
+			appx.DisplayPage(ID('PageTimer'));
 		})
-	], ID('CacheToolbarSettingsToolbar'));
+	]
+);
 
+'static'; function RenderPageTimerSettings(canvas) {
 	// Draw display
-	var display = board.add(0, 0, TIMER_DISPLAY_WIDTH, TIMER_DISPLAY_HEIGHT, 'div', ID('DisplayInitCountdown'));
-	display.setText('XX:XX', false, GetTimerDisplayFontSize(board));
-	
+	var display = canvas.AddElem(0, 0, 1, TIMER_DISPLAY_HEIGHT, 'div', ID('DisplayInitCountdown'));
+	display.SetText('XX:XX', GetTimerDisplayFontSize(display));
+
 	// Generate buttons out of array of labels
-	var buttons = ["-10", "-5", "-1", "+1", "+5", "+10 "].map( elem => {
-		return new ButtonTemplate(elem, () => {
-			ModifyInitCountdown(parseInt(elem));
-		}); 
-	});
-	RenderButtonArray(board, buttons, 0, TIMER_DISPLAY_HEIGHT, TIMER_DISPLAY_WIDTH, 0.1, ID('timer_settings_buttons'));
-	
+	var buttons = ["-10", "-5", "-1", "+1", "+5", "+10 "].map(
+		elem => new AppJsButton(elem, () => { ModifyInitCountdown(parseInt(elem)); })
+	);
+	var buttonWrapper = canvas.AddElem(0, TIMER_DISPLAY_HEIGHT, 1, 0.1);
+	buttonWrapper.AddButtonArray(buttons, ID('CacheTimerSettingsButtons'));
+
 	// Initialize display - will set text of display
 	ModifyInitCountdown(0);
 }
 
 'static'; function ModifyInitCountdown(amount) {
 	var context = appx.context;
-	
+
 	if (context.$initCountdown + amount <= 0) {
 		context.$initCountdown = 1;
 	}
 	else {
 		context.$initCountdown += amount;
 	}
-	
-	GetDOM(ID('DisplayInitCountdown')).innerHTML = IntToTimeStr(context.$initCountdown);
+
+	$(ID('DisplayInitCountdown')).innerHTML = IntToTimeStr(context.$initCountdown);
 }

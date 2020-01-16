@@ -18,7 +18,6 @@
 'static'; var TEXT_DICE_COUNT = '';
 'static'; var TEXT_PL_COUNT   = '';
 'static'; var TEXT_PL_COLORS  = '';
-'static'; var TEXT_COUNTDOWN  = '';
 'static'; var TEXT_PLAY       = '▷'; // https://stackoverflow.com/a/27053825/6603609
 'static'; var TEXT_PAUSE      = '❘ ❘';
 'static'; var TEXT_STOP       = '◻';
@@ -48,7 +47,6 @@
     TEXT_DICE_COUNT = 'Počet kostek';
     TEXT_PL_COUNT   = 'Počet hráčů';
     TEXT_PL_COLORS  = 'Barvy hráčů';
-    TEXT_COUNTDOWN  = 'Odpočet';
 }
 
 'static'; function SetLanguageEnglish() {
@@ -72,7 +70,6 @@
     TEXT_DICE_COUNT = 'Dice count';
     TEXT_PL_COUNT   = 'Player count';
     TEXT_PL_COLORS  = 'Player colors';
-    TEXT_COUNTDOWN  = 'Countdown';
 }
 
 'static'; function SetLanguageById(id) {

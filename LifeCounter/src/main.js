@@ -1,3 +1,5 @@
+function ENUM(id){return id;}
+
 // The most important global variable
 'static'; var appx = new AppJs();
 

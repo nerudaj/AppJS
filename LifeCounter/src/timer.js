@@ -1,49 +1,52 @@
 'static'; var AudioHandle = null;
-'static'; var TIMER_DISPLAY_WIDTH = 1;
 'static'; var TIMER_DISPLAY_HEIGHT = 0.4;
 
 'static'; function GetTimerDisplayFontSize(canvas) {
-	return ReadFontSizeCache(canvas, TIMER_DISPLAY_WIDTH, TIMER_DISPLAY_HEIGHT, 'XX:XX', ID('CacheTimerDisplay'), 250);
+	return ReadFontSizeCache(canvas, 'XX:XX', ID('CacheTimerDisplay'));
 }
 
-'static'; function RenderTimer() {
-	// Render page template and obtain reference to main drawing board
-	// Craft buttons in place of function argument
-	var board = PageTemplate(appx.canvas, TEXT_COUNTDOWN, [
-		new ButtonTemplate(TEXT_SETTINGS, () => {
+appx.AddPage(
+	ID('PageTimer'),
+	TEXT_TIMER,
+	RenderPageTimer,
+	[
+		new AppJsButton(TEXT_SETTINGS, () => {
 			CountdownControl(ENUM('stop'));
 			appx.backupContext();
-			appx.toggleView(ENUM('timer_settings'));
+			appx.DisplayPage(ID('PageTimerSettings'));
 		}),
-		new ButtonTemplate(TEXT_BACK, () => {
+		new AppJsButton(TEXT_BACK, () => {
 			CountdownControl(ENUM('stop'));
-			appx.toggleView(ENUM('score'));
+			appx.DisplayPage(ID('PageScore'));
 		})
-	], ID('timer'));
+	]
+);
 
-	// Render timer board
+'static'; function RenderPageTimer(canvas) {
+	// Render timer canvas
 	var context = appx.context;
 
 	// Reset countdown value
 	context.$countdown = context.$initCountdown;
 
-	var countdownDisplay = board.add(0, 0, TIMER_DISPLAY_WIDTH, TIMER_DISPLAY_HEIGHT, 'div', ID('CountdownDisplay'));
-	countdownDisplay.setText(IntToTimeStr(context.$initCountdown), false, GetTimerDisplayFontSize(board));
+	var countdownDisplay = canvas.AddElem(0, 0, 1, TIMER_DISPLAY_HEIGHT, 'div', ID('CountdownDisplay'));
+	countdownDisplay.SetText(IntToTimeStr(context.$initCountdown), GetTimerDisplayFontSize(countdownDisplay));
 
 	var buttons = [
-		new ButtonTemplate(TEXT_PLAY, () => {
+		new AppJsButton(TEXT_PLAY, () => {
 			InitAudio();
 			CountdownControl(ENUM('play_pause'));
 		}, ID('DOMTimerPlayButton')),
-		new ButtonTemplate(TEXT_STOP, () => {
+		new AppJsButton(TEXT_STOP, () => {
 			CountdownControl(ENUM('stop'));
 		}),
-		new ButtonTemplate(TEXT_RESTART, () => {
+		new AppJsButton(TEXT_RESTART, () => {
 			CountdownControl(ENUM('stop'));
 			CountdownControl(ENUM('play_pause'));
 		})
 	];
-	RenderButtonArray(board, buttons, 0, TIMER_DISPLAY_HEIGHT, TIMER_DISPLAY_WIDTH, 0.1, ID('timer_buttons'));
+	var buttonWrapper = canvas.AddElem(0, TIMER_DISPLAY_HEIGHT, 1, 0.1);
+	buttonWrapper.AddButtonArray(buttons, ID('CacheTimerButtons'));
 }
 
 'static'; function InitAudio() {
@@ -58,8 +61,8 @@
 
 'static'; function CountdownControl(action) {
 	var context = appx.context;
-	var display = GetDOM(ID('CountdownDisplay'));
-	var playbtn = GetDOM(ID('DOMTimerPlayButton'));
+	var display = $(ID('CountdownDisplay'));
+	var playbtn = $(ID('DOMTimerPlayButton'));
 
 	if (action == ENUM('play_pause')) {
 		if (context.$cntIntHndl != null) { // pause behaviour
