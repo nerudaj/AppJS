@@ -33,7 +33,6 @@ button:active {
 .align_left {
 	padding-left: 10px;
 	justify-content: initial !important;
-	text-align: left;
 }
 
 .header {
@@ -65,6 +64,12 @@ button:active {
 .scrollable {
 	overflow-y: auto;
 	overflow-x: hidden;
+}
+
+.modal {
+	display: flex;
+	align-items: baseline !important;
+	background: #111111;
 }
 
 .nowrap {
