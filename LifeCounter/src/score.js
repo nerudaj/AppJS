@@ -20,7 +20,7 @@ appx.AddPage(
 'static'; function UpdateTimeTracking() {
 	appx.context.$gameTime++;
 
-	if (appx.currentView == ID('score')) {
+	if (appx.currentView == ID('PageScore')) {
 		var display = document.getElementsByClassName("header")[0];
 		display.innerHTML = IntToTimeStr(appx.context.$gameTime, true);
 	}
@@ -72,7 +72,7 @@ appx.AddPage(
 			if (appx.advctx.$useSubscore && ((i) => {
 				var swap = canvas.AddElem((x + 0.45) * ITEM_WIDTH, y * ITEM_HEIGHT, ITEM_WIDTH * 0.1, ITEM_HEIGHT * 0.15, 'button');
 				var fontSize = ReadFontSizeCache(swap, '⇄', ID('CacheScoreAuxSymbol'));
-				swap.SetText('⇄', false, fontSize);
+				swap.SetText('⇄', fontSize);
 				swap.OnClick(() => {
 					var subscore = $(ID('SContainer') + ID('Subscore') + i).style;
 					var score = $(ID('SContainer') + ID('Score') + i).style.display = subscore.display;
@@ -97,7 +97,7 @@ appx.AddPage(
 		var dom = canvas.AddElem(0.75 * ind, 0, 0.25, 1, 'button');
 		fontSize = ReadFontSizeCache(dom, 'XX', ID('CacheScoreDisplay'));
 
-		dom.SetText(str, false, fontSize);
+		dom.SetText(str, fontSize);
 		dom.OnClick(() => {
 			ModifyScore(players, id, parseInt(str + '1'), false, which);
 		});
@@ -113,7 +113,7 @@ appx.AddPage(
 	if (appx.advctx.$useScoreHistory) {
 		var hist = canvas.AddElem(0.45, 0.85, 0.1, 0.15, 'button');
 		var fontSize = ReadFontSizeCache(hist, '⇄', ID('CacheScoreAuxSymbol'));
-		hist.SetText('☰', false, fontSize);
+		hist.SetText('☰', fontSize);
 		hist.OnClick(() => {
 			if(SCORE_TIMEOUT_HANDLE) {
 				clearTimeout(SCORE_TIMEOUT_HANDLE);

@@ -80,5 +80,5 @@
         SetLanguageCzech,
         SetLanguageEnglish,
     ][id]();
-    ClearOptimizationCache();
+    GLOBAL_FONT_SIZE_CACHE = {}; // Clear font size cache
 }
