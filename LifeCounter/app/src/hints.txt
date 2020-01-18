@@ -23,3 +23,9 @@ $apikey
 $useTimeTracking
 $timeTrackingHndl
 $gameTime
+longestBtnLabel
+longestHeader
+$buttons
+$header
+currentPage
+label
