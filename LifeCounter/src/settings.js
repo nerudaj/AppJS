@@ -1,40 +1,31 @@
 'static'; var COLOR_WHEEL = [ 'red', 'lightgreen', 'lightblue', 'yellow', 'pink', 'orange', 'grey', '#f5f5f5' ];
 
-'static'; function RenderSettings() {
-	// Render page template and obtain reference to main drawing board
-	// Craft buttons in place of function argument
-	var board = PageTemplate(appx.canvas, TEXT_SETTINGS, [
-		new ButtonTemplate(TEXT_APPLY, () => {
+appx.AddPage(
+	ID('PageSettings'),
+	TEXT_SETTINGS,
+	RenderPageSettings,
+	[
+		new AppJsButton(TEXT_APPLY, () => {
 			ApplySettings(); // Some post process has to be done
-			appx.toggleView(ENUM('score'));
+			appx.DisplayPage(ID('PageScore'));
 		}),
-		new ButtonTemplate(TEXT_A_SETTINGS, () => {
+		new AppJsButton(TEXT_A_SETTINGS, () => {
 			ApplySettings();
-			appx.toggleView(ENUM('advanced_settings'));
+			appx.DisplayPage(ID('PageAdvancedSettings'));
 		}),
-		new ButtonTemplate(TEXT_BACK, () => {
+		new AppJsButton(TEXT_BACK, () => {
 			appx.rollbackContext();
-			appx.toggleView(ENUM('score'));
+			appx.DisplayPage(ID('PageScore'));
 		})
-	], ID('CacheSettingsToolbar'));
-	
+	]
+);
+
+'static'; function RenderPageSettings(canvas) {
 	// Board will be scrollable
-	board.addClass('scrollable');
-	
-	// Create huge canvas inside, scrolling
-	// plCountSelect + initScore + useSubscore + useHistory + diceCount + ?initSubscore + plCount
-	// But at least 9 rows
-	var rowCount = Math.max(appx.context.$numOfPlayers + appx.advctx.$useSubscore + 3, 9);
-	var content = board.add(0, 0, 1, rowCount / 9); // Single label is always 1/9 of board height
+	canvas.AddClass('scrollable');
 
-	RenderSettingsBoard(content, rowCount);
-}
+	var ROW_HEIGHT = 1 / 10;
 
-// *** TOP level ***
-'static'; function RenderSettingsBoard(canvas, rowCount) {
-	// Prepare variables
-	var LABEL_HEIGHT = 1 / rowCount;
-	
 	// Declare available options (and filter hidden ones)
 	var options = [
 		[(dom, ctx) => { RenderFormSelect(2, 8, dom, ctx); }, // 2 = MinPlayers, 8 = MaxPlayers
@@ -44,68 +35,55 @@
 		[RenderNumericInput,    'input',  '$initScore', TEXT_INIT_SCORE],
 		(appx.advctx.$useSubscore ? [RenderNumericInput, 'input', '$initSubscore', TEXT_INIT_SUBSCR] : null)
 	].filter(i => i);
-	
-	var LABEL_FONT_SIZE = RenderSettingsOptions(canvas, options, rowCount);
-	
-	// Render colors label - must be done differently
+
+	RenderSettingsOptions(canvas, options, ROW_HEIGHT);
+
+	// Render colors label
 	var hskip = options.length;
-	var lcols = canvas.add(0, hskip++ * LABEL_HEIGHT, 1, LABEL_HEIGHT);
-	lcols.dom.style.fontWeight = 'bold';
-	lcols.setText(TEXT_PL_COLORS, false, LABEL_FONT_SIZE);
-	
+	var labelColors = canvas.AddElem(0, hskip++ * ROW_HEIGHT, 1, ROW_HEIGHT);
+	labelColors.dom.style.fontWeight = 'bold';
+	labelColors.SetText(TEXT_PL_COLORS, ReadFontSizeCache(labelColors, TEXT_PL_COUNT, ID('CacheSettingsLabel')));
+
 	// Render color wheel
-	var colorwheel = canvas.add(0, hskip * LABEL_HEIGHT, 1, appx.context.$numOfPlayers * LABEL_HEIGHT);
-	RenderFormPlayerColors(colorwheel);
+	var colorWheel = canvas.AddElem(0, hskip * ROW_HEIGHT, 1, appx.context.$numOfPlayers * ROW_HEIGHT);
+	RenderFormPlayerColors(colorWheel);
 }
 
-'static'; function RenderSettingsOptions(canvas, options, rowCount) {
-	// Prepare variables
-	var LABEL_WIDTH  = 0.6;
-	var LABEL_HEIGHT = 1 / rowCount;
+'static'; function RenderSettingsOptions(canvas, options, LABEL_HEIGHT) {
+	var longestLabel = LongestString(options.map(i => i[3]));
 
-	// Get current cached font size
-	var LABEL_FONT_SIZE = ReadFontSizeCache(
-		canvas,
-		LABEL_WIDTH,
-		LABEL_HEIGHT,
-		TEXT_USE_SCORE_HISTORY,
-		ID('CacheSettingsLabel')
-	);
+	var LABEL_WIDTH = 0.6;
 
-	// And render them
 	options.forEach((input, index) => {
-		var label = canvas.add(0, index * LABEL_HEIGHT, LABEL_WIDTH * 0.9, LABEL_HEIGHT);
-		label.addClass('align_left');
-		label.setText(input[3], false, LABEL_FONT_SIZE);
-		
-		var dom = canvas.add(LABEL_WIDTH, index * LABEL_HEIGHT, 1 - LABEL_WIDTH, LABEL_HEIGHT * 0.9, input[1]);
+		var label = canvas.AddElem(0, index * LABEL_HEIGHT, LABEL_WIDTH * 0.9, LABEL_HEIGHT);
+		var fontSize = ReadFontSizeCache(label, longestLabel, ID('CacheSettingsLabel'));
+		label.AddClass('align_left');
+		label.SetText(input[3], fontSize);
+
+		var dom = canvas.AddElem(LABEL_WIDTH, index * LABEL_HEIGHT, 1 - LABEL_WIDTH, LABEL_HEIGHT * 0.9, input[1]);
 		input[0](dom, input[2]);
 	});
-
-	return LABEL_FONT_SIZE;
 }
 
 // *** Second level ***
 'static'; function RenderFormSelect(min, max, canvas, ctx) {
-	canvas.addEventCallback('change', (event) => {
+	canvas.AddEventCallback('change', (event) => {
 		var d = event.target;
 		appx.context[ctx] = parseInt(d.options[d.selectedIndex].value);
-		ClearOptimizationCache();
-		appx.toggleView(ENUM('settings'));
+		ClearFontSizeCache();
+		appx.DisplayPage(ID('PageSettings'));
 	});
 
-	for (var i = min; i <= max; i++) {
-		(function(p) {
-			// Add option to select
-			var option = canvas.add(0, 0, 1, 1, 'option');
-			option.value = i;
-			option.setText(i, true);
+	for (let i = min; i <= max; i++) {
+		// Add option to select
+		var option = canvas.AddElem(0, 0, 1, 1, 'option');
+		option.value = i;
+		option.SetText(i);
 
-			// Option set in context should be selected
-			if (p == appx.context[ctx]) {
-				option.dom.selected = 'selected';
-			}
-		}(i));
+		// Option set in context should be selected
+		if (i == appx.context[ctx]) {
+			option.dom.selected = 'selected';
+		}
 	}
 }
 
@@ -116,7 +94,7 @@
 	canvas.dom.autocomplete = 'off';
 	
 	// Set callback for updating context
-	canvas.addEventCallback('input', () => {
+	canvas.AddEventCallback('input', () => {
 		if (canvas.dom.validity.valid) {
 			appx.context[ctxitem] = canvas.dom.value;
 		}
@@ -124,25 +102,24 @@
 }
 
 'static'; function RenderFormPlayerColors(canvas) {
-	var COL_WIDTH  = 1 / COLOR_WHEEL.length;
-	var ROW_HEIGHT = 1 / appx.context.$numOfPlayers;
-	
-	for (var i = 0; i < appx.context.$numOfPlayers; i++) {
-		for (var p = 0; p < COLOR_WHEEL.length; p++) {
-			(function(player, color) {
-				var option = canvas.add(color * COL_WIDTH, player * ROW_HEIGHT, COL_WIDTH, ROW_HEIGHT);
-				option.setColor(COLOR_WHEEL[color]);
-				
-				var checked = '';
-				if (appx.context.$colorSetup[player] == color) {
-					checked = 'checked';
-				}
-				
-				option.dom.innerHTML = '<input type="radio" name="' + ID('FormPlayerColor') + player + '" value="' + color + '" ' + checked + '>';
+	var context = appx.context;
 
-				// Add TMP updater event
-				option.onClick(() => { appx.context.$colorSetup[player] = color; });
-			}(i, p));
+	var COL_WIDTH  = 1 / COLOR_WHEEL.length;
+	var ROW_HEIGHT = 1 / context.$numOfPlayers;
+
+	for (let i = 0; i < context.$numOfPlayers; i++) {
+		for (let p = 0; p < COLOR_WHEEL.length; p++) {
+			var option = canvas.AddElem(p * COL_WIDTH, i * ROW_HEIGHT, COL_WIDTH, ROW_HEIGHT);
+			option.SetColor(COLOR_WHEEL[p]);
+			option.OnClick(() => {
+				context.$colorSetup[i] = p;
+			});
+
+			var radio = option.AddElem(0, 0, 1, 1, 'input');
+			radio.dom.name = ID('FormPlayerColor') + i;
+			radio.dom.type = 'radio';
+			radio.dom.checked = context.$colorSetup[i] == p ? 'checked' : '';
+			radio.dom.value = p;
 		}
 	}
 }
