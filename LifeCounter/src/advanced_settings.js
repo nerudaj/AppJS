@@ -1,54 +1,42 @@
-'static'; function RenderAdvancedSettings() {
-	// Render page template and obtain reference to main drawing board
-	// Craft buttons in place of function argument
-	var board = PageTemplate(appx.canvas, TEXT_A_SETTINGS, [
-		new ButtonTemplate(TEXT_BACK, () => {
+appx.AddPage(
+	ID('PageAdvancedSettings'),
+	TEXT_A_SETTINGS,
+	RenderPageAdvancedSettings,
+	[
+		new AppJsButton(TEXT_BACK, () => {
 			ApplyAdvancedSettings();
-			appx.toggleView(ENUM('settings'));
+			appx.DisplayPage(ID('PageSettings'));
 		})
-	], ID('CacheSettingsAdvancedToolbar'));
-	
-	// Board will be scrollable
-	board.addClass('scrollable');
-	
-	// Create huge canvas inside, scrolling
-	// plCountSelect + initScore + useSubscore + useThrowHistory + diceCount + ?initSubscore + plCount
-	// But at least 9 rows
-	var rowCount = Math.max(4, 9);
-	var content = board.add(0, 0, 1, rowCount / 9); // Single label is always 1/9 of board height
+	]
+);
 
-	RenderAdvancedSettingsBoard(content, rowCount);
-}
+'static'; function RenderPageAdvancedSettings(canvas) {
+	canvas.AddClass('scrollable');
 
-'static'; function RenderAdvancedSettingsBoard(canvas, rowCount) {
-	// Declare available options (and filter hidden ones)
+	var ROW_HEIGHT = 1 / 10;
+
 	var options = [
-		[RenderLanguageDropdown, 'select', '$language',    TEXT_LANG],
+		[RenderLanguageDropdown, 'select', '$language',         TEXT_LANG],
 		[RenderCheckboxInput,    'input',  '$useThrowHistory',  TEXT_USE_THROW_HISTORY],
 		[RenderCheckboxInput,    'input',  '$useScoreHistory',  TEXT_USE_SCORE_HISTORY],
-		[RenderCheckboxInput,    'input',  '$useSubscore', TEXT_USE_SUBSCR],
-		[RenderCheckboxInput,    'input',  '$useTimeTracking', TEXT_USE_TIME_TRACK]
-	].filter(i => i);
+		[RenderCheckboxInput,    'input',  '$useSubscore',      TEXT_USE_SUBSCR],
+		[RenderCheckboxInput,    'input',  '$useTimeTracking',  TEXT_USE_TIME_TRACK]
+	];
 	
-	RenderSettingsOptions(canvas, options, rowCount);
+	RenderSettingsOptions(canvas, options, ROW_HEIGHT);
 }
 
 'static'; function RenderLanguageDropdown(canvas, ctx) {
-	var LANGUAGES = [ "Čeština", "English" ];
-
-	canvas.addEventCallback('change', (event) => {
+	canvas.AddEventCallback('change', event => {
 		appx.advctx[ctx] = event.target.selectedIndex;
 		SetLanguageById(appx.advctx[ctx]);
-		appx.toggleView(ENUM('advanced_settings'));
+		appx.DisplayPage(ID('PageAdvancedSettings'));
 	});
 
-	LANGUAGES.forEach((label, index) => {
-		var option = canvas.add(0, 0, 1, 1, 'option');
-		option.setText(label, true);
-
-		if (index == appx.advctx[ctx]) {
-			option.dom.selected = 'selected';
-		}
+	[ "Čeština", "English" ].forEach((label, index) => {
+		var option = canvas.AddElem(0, 0, 1, 1, 'option');
+		option.SetText(label);
+		option.dom.selected = index == appx.advctx[ctx] ? 'selected' : '';
 	});
 }
 
@@ -57,12 +45,12 @@
 	canvas.dom.checked = appx.advctx[ctxitem];
 	
 	// Set callback for updating context
-	canvas.onClick(() => {
+	canvas.OnClick(() => {
 		appx.advctx[ctxitem] = !appx.advctx[ctxitem];
-		appx.toggleView(ENUM('advanced_settings'));
+		appx.DisplayPage(ID('PageAdvancedSettings'));
 	});
 }
 
 'static'; function ApplyAdvancedSettings() {
-	appx.saveToLocalStorage(appx.advctx, LOCAL_STORAGE_ACCESS_KEY);
+	appx.SaveToLocalStorage(appx.advctx, LOCAL_STORAGE_ACCESS_KEY);
 }
