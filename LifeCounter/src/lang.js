@@ -77,5 +77,5 @@
         SetLanguageCzech,
         SetLanguageEnglish,
     ][id]();
-    GLOBAL_FONT_SIZE_CACHE = {}; // Clear font size cache
+    ClearFontSizeCache();
 }

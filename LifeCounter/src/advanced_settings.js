@@ -1,5 +1,3 @@
-'static'; var COLOR_WHEEL = [ 'red', 'lightgreen', 'lightblue', 'yellow', 'pink', 'orange', 'grey', '#f5f5f5' ];
-
 'static'; function RenderAdvancedSettings() {
 	// Render page template and obtain reference to main drawing board
 	// Craft buttons in place of function argument
