@@ -1,13 +1,56 @@
+LifeCounter v4.9.1 changelog:
+ * Fixed broken countdown when resolution had changed
+ * App was migrated to AppJs v2 (smaller size, faster loading)
+
+---
+
+LifeCounter v4.8.6 changelog:
+ * Score history is now displayed on modal instead of system alert
+ * Added chance button for explicitly picking the first player
+ * Added game time tracking (enable in advanced options)
+ * Fixed access to local storage
+ * Fixed broken font sizes on big screens
+ * Changed font apperance
+ * Changed button labels
+ * Changed icon of score history
+ * Countdown tone uses smooth stop to be less annoying
+ * Removed remote control
+
+Known issues:
+ * Countdown will reset if the resolution is changed
+
+---
+
+LifeCounter v4.4.5 changelog:
+ * Display dice throw sum in throw history
+ * Tweak texts
+---
+
+LifeCounter v4.4.3 changelog:
+ * Fixed bad font size with AppID string and timer display
+ * Fixed bad font sizes after number of players or dices was changed
+ * Added advanced options with language selector (English, Czech)
+ * Advanced options are stored through localStorage (if browser supports it)
+ * Added an explicit switch button for swapping score and subscore displays
+ * Added a Readme.md
+ * Added (sub)score history button which can be enabled in advanced settings
+
+---
+
 LifeCounter v4.0.0 changelog:
  * Remote control
  * Throw history is enabled by default
 
+---
+
 LifeCounter v3.0.0
  * Subscores - enable them in settings and then click score display for any player!
- * Up to 8 players
+ * Up to 8 players support
  * Variable dice count - 1 to 6 dices
  * Throw/toss history
  * Sound notification when timer ends
+
+---
 
 LifeCounter v2.0.0
  * 2-6 player support
