@@ -26,11 +26,11 @@ appx.AddPage(
 	// Render timer canvas
 	var context = appx.context;
 
-	// Reset countdown value
-	context.$countdown = context.$initCountdown;
+	// Reset countdown value (if no callback is active)
+	if (!context.$cntIntHndl) context.$countdown = context.$initCountdown;
 
 	var countdownDisplay = canvas.AddElem(0, 0, 1, TIMER_DISPLAY_HEIGHT, 'div', ID('CountdownDisplay'));
-	countdownDisplay.SetText(IntToTimeStr(context.$initCountdown), GetTimerDisplayFontSize(countdownDisplay));
+	countdownDisplay.SetText(IntToTimeStr(context.$countdown), GetTimerDisplayFontSize(countdownDisplay));
 
 	var buttons = [
 		new AppJsButton(TEXT_PLAY, () => {
@@ -61,7 +61,6 @@ appx.AddPage(
 
 'static'; function CountdownControl(action) {
 	var context = appx.context;
-	var display = $(ID('CountdownDisplay'));
 	var playbtn = $(ID('DOMTimerPlayButton'));
 
 	if (action == ENUM('play_pause')) {
@@ -79,6 +78,7 @@ appx.AddPage(
 
 		// When the countdown finishes
 		context.$cntIntHndl = setInterval(() => {
+			var display = $(ID('CountdownDisplay'));
 			display.innerHTML = IntToTimeStr(--context.$countdown);
 
 			if (context.$countdown == 0) {
@@ -97,7 +97,7 @@ appx.AddPage(
 	else if (action == ENUM('stop')) {
 		context.$cntIntHndl = ReallyClearInterval(context.$cntIntHndl);
 		context.$countdown = context.$initCountdown;
-		display.innerHTML = IntToTimeStr(context.$countdown);
+		$(ID('CountdownDisplay')).innerHTML = IntToTimeStr(context.$countdown);
 		playbtn.innerHTML = TEXT_PLAY;
 	}
 	else {
