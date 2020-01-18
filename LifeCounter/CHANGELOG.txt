@@ -1,3 +1,7 @@
+LifeCounter v4.9.1 changelog:
+ * Fixed broken countdown when resolution had changed
+ * App was migrated to AppJs v2 (smaller size, faster loading)
+
 LifeCounter v4.8.6 changelog:
  * Score history is now displayed on modal instead of system alert
  * Added chance button for explicitly picking the first player
