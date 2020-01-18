@@ -29,5 +29,6 @@ set outdir=..\RELEASE\%appname%-%version%
 echo Phase 3 - Building output filesys
 mkdir %outdir%
 robocopy . %outdir% index.html app.min.js app.min.css favicon.ico favicon.png CHANGELOG.txt
+
 del app.min.js app.min.css
 cd ..

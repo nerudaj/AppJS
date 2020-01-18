@@ -1,0 +1,15 @@
+context
+players
+initScore
+numOfPlayers
+colorSetup
+initCountdown
+countdown
+cntIntHndl
+callback
+canvas
+subscore
+useSubscore
+useHistory
+history
+initSubscore

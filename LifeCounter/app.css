@@ -1,0 +1,95 @@
+html, body, button {
+	background: #000000;
+	margin: 0px;
+	padding: 0px;
+	font-family: Segoe UI;
+	overflow: hidden;
+}
+
+div {
+	justify-content: center;
+	align-items: center;
+	display: flex;
+}
+
+button {
+	background: none;
+	padding: 0px;
+	margin: 0px;
+	border: 0px;
+}
+
+button:active {
+	background: white;
+	opacity: 0.5;
+}
+
+#Canvas {
+	position: absolute;
+	top: 0px;
+	left: 0px;
+	z-index: 9999999;
+}
+
+.align_left {
+	padding-left: 10px;
+	justify-content: initial !important;
+	text-align: left;
+}
+
+.score_btn {
+	border-radius: 0px;
+	border: 0px;
+	opacity: 0.5;
+	text-decoration: none;
+}
+
+.score_btn:active {
+	opacity: 0.5;
+	background: white;
+}
+
+.header {
+	background: rgb(31, 31, 31);
+	color: rgb(176, 176, 176);
+}
+
+.content, .content button {
+	background: #000000;
+	color: rgb(245, 245, 245);
+}
+
+.content input, .content select {
+	text-align: center;
+	background: rgb(31, 31, 31);
+	color: rgb(176, 176, 176);
+	border: 1px solid rgb(176, 176, 176);
+}
+
+.toolbar, .toolbar button {
+	background: rgb(31, 31, 31);
+	color: rgb(176, 176, 176);
+}
+
+.button_separator {
+	border-left: 1px solid rgb(176, 176, 176);
+}
+
+.scrollable {
+	overflow-y: auto;
+	overflow-x: hidden;
+}
+
+/* This class adds stroke to text */
+.outline {
+	color: white;
+	text-shadow:
+		-1px -1px 0 #000,  
+		1px -1px 0 #000,
+		-1px 1px 0 #000,
+		1px 1px 0 #000;
+}
+
+.nowrap {
+	white-space: nowrap;
+}
