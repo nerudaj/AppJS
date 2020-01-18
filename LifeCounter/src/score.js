@@ -5,7 +5,7 @@
 
 appx.AddPage(
 	ID('PageScore'),
-	appx.advctx.$useTimeTracking ? IntToTimeStr(appx.context.$gameTime, true) : "",
+	null,
 	RenderPageScore,
 	[
 		new AppJsButton(TEXT_WHO_STARTS, () => { appx.DisplayPage(ID('PageChance')); }),
@@ -20,9 +20,8 @@ appx.AddPage(
 'static'; function UpdateTimeTracking() {
 	appx.context.$gameTime++;
 
-	if (appx.currentView == ID('PageScore')) {
-		var display = document.getElementsByClassName("header")[0];
-		display.innerHTML = IntToTimeStr(appx.context.$gameTime, true);
+	if (appx.currentPage == ID('PageScore')) {
+		$(ID('GameTimeDisplay')).innerHTML = IntToTimeStr(appx.context.$gameTime, true);
 	}
 }
 
@@ -30,6 +29,14 @@ appx.AddPage(
 	canvas.dom.className = "";
 
 	// Bootstrap time tracking
+	if (appx.advctx.$useTimeTracking) {
+		var timer = canvas.AddElem(0, 0, 1, 0.07, 'div', ID('GameTimeDisplay'));
+		timer.SetText(IntToTimeStr(appx.context.$gameTime, true));
+		timer.AddClass('header');
+
+		canvas = canvas.AddElem(0, 0.07, 1, 0.93);
+	}
+
 	/*
 		NOTE: This code cannot be anywhere else. If it is in main, then it is not affected by settings at run-time
 		If it is in settings then it is not affected by start of the application.
