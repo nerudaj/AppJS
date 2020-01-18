@@ -34,7 +34,7 @@ appx.AddPage(
 	// Needs to be recomputed each time this screen is accessed (variable number of dices)
 	var fontSize = ReadFontSizeCache(
 		canvas,
-		LongestString([TEXT_DICE_SIDES[0].repeat(appx.context.$diceCount + 1)].concat(TEXT_COIN_SIDES)),
+		LongestString([TEXT_DICE_SIDES[0].repeat(appx.context.$diceCount + 1)].concat([TEXT_COIN_SIDES[0]])),
 		ID('CacheChanceDisplay')
 	);
 	display.SetText("??", fontSize);
