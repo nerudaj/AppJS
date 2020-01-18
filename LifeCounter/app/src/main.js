@@ -11,7 +11,7 @@ function ENUM(id){return id;}
 	this.context = JSON.parse(JSON.stringify(this.backup));
 }
 
-'static'; var LOCAL_STORAGE_ACCESS_KEY = "LCv4.4.3";
+'static'; var LOCAL_STORAGE_ACCESS_KEY = "LCv4.9.1";
 
 // Setup appx context
 appx.backup = {};
