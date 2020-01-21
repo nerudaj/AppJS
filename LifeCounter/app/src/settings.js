@@ -50,13 +50,11 @@ appx.AddPage(
 }
 
 'static'; function RenderSettingsOptions(canvas, options, LABEL_HEIGHT) {
-	var longestLabel = LongestString(options.map(i => i[3]));
-
-	var LABEL_WIDTH = 0.6;
+	var LABEL_WIDTH = 0.7;
 
 	options.forEach((input, index) => {
 		var label = canvas.AddElem(0, index * LABEL_HEIGHT, LABEL_WIDTH * 0.9, LABEL_HEIGHT);
-		var fontSize = ReadFontSizeCache(label, longestLabel, ID('CacheSettingsLabel'));
+		var fontSize = ReadFontSizeCache(label, "X".repeat(22), ID('CacheSettingsLabel'));
 		label.AddClass('align_left');
 		label.SetText(input[3], fontSize);
 
