@@ -113,7 +113,7 @@ appx.AddPage(
 				context.$colorSetup[i] = p;
 			});
 
-			var radio = option.AddElem(0, 0, 1, 1, 'input');
+			var radio = option.AddElem(1/5, 1/5, 1/5, 1/5, 'input');
 			radio.dom.name = ID('FormPlayerColor') + i;
 			radio.dom.type = 'radio';
 			radio.dom.checked = context.$colorSetup[i] == p ? 'checked' : '';
