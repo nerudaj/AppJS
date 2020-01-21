@@ -39,7 +39,3 @@
 	clearInterval(handle);
 	return null;
 }
-
-'static'; function ClearFontSizeCache() {
-	GLOBAL_FONT_SIZE_CACHE = {};
-}

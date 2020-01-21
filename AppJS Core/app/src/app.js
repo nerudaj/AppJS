@@ -32,6 +32,10 @@ function ID(id) {return id;}
     return GLOBAL_FONT_SIZE_CACHE[cacheID];
 }
 
+'static'; function ClearFontSizeCache() {
+    GLOBAL_FONT_SIZE_CACHE = {};
+}
+
 /**
  *  @brief Get element with given id
  */
@@ -226,7 +230,7 @@ function $(id) {
     window.addEventListener('resize', () => {
         if (PREVENT_RESIZE) return;
 
-        GLOBAL_FONT_SIZE_CACHE = {}; // Clear font size cache
+        ClearFontSizeCache(); // Clear font size cache
         computeLongest();
 
         this.Render();

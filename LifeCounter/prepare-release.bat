@@ -11,7 +11,7 @@ call C:\tools\doomsh.cmd
 
 cd app
 cd src
-jsbloat helper.js lang.js wave.js app.js main.js score.js chance.js timer.js timer_settings.js settings.js advanced_settings.js -H hints.txt
+jsbloat app.js helper.js lang.js wave.js main.js score.js chance.js timer.js timer_settings.js settings.js advanced_settings.js -H hints.txt
 cmd /c minify concat.min.js -o ..\app.min.js
 del concat.min.js
 cd ..
