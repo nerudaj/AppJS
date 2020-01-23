@@ -1,3 +1,9 @@
+LifeCounter vX.X.X changelog:
+ * Fixed broken font sizes in settings
+ * Fixed broken font sizes in toolbar
+ * Fixed too big radio buttons on mobile browsers
+ * Segue UI Light used even on non-Windows devices
+
 LifeCounter v4.9.1 changelog:
  * Fixed broken countdown when resolution had changed
  * App was migrated to AppJs v2 (smaller size, faster loading)

@@ -50,13 +50,11 @@ appx.AddPage(
 }
 
 'static'; function RenderSettingsOptions(canvas, options, LABEL_HEIGHT) {
-	var longestLabel = LongestString(options.map(i => i[3]));
-
-	var LABEL_WIDTH = 0.6;
+	var LABEL_WIDTH = 0.7;
 
 	options.forEach((input, index) => {
 		var label = canvas.AddElem(0, index * LABEL_HEIGHT, LABEL_WIDTH * 0.9, LABEL_HEIGHT);
-		var fontSize = ReadFontSizeCache(label, longestLabel, ID('CacheSettingsLabel'));
+		var fontSize = ReadFontSizeCache(label, "X".repeat(22), ID('CacheSettingsLabel'));
 		label.AddClass('align_left');
 		label.SetText(input[3], fontSize);
 
@@ -115,7 +113,7 @@ appx.AddPage(
 				context.$colorSetup[i] = p;
 			});
 
-			var radio = option.AddElem(0, 0, 1, 1, 'input');
+			var radio = option.AddElem(1/5, 1/5, 1/5, 1/5, 'input');
 			radio.dom.name = ID('FormPlayerColor') + i;
 			radio.dom.type = 'radio';
 			radio.dom.checked = context.$colorSetup[i] == p ? 'checked' : '';

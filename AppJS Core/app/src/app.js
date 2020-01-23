@@ -32,6 +32,10 @@ function ID(id) {return id;}
     return GLOBAL_FONT_SIZE_CACHE[cacheID];
 }
 
+'static'; function ClearFontSizeCache() {
+    GLOBAL_FONT_SIZE_CACHE = {};
+}
+
 /**
  *  @brief Get element with given id
  */
@@ -148,9 +152,15 @@ function $(id) {
     return result;
 }
 
-'static'; AppJsElement.prototype.AddButtonArray = function(buttons, cacheID) {
+'static'; AppJsElement.prototype.AddButtonArray = function(buttons, cacheID, longestLabel = null, maxButtonCnt = 0) {
     var BUTTON_WIDTH = 1 / buttons.length;
-    var longestLabel = LongestString(buttons.map(btn => btn.label));
+    if (longestLabel == null) var longestLabel = LongestString(buttons.map(btn => btn.label));
+
+    // This is only relevant for toolbar buttons
+    if (maxButtonCnt > 0) {
+        var dummy = this.AddElem(0, 0, 1 / maxButtonCnt,1);
+        ReadFontSizeCache(dummy, longestLabel, cacheID);
+    }
 
     buttons.forEach((item, index) => {
         if (!item) return;
@@ -203,22 +213,30 @@ function $(id) {
     this.currentPage = ""; ///< Index to current view
     this.longestHeader = "";
     this.longestBtnLabel = "";
+    this.maxToolbarBtns = 0;
 }
 
 'static'; AppJs.prototype.Bootstrap = function(canvasId) {
     this.canvas.dom = $(canvasId);
-    window.addEventListener('resize', () => {
-        if (PREVENT_RESIZE) return;
 
-        GLOBAL_FONT_SIZE_CACHE = {}; // Clear font size cache
-
+    var computeLongest = () => {
         var flatten = arr => [].concat(...arr); // HOTFIX: Edge does not support Array.prototype.flat
         var rawPages = flatten(Object.entries(this.pages)).filter((p,i) => i % 2 == 1);
         this.longestHeader = LongestString(rawPages.map(i => i.$header).filter(i => i));
         this.longestBtnLabel = LongestString(flatten(rawPages.map(i => i.$buttons)).filter(i => i).map(i => i.label));
+        this.maxToolbarBtns = rawPages.map(i => i.$buttons).map(i => i.length).reduce((a,b) => a > b ? a : b);
+    }
+
+    window.addEventListener('resize', () => {
+        if (PREVENT_RESIZE) return;
+
+        ClearFontSizeCache(); // Clear font size cache
+        computeLongest();
 
         this.Render();
     });
+
+    computeLongest();
 }
 
 /**
@@ -342,7 +360,7 @@ function $(id) {
     var CreateToolbar = (canvas, buttons) => {
         toolbar = canvas.AddElem(0, 1 - TOOLBAR_HEIGHT, 1, TOOLBAR_HEIGHT);
         toolbar.AddClass('toolbar');
-        toolbar.AddButtonArray(buttons, ID('AppJsToolbar'));
+        toolbar.AddButtonArray(buttons, ID('AppJsToolbar'), this.longestBtnLabel, this.maxToolbarBtns);
     };
 
     var CreateContentCanvas = (canvas, hasHeader = true, hasToolbar = true) => {
