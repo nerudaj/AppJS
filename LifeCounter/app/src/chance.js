@@ -1,28 +1,5 @@
 'static'; var LAST_USED_FUNCTION = ThrowDice;
 
-appx.AddPage(
-	ID('PageChance'),
-	TEXT_WHO_STARTS,
-	RenderPageChance,
-	[
-		new AppJsButton(TEXT_THROW_DICE, () => {
-			LAST_USED_FUNCTION = ThrowDice;
-			RandomizationAnimation();
-		}),
-		new AppJsButton(TEXT_TOSS_COIN, () => {
-			LAST_USED_FUNCTION = TossCoin;
-			RandomizationAnimation();
-		}),
-		new AppJsButton(TEXT_WHOLL_START, () => {
-			LAST_USED_FUNCTION = PickFirstPlayer;
-			RandomizationAnimation();
-		}),
-		new AppJsButton(TEXT_BACK, () => {
-			appx.DisplayPage(ID('PageScore'));
-		})
-	]
-);
-
 'static'; function RenderPageChance(canvas) {
 	var HISTORY_HEIGHT = (appx.advctx.$useThrowHistory ? 0.1 : 0);
 	var DISPLAY_HEIGHT = 1 - HISTORY_HEIGHT;

@@ -1,18 +1,3 @@
-appx.AddPage(
-	ID('PageTimerSettings'),
-	TEXT_SETTINGS,
-	RenderPageTimerSettings,
-	[
-		new AppJsButton(TEXT_APPLY, () => {
-			appx.DisplayPage(ID('PageTimer'));
-		}),
-		new AppJsButton(TEXT_BACK, () => {
-			appx.rollbackContext(); // All changes were cancelled
-			appx.DisplayPage(ID('PageTimer'));
-		})
-	]
-);
-
 'static'; function RenderPageTimerSettings(canvas) {
 	// Draw display
 	var display = canvas.AddElem(0, 0, 1, TIMER_DISPLAY_HEIGHT, 'div', ID('DisplayInitCountdown'));
