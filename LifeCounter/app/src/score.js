@@ -3,20 +3,6 @@
 'static'; var SCORE_HISTORY_ID = 0;
 'static'; var SCORE_HISTORY_SLOT = [ '$subscoreHistory', '$scoreHistory' ];
 
-appx.AddPage(
-	ID('PageScore'),
-	null,
-	RenderPageScore,
-	[
-		new AppJsButton(TEXT_WHO_STARTS, () => { appx.DisplayPage(ID('PageChance')); }),
-		new AppJsButton(TEXT_TIMER,	  () => { appx.DisplayPage(ID('PageTimer')); }),
-		new AppJsButton(TEXT_SETTINGS,   () => {
-			appx.backupContext();
-			appx.DisplayPage(ID('PageSettings'));
-		})
-	]
-);
-
 'static'; function UpdateTimeTracking() {
 	appx.context.$gameTime++;
 

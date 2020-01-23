@@ -1,15 +1,3 @@
-appx.AddPage(
-	ID('PageAdvancedSettings'),
-	TEXT_A_SETTINGS,
-	RenderPageAdvancedSettings,
-	[
-		new AppJsButton(TEXT_BACK, () => {
-			ApplyAdvancedSettings();
-			appx.DisplayPage(ID('PageSettings'));
-		})
-	]
-);
-
 'static'; function RenderPageAdvancedSettings(canvas) {
 	canvas.AddClass('scrollable');
 
@@ -22,7 +10,7 @@ appx.AddPage(
 		[RenderCheckboxInput,    'input',  '$useSubscore',      TEXT_USE_SUBSCR],
 		[RenderCheckboxInput,    'input',  '$useTimeTracking',  TEXT_USE_TIME_TRACK]
 	];
-	
+
 	RenderSettingsOptions(canvas, options, ROW_HEIGHT);
 }
 
@@ -30,6 +18,7 @@ appx.AddPage(
 	canvas.AddEventCallback('change', event => {
 		appx.advctx[ctx] = event.target.selectedIndex;
 		SetLanguageById(appx.advctx[ctx]);
+		PrepareApplication();
 		appx.DisplayPage(ID('PageAdvancedSettings'));
 	});
 
@@ -43,7 +32,7 @@ appx.AddPage(
 'static'; function RenderCheckboxInput(canvas, ctxitem) {
 	canvas.dom.type = 'checkbox';
 	canvas.dom.checked = appx.advctx[ctxitem];
-	
+
 	// Set callback for updating context
 	canvas.OnClick(() => {
 		appx.advctx[ctxitem] = !appx.advctx[ctxitem];

@@ -1,25 +1,5 @@
 'static'; var COLOR_WHEEL = [ 'red', 'lightgreen', 'lightblue', 'yellow', 'pink', 'orange', 'grey', '#f5f5f5' ];
 
-appx.AddPage(
-	ID('PageSettings'),
-	TEXT_SETTINGS,
-	RenderPageSettings,
-	[
-		new AppJsButton(TEXT_APPLY, () => {
-			ApplySettings(); // Some post process has to be done
-			appx.DisplayPage(ID('PageScore'));
-		}),
-		new AppJsButton(TEXT_A_SETTINGS, () => {
-			ApplySettings();
-			appx.DisplayPage(ID('PageAdvancedSettings'));
-		}),
-		new AppJsButton(TEXT_BACK, () => {
-			appx.rollbackContext();
-			appx.DisplayPage(ID('PageScore'));
-		})
-	]
-);
-
 'static'; function RenderPageSettings(canvas) {
 	// Board will be scrollable
 	canvas.AddClass('scrollable');
@@ -90,7 +70,7 @@ appx.AddPage(
 	canvas.dom.type = 'number';
 	canvas.dom.value = appx.context[ctxitem];
 	canvas.dom.autocomplete = 'off';
-	
+
 	// Set callback for updating context
 	canvas.AddEventCallback('input', () => {
 		if (canvas.dom.validity.valid) {
@@ -125,10 +105,10 @@ appx.AddPage(
 'static'; function ApplySettings() {
 	var context = appx.context;
 	var players = context.$players;
-	
+
 	while (context.$numOfPlayers < players.length) players.pop();
 	while (context.$numOfPlayers > players.length) players.push(new ClassPlayer());
-	
+
 	for (var i = 0; i < players.length; i++) {
 		players[i].color = COLOR_WHEEL[context.$colorSetup[i]];
 		players[i].score = parseInt(context.$initScore);

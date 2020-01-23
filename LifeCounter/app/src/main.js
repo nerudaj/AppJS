@@ -39,9 +39,116 @@ appx.advctx.$useTimeTracking = false;
 appx.advctx = appx.LoadFromLocalStorage(LOCAL_STORAGE_ACCESS_KEY, appx.advctx);
 SetLanguageById(appx.advctx.$language);
 
+'static'; function PrepareApplication() {
+	appx.pages = {};
+
+	appx.AddPage(
+		ID('PageScore'),
+		null,
+		RenderPageScore,
+		[
+			new AppJsButton(TEXT_WHO_STARTS, () => { appx.DisplayPage(ID('PageChance')); }),
+			new AppJsButton(TEXT_TIMER,      () => { appx.DisplayPage(ID('PageTimer')); }),
+			new AppJsButton(TEXT_SETTINGS,   () => {
+				appx.backupContext();
+				appx.DisplayPage(ID('PageSettings'));
+			})
+		]
+	);
+
+	appx.AddPage(
+		ID('PageChance'),
+		TEXT_WHO_STARTS,
+		RenderPageChance,
+		[
+			new AppJsButton(TEXT_THROW_DICE, () => {
+				LAST_USED_FUNCTION = ThrowDice;
+				RandomizationAnimation();
+			}),
+			new AppJsButton(TEXT_TOSS_COIN, () => {
+				LAST_USED_FUNCTION = TossCoin;
+				RandomizationAnimation();
+			}),
+			new AppJsButton(TEXT_WHOLL_START, () => {
+				LAST_USED_FUNCTION = PickFirstPlayer;
+				RandomizationAnimation();
+			}),
+			new AppJsButton(TEXT_BACK, () => {
+				appx.DisplayPage(ID('PageScore'));
+			})
+		]
+	);
+
+	appx.AddPage(
+		ID('PageTimer'),
+		TEXT_TIMER,
+		RenderPageTimer,
+		[
+			new AppJsButton(TEXT_SETTINGS, () => {
+				CountdownControl(ENUM('stop'));
+				appx.backupContext();
+				appx.DisplayPage(ID('PageTimerSettings'));
+			}),
+			new AppJsButton(TEXT_BACK, () => {
+				CountdownControl(ENUM('stop'));
+				appx.DisplayPage(ID('PageScore'));
+			})
+		]
+	);
+
+	appx.AddPage(
+		ID('PageTimerSettings'),
+		TEXT_SETTINGS,
+		RenderPageTimerSettings,
+		[
+			new AppJsButton(TEXT_APPLY, () => {
+				appx.DisplayPage(ID('PageTimer'));
+			}),
+			new AppJsButton(TEXT_BACK, () => {
+				appx.rollbackContext(); // All changes were cancelled
+				appx.DisplayPage(ID('PageTimer'));
+			})
+		]
+	);
+
+	appx.AddPage(
+		ID('PageSettings'),
+		TEXT_SETTINGS,
+		RenderPageSettings,
+		[
+			new AppJsButton(TEXT_APPLY, () => {
+				ApplySettings(); // Some post process has to be done
+				appx.DisplayPage(ID('PageScore'));
+			}),
+			new AppJsButton(TEXT_A_SETTINGS, () => {
+				ApplySettings();
+				appx.DisplayPage(ID('PageAdvancedSettings'));
+			}),
+			new AppJsButton(TEXT_BACK, () => {
+				appx.rollbackContext();
+				appx.DisplayPage(ID('PageScore'));
+			})
+		]
+	);
+
+	appx.AddPage(
+		ID('PageAdvancedSettings'),
+		TEXT_A_SETTINGS,
+		RenderPageAdvancedSettings,
+		[
+			new AppJsButton(TEXT_BACK, () => {
+				ApplyAdvancedSettings();
+				appx.DisplayPage(ID('PageSettings'));
+			})
+		]
+	);
+
+	appx.Bootstrap('Canvas');
+}
+
 // Main function will bootstrap the App
 function Main() {
-	appx.Bootstrap('Canvas');
+	PrepareApplication();
 
 	// Instantiate players
 	for (var i = 0; i < appx.context.$numOfPlayers; i++) {

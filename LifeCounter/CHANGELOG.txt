@@ -2,7 +2,10 @@ LifeCounter vX.X.X changelog:
  * Fixed broken font sizes in settings
  * Fixed broken font sizes in toolbar
  * Fixed too big radio buttons on mobile browsers
+ * Fixed language swapping (headers and toolbar buttons were not affected by language swap)
  * Segue UI Light used even on non-Windows devices
+
+---
 
 LifeCounter v4.9.1 changelog:
  * Fixed broken countdown when resolution had changed

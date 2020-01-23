@@ -5,23 +5,6 @@
 	return ReadFontSizeCache(canvas, 'XX:XX', ID('CacheTimerDisplay'));
 }
 
-appx.AddPage(
-	ID('PageTimer'),
-	TEXT_TIMER,
-	RenderPageTimer,
-	[
-		new AppJsButton(TEXT_SETTINGS, () => {
-			CountdownControl(ENUM('stop'));
-			appx.backupContext();
-			appx.DisplayPage(ID('PageTimerSettings'));
-		}),
-		new AppJsButton(TEXT_BACK, () => {
-			CountdownControl(ENUM('stop'));
-			appx.DisplayPage(ID('PageScore'));
-		})
-	]
-);
-
 'static'; function RenderPageTimer(canvas) {
 	// Render timer canvas
 	var context = appx.context;
