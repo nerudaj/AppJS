@@ -3,6 +3,10 @@
 'static'; var SCORE_HISTORY_ID = 0;
 'static'; var SCORE_HISTORY_SLOT = [ '$subscoreHistory', '$scoreHistory' ];
 
+'static'; function GameTimeControl(performReset = false) {
+    // TODO: Migrate update time tracking here
+}
+
 'static'; function UpdateTimeTracking() {
 	appx.context.$gameTime++;
 
@@ -19,6 +23,8 @@
 		var timer = canvas.AddElem(0, 0, 1, 0.07, 'div', ID('GameTimeDisplay'));
 		timer.SetText(IntToTimeStr(appx.context.$gameTime, true));
 		timer.AddClass('header');
+
+        // Make subcanvas for display and for buttons
 
 		canvas = canvas.AddElem(0, 0.07, 1, 0.93);
 	}
