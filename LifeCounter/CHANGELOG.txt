@@ -1,4 +1,4 @@
-LifeCounter vX.X.X changelog:
+LifeCounter v4.10.6 changelog:
  * Added buttons for controlling game time tracker
  * Score history enabled by default
  * Fixed broken font sizes in settings
