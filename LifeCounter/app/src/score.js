@@ -3,6 +3,19 @@
 'static'; var SCORE_HISTORY_ID = 0;
 'static'; var SCORE_HISTORY_SLOT = [ '$subscoreHistory', '$scoreHistory' ];
 
+'static'; function GameTimeUpdater(performReset = false) {
+	if (performReset) appx.context.$gameTime = 0;
+	else appx.context.$gameTime++;
+
+	if (appx.currentPage == ID('PageScore')) {
+		$(ID('GameTimeDisplay')).innerHTML = IntToTimeStr(appx.context.$gameTime, true);
+	}
+}
+
+'static'; var GameTimeControl = action => {
+	TimeControl(action, "$timeTrackingHndl", GameTimeUpdater);
+};
+
 'static'; function UpdateTimeTracking() {
 	appx.context.$gameTime++;
 
@@ -16,9 +29,14 @@
 
 	// Bootstrap time tracking
 	if (appx.advctx.$useTimeTracking) {
-		var timer = canvas.AddElem(0, 0, 1, 0.07, 'div', ID('GameTimeDisplay'));
-		timer.SetText(IntToTimeStr(appx.context.$gameTime, true));
-		timer.AddClass('header');
+		var navbar = canvas.AddElem(0, 0, 1, 0.07);
+		navbar.AddClass('toolbar');
+
+		var display = navbar.AddElem(1/3, 0, 1/3, 1, 'div', ID('GameTimeDisplay'));
+		display.SetText(IntToTimeStr(appx.context.$gameTime, true));
+
+		var controls = navbar.AddElem(0, 0, 1/3, 1);
+		controls.AddButtonArray(GetTimeControlButtons(GameTimeControl), ID('CacheGameTimeButtons'));
 
 		canvas = canvas.AddElem(0, 0.07, 1, 0.93);
 	}
@@ -28,13 +46,13 @@
 		If it is in settings then it is not affected by start of the application.
 		It has to be here.
 	*/
-	var context = appx.context;
+	/*var context = appx.context;
 	if (appx.advctx.$useTimeTracking && !context.$timeTrackingHndl) {
 		context.$timeTrackingHndl = setInterval(UpdateTimeTracking, 1000);
 	}
 	else if (!appx.advctx.$useTimeTracking && context.$timeTrackingHndl) {
 		context.$timeTrackingHndl = ReallyClearInterval(context.$timeTrackingHndl);
-	}
+	}*/
 
 	// Rendering itself
 	var playersLength = appx.context.$players.length;
