@@ -1,5 +1,3 @@
-function ENUM(id){return id;}
-
 // The most important global variable
 'static'; var appx = new AppJs();
 
@@ -15,26 +13,30 @@ function ENUM(id){return id;}
 
 // Setup appx context
 appx.backup = {};
-appx.context['$players'] = [];
-appx.context['$initScore'] = 0;
-appx.context['$initSubscore'] = 0;
-appx.context['$numOfPlayers'] = 4;
-appx.context['$colorSetup'] = [ 0, 1, 2, 3, 4, 5, 6, 7 ];
-appx.context['$initCountdown'] = 30; // 30 seconds
-appx.context['$countdown'] = 0;
-appx.context['$cntIntHndl'] = null;
-appx.context['$history'] = "";
-appx.context['$diceCount'] = 3;
-appx.context['$gameTime'] = 0;
-appx.context['$timeTrackingHndl'] = null;
+
+appx.context = {
+	$players : [],
+	$initScore : 0,
+	$initSubscore : 0,
+	$numOfPlayers : 4,
+	$colorSetup : [ 0, 1, 2, 3, 4, 5, 6, 7 ],
+	$initCountdown : 30, // 30 seconds
+	$countdown : 0,
+	$cntIntHndl : null,
+	$history : "",
+	$diceCount : 3,
+	$gameTime : 0,
+	$timeTrackingHndl : null
+};
 
 // Advanced Context = locally stored
-appx.advctx = {};
-appx.advctx.$language = 1;
-appx.advctx.$useSubscore = false;
-appx.advctx.$useThrowHistory = true;
-appx.advctx.$useScoreHistory = false;
-appx.advctx.$useTimeTracking = false;
+appx.advctx = {
+	$language : 1,
+	$useSubscore : false,
+	$useThrowHistory : true,
+	$useScoreHistory : true,
+	$useTimeTracking : false
+};
 
 appx.advctx = appx.LoadFromLocalStorage(LOCAL_STORAGE_ACCESS_KEY, appx.advctx);
 SetLanguageById(appx.advctx.$language);

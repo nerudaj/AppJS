@@ -1,4 +1,6 @@
 LifeCounter vX.X.X changelog:
+ * Added buttons for controlling game time tracker
+ * Score history enabled by default
  * Fixed broken font sizes in settings
  * Fixed broken font sizes in toolbar
  * Fixed too big radio buttons on mobile browsers
