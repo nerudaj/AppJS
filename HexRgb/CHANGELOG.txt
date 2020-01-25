@@ -1,0 +1,2 @@
+HexRgb v1.0.0 changelog:
+ * Initial release
