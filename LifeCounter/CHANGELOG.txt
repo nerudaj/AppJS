@@ -1,3 +1,16 @@
+LifeCounter vX.X.X changelog:
+ * Fixed broken play button of game time tracking when pages are changed
+
+Known issues:
+ * Does not work in Firefox on Android
+
+Known compatibility:
+ * Chrome on Android
+ * Edge
+ * Firefox
+
+---
+
 LifeCounter v4.10.6 changelog:
  * Added buttons for controlling game time tracker
  * Score history enabled by default
