@@ -1,3 +1,8 @@
+LifeCounter vX.X.X changelog:
+ * Fixed failing startup in Firefox for Android
+
+---
+
 LifeCounter v4.10.6 changelog:
  * Added buttons for controlling game time tracker
  * Score history enabled by default
