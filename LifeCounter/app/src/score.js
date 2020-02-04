@@ -12,10 +12,6 @@
 	}
 }
 
-'static'; var GameTimeControl = action => {
-	TimeControl(action, "$timeTrackingHndl", GameTimeUpdater);
-};
-
 'static'; function UpdateTimeTracking() {
 	appx.context.$gameTime++;
 
@@ -36,7 +32,7 @@
 		display.SetText(IntToTimeStr(appx.context.$gameTime, true));
 
 		var controls = navbar.AddElem(0, 0, 1/3, 1);
-		controls.AddButtonArray(GetTimeControlButtons(GameTimeControl), ID('CacheGameTimeButtons'));
+		controls.AddButtonArray(GetTimeControlButtons(GameTimeUpdater, "$timeTrackingHndl"), ID('CacheGameTimeButtons'));
 
 		canvas = canvas.AddElem(0, 0.07, 1, 0.93);
 	}

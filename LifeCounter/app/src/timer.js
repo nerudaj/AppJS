@@ -23,10 +23,6 @@
     }
 }
 
-'static'; var CountdownControl = action => {
-	TimeControl(action, "$cntIntHndl", CountdownUpdater);
-};
-
 'static'; function GetTimerDisplayFontSize(canvas) {
 	return ReadFontSizeCache(canvas, 'XX:XX', ID('CacheTimerDisplay'));
 }
@@ -50,5 +46,5 @@
 	countdownDisplay.SetText(IntToTimeStr(context.$countdown), GetTimerDisplayFontSize(countdownDisplay));
 
 	var buttonWrapper = canvas.AddElem(0, TIMER_DISPLAY_HEIGHT, 1, 0.1);
-	buttonWrapper.AddButtonArray(GetTimeControlButtons(CountdownControl), ID('CacheTimerButtons'));
+	buttonWrapper.AddButtonArray(GetTimeControlButtons(CountdownUpdater, "$cntIntHndl"), ID('CacheTimerButtons'));
 }
