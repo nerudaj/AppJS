@@ -73,9 +73,7 @@
 }
 
 'static'; function SetLanguageById(id) {
-    [
-        SetLanguageCzech,
-        SetLanguageEnglish,
-    ][id]();
+    if (id == 0) SetLanguageCzech();
+    else SetLanguageEnglish();
     ClearFontSizeCache();
 }
