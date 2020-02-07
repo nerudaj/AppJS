@@ -21,18 +21,20 @@ function ENUM(id){return id;}
     }
 }
 
-'static'; function GetTimeControlButtons(controller) {
+'static'; function GetTimeControlButtons(updater, handle) {
+    var controller = action => { TimeControl(action, handle, updater); };
+
     return [
-		new AppJsButton(TEXT_PLAY, () => {
-			InitAudio();
-			controller(ENUM('play_pause'), );
-		}, ID('DOMTimerPlayButton')),
-		new AppJsButton(TEXT_STOP, () => {
-			controller(ENUM('stop'));
-		}),
-		new AppJsButton(TEXT_RESTART, () => {
-			controller(ENUM('stop'));
-			controller(ENUM('play_pause'));
-		})
-	];
+        new AppJsButton(appx.context[handle] ? TEXT_PAUSE : TEXT_PLAY, () => {
+            InitAudio();
+            controller(ENUM('play_pause'));
+        }, ID('DOMTimerPlayButton')),
+        new AppJsButton(TEXT_STOP, () => {
+            controller(ENUM('stop'));
+        }),
+        new AppJsButton(TEXT_RESTART, () => {
+            controller(ENUM('stop'));
+            controller(ENUM('play_pause'));
+        })
+    ];
 }

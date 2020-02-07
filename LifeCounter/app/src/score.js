@@ -17,10 +17,6 @@
     }
 }
 
-'static'; var GameTimeControl = action => {
-    TimeControl(action, "$timeTrackingHndl", GameTimeUpdater);
-};
-
 'static'; function UpdateTimeTracking() {
     appx.context.$gameTime++;
 
@@ -38,7 +34,7 @@
         navbar.AddClass('toolbar');
 
         var controls = navbar.AddElem(0, 0, 1/3, 1);
-        controls.AddButtonArray(GetTimeControlButtons(GameTimeControl), ID('CacheGameTimeButtons'));
+        controls.AddButtonArray(GetTimeControlButtons(GameTimeUpdater, "$timeTrackingHndl"), ID('CacheGameTimeButtons'));
 
         var display = navbar.AddElem(1/3, 0, 1/3, 1, 'div', ID('GameTimeDisplay'));
         var timeStr = IntToTimeStr(appx.context.$gameTime, true);
@@ -51,19 +47,6 @@
 
         canvas = canvas.AddElem(0, 0.07, 1, 0.93);
     }
-
-    /*
-        NOTE: This code cannot be anywhere else. If it is in main, then it is not affected by settings at run-time
-        If it is in settings then it is not affected by start of the application.
-        It has to be here.
-    */
-    /*var context = appx.context;
-    if (appx.advctx.$useTimeTracking && !context.$timeTrackingHndl) {
-        context.$timeTrackingHndl = setInterval(UpdateTimeTracking, 1000);
-    }
-    else if (!appx.advctx.$useTimeTracking && context.$timeTrackingHndl) {
-        context.$timeTrackingHndl = ReallyClearInterval(context.$timeTrackingHndl);
-    }*/
 
     // Rendering itself
     var playersLength = appx.context.$players.length;

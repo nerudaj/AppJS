@@ -87,12 +87,12 @@ SetLanguageById(appx.advctx.$language);
 		RenderPageTimer,
 		[
 			new AppJsButton(TEXT_SETTINGS, () => {
-				CountdownControl(ENUM('stop'));
+				TimeControl(ENUM('stop'), "$cntIntHndl", CountdownUpdater);
 				appx.backupContext();
 				appx.DisplayPage(ID('PageTimerSettings'));
 			}),
 			new AppJsButton(TEXT_BACK, () => {
-				CountdownControl(ENUM('stop'));
+				TimeControl(ENUM('stop'), "$cntIntHndl", CountdownUpdater);
 				appx.DisplayPage(ID('PageScore'));
 			})
 		]
