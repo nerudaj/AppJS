@@ -1,10 +1,10 @@
 LifeCounter vX.X.X changelog:
  * Fixed broken play button of game time tracking when pages are changed
-
-Known issues:
- * Does not work in Firefox on Android
+ * Fixed failing startup in Firefox for Android
+ * After stopping game time, old time is displayed as separate blinking text
 
 Known compatibility:
+ * Firefox on Android
  * Chrome on Android
  * Edge
  * Firefox
