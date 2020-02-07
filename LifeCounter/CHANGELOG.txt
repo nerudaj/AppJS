@@ -1,4 +1,4 @@
-LifeCounter vX.X.X changelog:
+LifeCounter v4.11.2 changelog:
  * Fixed broken play button of game time tracking when pages are changed
  * Fixed failing startup in Firefox for Android
  * After stopping game time, old time is displayed as separate blinking text
