@@ -1,3 +1,8 @@
+LifeCounter vX.X.X changelog:
+ * After stopping game time, old time is displayed as separate blinking text
+
+---
+
 LifeCounter v4.10.6 changelog:
  * Added buttons for controlling game time tracker
  * Score history enabled by default
