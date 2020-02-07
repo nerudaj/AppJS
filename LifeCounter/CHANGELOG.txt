@@ -1,5 +1,6 @@
 LifeCounter vX.X.X changelog:
  * Fixed failing startup in Firefox for Android
+ * After stopping game time, old time is displayed as separate blinking text
 
 ---
 
