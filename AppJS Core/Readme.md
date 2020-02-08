@@ -1,5 +1,28 @@
 # AppJS Core - Tutorial
 
+## Table of contents:
+
+ * [Overview](#overview)
+ * [App architecture](#app-architecture)
+ * [Drawing content](#drawing-content)
+    * [Advanced example](#advanced-example)
+    * [Scrollable content](#scrollable-content)
+    * [Button array example](#button-array-example)
+    * [Inputs](#inputs)
+    * [Modal windows](#modal-windows)
+ * [Resizing the window and responsiveness](#resizing-the-window-and-responsiveness)
+    * [Resize event](#resize-event)
+    * [Detecting display orientation](#detecting-display-orientation)
+ * [Writing compact code](#writing-compact-code)
+    * ['static';](#static)
+    * [ID()](#id)
+    * [hints](#hints)
+ * [Compiling app](#compiling-app)
+    * [Prerequisities](#prerequisities)
+    * [Toolchain](#toolchain)
+
+## Overview
+
 This is a demo application showcasing AppJS API, which can be used as a startup project. To use this as a startup project, simply copy and rename this folder to match your needs. Then, you'll need to edit some stuff in following files:
 
  * `app/index.html` - Find substring `<title>App</title>` and change the title to your liking.
@@ -49,7 +72,13 @@ appx.AddPage(
     RenderMainPageContent,
     [
         new AppJsButton('Open modal', () => {
-            appx.OpenModal('Modal', 'Some text', 0.8, 0.8);
+            appx.OpenModal(
+                'Modal', 
+                c => {
+                    var fontSize = ReadFontSizeCache(0, 0, ID('AppJsModal'));
+                    c.SetText('Some text', fontSize);
+                }, 
+                0.8, 0.8);
         }),
         new AppJsButton('Next Page', () => {
             appx.DisplayPage(ID('PageNext'));
@@ -62,7 +91,7 @@ Second parameter is a text that will be shown in the heading. You can also pass 
 
 Each button is defined by three parameters. First is its label. Second is a function that will get executed when button is clicked. Third (optional, defaults to `null`, not used in the example) will assign ID to the HTML element of the button. Use it whenever you need to change the behaviour of that particular HTML DOM element (line it's `innerHTML` or `onClick` event handler) later on.
 
-Buttons in the example shows two useful commands. First is `appx.OpenModal` which as name suggests, opens a modal window. For now, window only has some _header_ text, some _text_ as its content and has _width_ and _height_. Note that modal window is always centered, is always closable by clicking outside of it and always has a X button in top right corner which closes it as well.
+Buttons in the example shows two useful commands. First is `appx.OpenModal` which as name suggests, opens a modal window. For now, window only has some _header_ text, callback to function which renders some _text_ as its content and has _width_ and _height_. Note that modal window is always centered, is always closable by clicking outside of it and always has a X button in top right corner which closes it as well.
 
 Second useful command is `appx.DisplayPage`. This command will display another page that has been registered with the application. This has some consequences, described in [this section](#resizing-the-window-and-responsiveness).
 
@@ -252,6 +281,10 @@ This example shows how to correctly make a checkbox, number input and a select d
 ```
 
 You can notice that whenever you change something, you can resize the window or even switch pages and the changes will remain persistent. But of course it sucks that each element has differently named callback to deal with.
+
+### Modal windows
+
+An example how to create a modal window was shown before, but one crucial information was ommitted. Second argument of `AppJs::OpenModal` method is a function which accepts `AppJsElement` as an argument. You can then render anything in that element. That element has by default three CSS classes associated to it: `scrollable`, `content` and `modal`. Also note that at the point this function will be called, `AppJs` already precomputed optimal font size for text in that modal and you can read it using: `ReadFontSizeCache(0, 0, ID('AppJsModal'))`. Since it is precomputed, you can throw in anything as first two arguments and the third one is identifier of your modal window (which is `ID('AppJsModal')` by default).
 
 [Top](#appjs-core---tutorial)
 

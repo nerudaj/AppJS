@@ -283,8 +283,8 @@ function $(id) {
  *  Size of the text in the content is governed by the size of the text in heading.
  *  Content is automatically scrollable.
  */
-'static'; AppJs.prototype.OpenModal = function(header, text, w, h, modalID = ID('AppJsModal')) {
-    this.restoreModal = () => { this.OpenModal(header, text, w, h, modalID); };
+'static'; AppJs.prototype.OpenModal = function(header, contentCallback, w, h, modalID = ID('AppJsModal')) {
+    this.restoreModal = () => { this.OpenModal(header, contentCallback, w, h, modalID); };
 
     var modalWrapper = this.canvas.AddElem(0, 0, 1, 1, 'div', modalID);
 	modalWrapper.OnClick(() => { this.CloseModal(modalID); });
@@ -304,7 +304,7 @@ function $(id) {
 
 	var content = modal.AddElem(0, 0.1, 1, 0.9);
 	content.AddClass('scrollable content modal');
-	content.SetText(text, fontSize);
+	contentCallback(content);
 }
 
 /**
