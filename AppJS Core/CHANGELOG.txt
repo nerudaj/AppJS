@@ -1,6 +1,8 @@
 AppJS vX.X.X changelog:
  * Fixed broken font sizes in toolbar
  * Segue UI Light used even on non-Windows devices
+ * CloseModal is now prototype method of AppJs
+ * Modal window is not closed when window is resized
 
 AppJS v2.0.0 changelog:
  * template.js rewritten to be simpler and more versatile and was embedded into app.js
