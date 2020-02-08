@@ -5,7 +5,13 @@ appx.AddPage(
     RenderMainPageContent,
     [
         new AppJsButton('Open modal', () => {
-            appx.OpenModal('Modal', 'Some text', 0.8, 0.8);
+            appx.OpenModal(
+                'Modal', 
+                c => {
+                    var fontSize = ReadFontSizeCache(0, 0, ID('AppJsModal'));
+                    c.SetText('Some text', fontSize);
+                }, 
+                0.8, 0.8);
         }),
         new AppJsButton('Next Page', () => {
             appx.DisplayPage(ID('PageNext'));

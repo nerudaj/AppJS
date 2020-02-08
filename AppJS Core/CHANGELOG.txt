@@ -1,4 +1,9 @@
-AppJS vX.X.X changelog:
+AppJS v2.3.1 changelog:
+ * CloseModal is now prototype method of AppJs
+ * Modal window is not closed when window is resized
+ * OpenModal now accepts callback to content drawer
+
+AppJS v2.1.1 changelog:
  * Fixed broken font sizes in toolbar
  * Segue UI Light used even on non-Windows devices
 

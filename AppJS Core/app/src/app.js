@@ -214,6 +214,7 @@ function $(id) {
     this.longestHeader = "";
     this.longestBtnLabel = "";
     this.maxToolbarBtns = 0;
+    this.restoreModal = () => {};
 }
 
 'static'; AppJs.prototype.Bootstrap = function(canvasId) {
@@ -234,6 +235,7 @@ function $(id) {
         computeLongest();
 
         this.Render();
+        this.restoreModal();
     });
 
     computeLongest();
@@ -281,9 +283,11 @@ function $(id) {
  *  Size of the text in the content is governed by the size of the text in heading.
  *  Content is automatically scrollable.
  */
-'static'; AppJs.prototype.OpenModal = function(header, text, w, h, modalID = ID('AppJsModal')) {
+'static'; AppJs.prototype.OpenModal = function(header, contentCallback, w, h, modalID = ID('AppJsModal')) {
+    this.restoreModal = () => { this.OpenModal(header, contentCallback, w, h, modalID); };
+
     var modalWrapper = this.canvas.AddElem(0, 0, 1, 1, 'div', modalID);
-	modalWrapper.OnClick(() => { CloseModal(modalID); });
+	modalWrapper.OnClick(() => { this.CloseModal(modalID); });
 
 	var modal = modalWrapper.AddElem((1 - w) / 2, (1 - h) / 2, w, h);
 	modal.OnClick(e => e.stopPropagation()); // Clicking into modal will not close the modal
@@ -296,11 +300,11 @@ function $(id) {
 	var close = modal.AddElem(0.9, 0, 0.1, 0.1, 'button');
 	close.SetText('✕', fontSize);
 	close.AddClass('toolbar');
-	close.OnClick(() => { CloseModal(modalID); });
+	close.OnClick(() => { this.CloseModal(modalID); });
 
 	var content = modal.AddElem(0, 0.1, 1, 0.9);
 	content.AddClass('scrollable content modal');
-	content.SetText(text, fontSize);
+	contentCallback(content);
 }
 
 /**
@@ -310,7 +314,8 @@ function $(id) {
  * 
  *  You can use this function to close the modal window programmatically.
  */
-'static'; function CloseModal(modalID = ID('AppJsModal')) {
+'static'; AppJs.prototype.CloseModal = function(modalID = ID('AppJsModal')) {
+    this.restoreModal = () => {};
 	$(modalID).remove();
 }
 
