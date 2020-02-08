@@ -8,7 +8,8 @@
 		[RenderCheckboxInput,    'input',  '$useThrowHistory',  TEXT_USE_THROW_HISTORY],
 		[RenderCheckboxInput,    'input',  '$useScoreHistory',  TEXT_USE_SCORE_HISTORY],
 		[RenderCheckboxInput,    'input',  '$useSubscore',      TEXT_USE_SUBSCR],
-		[RenderCheckboxInput,    'input',  '$useTimeTracking',  TEXT_USE_TIME_TRACK]
+		[RenderCheckboxInput,    'input',  '$useTimeTracking',  TEXT_USE_TIME_TRACK],
+		[RenderCheckboxInput,    'input',  '$useScoreEditor',   TEXT_USE_SCORE_EDIT]
 	];
 
 	RenderSettingsOptions(canvas, options, ROW_HEIGHT);

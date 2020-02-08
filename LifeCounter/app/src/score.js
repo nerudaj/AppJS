@@ -111,6 +111,19 @@
 
     // Create display canvas
     var score = canvas.AddElem(0.25, 0, 0.5, 1, 'div', ID('DOMDisplay') + which + id);
+    
+    if (appx.advctx.$useScoreEditor) {
+        score.OnClick(() => {
+            appx.OpenModal(
+                TEXT_EDIT_SCORE,
+                (canvas, fontSize) => {
+                    RenderScoreEditModal(canvas, fontSize, players, id, which);
+                },
+                0.6, 0.2
+            );
+        });
+    }
+
     score.dom.style.fontSize = fontSize + 'px';
     if (type == ID('Subscore')) score.AddClass('outline'); // Use different font style for subscore
 
@@ -138,6 +151,12 @@
 
     // Can directly index using which
     ModifyScore(players, id, players[id][which], true, which);
+}
+
+'static'; function RenderScoreEditModal(canvas, fontSize, players, id, which) {
+    var input = canvas.AddElem(0.1, 0.1, 0.8, 0.8, 'input');
+    input.dom.type = 'number';
+    input.dom.value = players[id][which];
 }
 
 'static'; function LogScoreHistory() {

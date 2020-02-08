@@ -1,3 +1,4 @@
+'static'; var TEXT_EDIT_SCORE = '';
 'static'; var TEXT_WHO_STARTS = '';
 'static'; var TEXT_THROW_DICE = '';
 'static'; var TEXT_TOSS_COIN  = '';
@@ -15,6 +16,7 @@
 'static'; var TEXT_USE_THROW_HISTORY = '';
 'static'; var TEXT_USE_SCORE_HISTORY = '';
 'static'; var TEXT_USE_TIME_TRACK = '';
+'static'; var TEXT_USE_SCORE_EDIT = '';
 'static'; var TEXT_DICE_COUNT = '';
 'static'; var TEXT_PL_COUNT   = '';
 'static'; var TEXT_PL_COLORS  = '';
@@ -27,6 +29,7 @@
 'static'; var TEXT_DICE_SIDES = ['⚀', '⚁', '⚂', '⚃', '⚄', '⚅'];
 
 'static'; function SetLanguageCzech() {
+    TEXT_EDIT_SCORE = 'Uprav skóre';
     TEXT_WHO_STARTS = 'Náhoda';
     TEXT_THROW_DICE = 'Kostky';
     TEXT_TOSS_COIN  = 'Mince';
@@ -44,12 +47,14 @@
     TEXT_USE_THROW_HISTORY = 'Povolit historii hodů';
     TEXT_USE_SCORE_HISTORY = 'Povolit historii skóre';
     TEXT_USE_TIME_TRACK = 'Povolit sledování času';
+    TEXT_USE_SCORE_EDIT = 'Povolit editaci skóre';
     TEXT_DICE_COUNT = 'Počet kostek';
     TEXT_PL_COUNT   = 'Počet hráčů';
     TEXT_PL_COLORS  = 'Barvy hráčů';
 }
 
 'static'; function SetLanguageEnglish() {
+    TEXT_EDIT_SCORE = 'Edit score';
     TEXT_WHO_STARTS = 'Chance';
     TEXT_THROW_DICE = 'Dice';
     TEXT_TOSS_COIN  = 'Coin';
@@ -67,6 +72,7 @@
     TEXT_USE_THROW_HISTORY = 'Enable throw history';
     TEXT_USE_SCORE_HISTORY = 'Enable score history';
     TEXT_USE_TIME_TRACK = 'Enable time tracking';
+    TEXT_USE_SCORE_EDIT = 'Enable score editing';
     TEXT_DICE_COUNT = 'Dice count';
     TEXT_PL_COUNT   = 'Player count';
     TEXT_PL_COLORS  = 'Player colors';

@@ -9,7 +9,7 @@
 	this.context = JSON.parse(JSON.stringify(this.backup));
 }
 
-'static'; var LOCAL_STORAGE_ACCESS_KEY = "LCv4.9.1";
+'static'; var LOCAL_STORAGE_ACCESS_KEY = "LCv4.11.2";
 
 // Setup appx context
 appx.backup = {};
@@ -35,7 +35,8 @@ appx.advctx = {
 	$useSubscore : false,
 	$useThrowHistory : true,
 	$useScoreHistory : true,
-	$useTimeTracking : false
+	$useTimeTracking : false,
+	$useScoreEditor : true
 };
 
 appx.advctx = appx.LoadFromLocalStorage(LOCAL_STORAGE_ACCESS_KEY, appx.advctx);

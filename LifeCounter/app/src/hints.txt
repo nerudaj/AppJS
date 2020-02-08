@@ -29,3 +29,4 @@ $buttons
 $header
 currentPage
 label
+restoreModal
