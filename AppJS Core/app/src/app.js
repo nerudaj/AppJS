@@ -304,7 +304,7 @@ function $(id) {
 
 	var content = modal.AddElem(0, 0.1, 1, 0.9);
 	content.AddClass('scrollable content modal');
-	contentCallback(content);
+	contentCallback(content, fontSize);
 }
 
 /**

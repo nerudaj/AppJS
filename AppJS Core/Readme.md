@@ -74,10 +74,7 @@ appx.AddPage(
         new AppJsButton('Open modal', () => {
             appx.OpenModal(
                 'Modal', 
-                c => {
-                    var fontSize = ReadFontSizeCache(0, 0, ID('AppJsModal'));
-                    c.SetText('Some text', fontSize);
-                }, 
+                (content, fontSize) => { content.SetText('Some text', fontSize); }, 
                 0.8, 0.8);
         }),
         new AppJsButton('Next Page', () => {
@@ -284,7 +281,7 @@ You can notice that whenever you change something, you can resize the window or 
 
 ### Modal windows
 
-An example how to create a modal window was shown before, but one crucial information was ommitted. Second argument of `AppJs::OpenModal` method is a function which accepts `AppJsElement` as an argument. You can then render anything in that element. That element has by default three CSS classes associated to it: `scrollable`, `content` and `modal`. Also note that at the point this function will be called, `AppJs` already precomputed optimal font size for text in that modal and you can read it using: `ReadFontSizeCache(0, 0, ID('AppJsModal'))`. Since it is precomputed, you can throw in anything as first two arguments and the third one is identifier of your modal window (which is `ID('AppJsModal')` by default).
+An example how to create a modal window was shown before, but one crucial information was ommitted. Second argument of `AppJs::OpenModal` method is a function which accepts `AppJsElement` as an argument. You can then render anything in that element. That element has by default three CSS classes associated to it: `scrollable`, `content` and `modal`. Also note that at the point this function will be called, `AppJs` already precomputed optimal font size and is send to your callback function as a second optional argument.
 
 [Top](#appjs-core---tutorial)
 

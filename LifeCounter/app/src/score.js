@@ -128,8 +128,8 @@
             var modalWidth = appx.canvas.width * 0.9 > 500 ? 500 / appx.canvas.width : 0.9; // Modal window must be max 500px wide or 90% wide
             appx.OpenModal(
                 "Player " + (id + 1) + ' ' + which + ' history:', 
-                content => {
-                    content.SetText(appx.context.$players[id][SCORE_HISTORY_SLOT[which == 'score'? 1 : 0]], ReadFontSizeCache(0, 0, ID('AppJsModal')))
+                (content, fontSize) => {
+                    content.SetText(appx.context.$players[id][SCORE_HISTORY_SLOT[which == 'score'? 1 : 0]], fontSize);
                 }, 
                 modalWidth, 0.8
             );
