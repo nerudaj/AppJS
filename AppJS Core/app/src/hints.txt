@@ -6,3 +6,4 @@ context
 $header
 $callback
 $buttons
+restoreModal
