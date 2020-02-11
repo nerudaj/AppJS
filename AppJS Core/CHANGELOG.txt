@@ -1,3 +1,6 @@
+AppJS v2.X.X changelog:
+ * Modal window has title height fixed to 50px
+
 AppJS v2.3.1 changelog:
  * CloseModal is now prototype method of AppJs
  * Modal window is not closed when window is resized
