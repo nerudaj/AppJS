@@ -27,6 +27,9 @@
 'static'; var TEXT_END        = '--:--';
 'static'; var TEXT_COIN_SIDES = [];
 'static'; var TEXT_DICE_SIDES = ['⚀', '⚁', '⚂', '⚃', '⚄', '⚅'];
+'static'; var TEXT_EDITOR_SET = '';
+'static'; var TEXT_EDITOR_ADD = '';
+'static'; var TEXT_EDITOR_SUB = '';
 
 'static'; function SetLanguageCzech() {
     TEXT_EDIT_SCORE = 'Uprav skóre';
@@ -51,6 +54,9 @@
     TEXT_DICE_COUNT = 'Počet kostek';
     TEXT_PL_COUNT   = 'Počet hráčů';
     TEXT_PL_COLORS  = 'Barvy hráčů';
+    TEXT_EDITOR_SET = 'Nastavit';
+    TEXT_EDITOR_ADD = 'Přičíst';
+    TEXT_EDITOR_SUB = 'Odečíst';
 }
 
 'static'; function SetLanguageEnglish() {
@@ -76,6 +82,9 @@
     TEXT_DICE_COUNT = 'Dice count';
     TEXT_PL_COUNT   = 'Player count';
     TEXT_PL_COLORS  = 'Player colors';
+    TEXT_EDITOR_SET = 'Set';
+    TEXT_EDITOR_ADD = 'Add';
+    TEXT_EDITOR_SUB = 'Substract';
 }
 
 'static'; function SetLanguageById(id) {

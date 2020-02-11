@@ -111,7 +111,12 @@
 
     // Create display canvas
     var score = canvas.AddElem(0.25, 0, 0.5, 1, 'div', ID('DOMDisplay') + which + id);
-    
+    score.dom.style.fontSize = fontSize + 'px';
+    if (type == ID('Subscore')) score.AddClass('outline'); // Use different font style for subscore
+
+    var btnCount = appx.advctx.$useScoreEditor + appx.advctx.$useScoreHistory;
+
+    // Add edit button if score editor is enabled
     if (appx.advctx.$useScoreEditor) {
         score.OnClick(() => {
             appx.OpenModal(
@@ -119,13 +124,10 @@
                 (canvas, fontSize) => {
                     RenderScoreEditModal(canvas, fontSize, players, id, which);
                 },
-                0.6, 0.2
+                0.4, 0.4
             );
         });
     }
-
-    score.dom.style.fontSize = fontSize + 'px';
-    if (type == ID('Subscore')) score.AddClass('outline'); // Use different font style for subscore
 
     // Add a show button if score history is enabled
     if (appx.advctx.$useScoreHistory) {
@@ -154,9 +156,32 @@
 }
 
 'static'; function RenderScoreEditModal(canvas, fontSize, players, id, which) {
-    var input = canvas.AddElem(0.1, 0.1, 0.8, 0.8, 'input');
+    var input = canvas.AddElem(0.1, 0.25, 0.8, 0.25, 'input', ID('EditScoreInput'));
     input.dom.type = 'number';
     input.dom.value = players[id][which];
+    
+    var submitModification = difference => {
+        ModifyScore(players, id, difference, false, which);
+        appx.CloseModal();
+    };
+    
+    var modeButtons = [
+        new AppJsButton(TEXT_EDITOR_SUB, () => {
+            var value = $(ID('EditScoreInput')).value;
+            submitModification(-value);
+        }),
+        new AppJsButton(TEXT_EDITOR_SET, () => {
+            var value = $(ID('EditScoreInput')).value;
+            submitModification(value - players[id][which]);
+        }),
+        new AppJsButton(TEXT_EDITOR_ADD, () => {
+            var value = $(ID('EditScoreInput')).value;
+            submitModification(value);
+        })
+    ];
+    
+    var modeButtonWrapper = canvas.AddElem(0, 0.75, 1, 0.25);
+    modeButtonWrapper.AddButtonArray(modeButtons);
 }
 
 'static'; function LogScoreHistory() {
@@ -167,7 +192,7 @@
 }
 
 'static'; function ModifyScore(players, id, amount, forceAssign, which) {
-    players[id][which] = (forceAssign ? 0 : parseInt(players[id][which])) + amount;
+    players[id][which] = (forceAssign ? 0 : parseInt(players[id][which])) + parseInt(amount);
 
     if (!forceAssign) {
         var hid = (which == 'score' ? 0 : 1) * 10 + id;
