@@ -292,19 +292,22 @@ function $(id) {
 	var modal = modalWrapper.AddElem((1 - w) / 2, (1 - h) / 2, w, h);
 	modal.OnClick(e => e.stopPropagation()); // Clicking into modal will not close the modal
 
-	var title = modal.AddElem(0, 0, 0.9, 0.1);
+    var titleHeight = 50 / modal.height;
+    var closeWidth = 50 / modal.width;
+
+	var title = modal.AddElem(0, 0, 1-closeWidth, titleHeight);
 	var fontSize = ReadFontSizeCache(title, header, modalID);
 	title.SetText(header, fontSize);
 	title.AddClass('header');
 
-	var close = modal.AddElem(0.9, 0, 0.1, 0.1, 'button');
+	var close = modal.AddElem(1-closeWidth, 0, closeWidth, titleHeight, 'button');
 	close.SetText('✕', fontSize);
 	close.AddClass('toolbar');
 	close.OnClick(() => { this.CloseModal(modalID); });
 
-	var content = modal.AddElem(0, 0.1, 1, 0.9);
+	var content = modal.AddElem(0, titleHeight, 1, 1-titleHeight);
 	content.AddClass('scrollable content modal');
-	contentCallback(content);
+	contentCallback(content, fontSize);
 }
 
 /**

@@ -115,6 +115,19 @@
 	score.dom.style.fontSize = fontSize + 'px';
 	if (type == ID('Subscore')) score.AddClass('outline'); // Use different font style for subscore
 
+	// Add edit button if score editor is enabled
+	if (appx.advctx.$useScoreEditor) {
+		score.OnClick(() => {
+			appx.OpenModal(
+				TEXT_EDIT_SCORE + '&nbsp;' + GetPlayerColorAsSymbol(players[id].color),
+				(canvas, fontSize) => {
+					RenderScoreEditModal(canvas, fontSize, players, id, which);
+				},
+				0.4, 0.4
+			);
+		});
+	}
+
 	// Add a show button if score history is enabled
 	if (appx.advctx.$useScoreHistory) {
 		var hist = canvas.AddElem(0.45, 0.85, 0.1, 0.15, 'button');
@@ -127,12 +140,47 @@
 			}
 
 			var modalWidth = appx.canvas.width * 0.9 > 500 ? 500 / appx.canvas.width : 0.9; // Modal window must be max 500px wide or 90% wide
-			appx.OpenModal(GetPlayerColorAsSymbol(players[id].color) + GetPhraseScoreHistory(whichText, appx.advctx.$language), players[id][SCORE_HISTORY_SLOT[which == 'score'? 1 : 0]], modalWidth, 0.8);
+			appx.OpenModal(
+				GetPlayerColorAsSymbol(players[id].color) + GetPhraseScoreHistory(whichText, appx.advctx.$language),
+				(content, fontSize) => {
+					content.SetText(players[id][SCORE_HISTORY_SLOT[which == 'score'? 1 : 0]], fontSize);
+				},
+				modalWidth, 0.8
+			);
 		});
 	}
 
 	// Can directly index using which
 	ModifyScore(players, id, players[id][which], true, which);
+}
+
+'static'; function RenderScoreEditModal(canvas, fontSize, players, id, which) {
+	var input = canvas.AddElem(0.1, 0.25, 0.8, 0.25, 'input', ID('EditScoreInput'));
+	input.dom.type = 'number';
+	input.dom.value = players[id][which];
+
+	var submitModification = difference => {
+		ModifyScore(players, id, difference, false, which);
+		appx.CloseModal();
+	};
+
+	var modeButtons = [
+		new AppJsButton(TEXT_EDITOR_SUB, () => {
+			var value = $(ID('EditScoreInput')).value;
+			submitModification(-value);
+		}),
+		new AppJsButton(TEXT_EDITOR_SET, () => {
+			var value = $(ID('EditScoreInput')).value;
+			submitModification(value - players[id][which]);
+		}),
+		new AppJsButton(TEXT_EDITOR_ADD, () => {
+			var value = $(ID('EditScoreInput')).value;
+			submitModification(value);
+		})
+	];
+
+	var modeButtonWrapper = canvas.AddElem(0, 0.75, 1, 0.25);
+	modeButtonWrapper.AddButtonArray(modeButtons);
 }
 
 'static'; function LogScoreHistory() {
@@ -143,7 +191,7 @@
 }
 
 'static'; function ModifyScore(players, id, amount, forceAssign, which) {
-	players[id][which] = (forceAssign ? 0 : parseInt(players[id][which])) + amount;
+	players[id][which] = (forceAssign ? 0 : parseInt(players[id][which])) + parseInt(amount);
 
 	if (!forceAssign) {
 		var hid = (which == 'score' ? 0 : 1) * 10 + id;
