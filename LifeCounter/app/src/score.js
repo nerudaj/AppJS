@@ -119,7 +119,7 @@
 	if (appx.advctx.$useScoreEditor) {
 		score.OnClick(() => {
 			appx.OpenModal(
-				TEXT_EDIT_SCORE,
+				TEXT_EDIT_SCORE + '&nbsp;' + GetPlayerColorAsSymbol(players[id].color),
 				(canvas, fontSize) => {
 					RenderScoreEditModal(canvas, fontSize, players, id, which);
 				},
