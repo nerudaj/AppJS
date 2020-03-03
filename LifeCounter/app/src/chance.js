@@ -57,7 +57,7 @@
 	var players = appx.context.$players;
 	var firstPlayer = Random(0, players.length);
 
-	var result = "<span style='color:" + players[firstPlayer].color + "'>■</span>";
+	var result = GetPlayerColorAsSymbol(players[firstPlayer].color);
 	$(ID('DOMThrowResultBoard')).innerHTML = result;
 
 	UpdateHistory(result);

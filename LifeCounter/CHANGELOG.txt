@@ -1,3 +1,6 @@
+LifeCounter v4.X.X changelog:
+ * Fixed bad heading of score history modal
+
 LifeCounter v4.11.2 changelog:
  * Fixed broken play button of game time tracking when pages are changed
  * Fixed failing startup in Firefox for Android
