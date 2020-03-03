@@ -1,5 +1,6 @@
 LifeCounter v4.X.X changelog:
- * Added modal window for direct score editing - tap the score when option is enabled in Advanced settings
+ * Added modal window for direct score editing - tap the score when the option is enabled in Advanced settings
+ * Fixed bad heading of score history modal
 
 Known issues:
  * You have to manually prevent your device from dimming the screen/locking itself when using the app

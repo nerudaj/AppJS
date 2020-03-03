@@ -94,6 +94,7 @@
 'static'; function RenderDisplay(id, canvas, type) {
 	// Which display are we rendering
 	var which = (type == ID('Score') ? 'score' : 'subscore'); // Used for indexing into context
+	var whichText = (type == ID('Score') ? TEXT_SCORE : TEXT_SUBSCORE);
 	var players = appx.context.$players;
 
 	// Create -/+ buttons
@@ -140,9 +141,9 @@
 
 			var modalWidth = appx.canvas.width * 0.9 > 500 ? 500 / appx.canvas.width : 0.9; // Modal window must be max 500px wide or 90% wide
 			appx.OpenModal(
-				"Player " + (id + 1) + ' ' + which + ' history:',
+				GetPlayerColorAsSymbol(players[id].color) + GetPhraseScoreHistory(whichText, appx.advctx.$language),
 				(content, fontSize) => {
-					content.SetText(appx.context.$players[id][SCORE_HISTORY_SLOT[which == 'score'? 1 : 0]], fontSize);
+					content.SetText(players[id][SCORE_HISTORY_SLOT[which == 'score'? 1 : 0]], fontSize);
 				},
 				modalWidth, 0.8
 			);

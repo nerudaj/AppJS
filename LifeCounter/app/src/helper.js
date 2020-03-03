@@ -11,6 +11,10 @@
 	this.$subscoreHistory = '';
 }
 
+'static'; function GetPlayerColorAsSymbol(color) {
+	return "<span style='color:" + color + "'>■</span>"
+}
+
 /**
  *  @brief Convert integer time in seconds to string MM:SS reprezentation
  *
