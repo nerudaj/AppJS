@@ -84,6 +84,7 @@
 	TEXT_USE_THROW_HISTORY = 'Enable throw history';
 	TEXT_USE_SCORE_HISTORY = 'Enable ' + TEXT_SCORE + ' history';
 	TEXT_USE_TIME_TRACK = 'Enable time tracking';
+	TEXT_USE_SCORE_EDIT = 'Enable ' + TEXT_SCORE + ' editation';
 	TEXT_DICE_COUNT = 'Dice count';
 	TEXT_PL_COUNT   = 'Player count';
 	TEXT_PL_COLORS  = 'Player colors';

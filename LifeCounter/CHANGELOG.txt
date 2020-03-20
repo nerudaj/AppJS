@@ -1,3 +1,6 @@
+LifeCounter v4.X.X changelog:
+ * Fixed missing label in advanced settings
+
 LifeCounter v4.12.1 changelog:
  * Added modal window for direct score editing - tap the score when the option is enabled in Advanced settings
  * Fixed bad heading of score history modal
