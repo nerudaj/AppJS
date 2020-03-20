@@ -6,7 +6,7 @@ LifeCounter is an app written with AppJS library and demonstrates all of its fea
 
 ## Demo
 
-You can see this app in action on [apps.wz.cz/counter](apps.wz.cz/counter)
+You can see this app in action on [apps.wz.cz/counter](http://apps.wz.cz/counter)
 
 ## Installation
 
