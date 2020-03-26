@@ -1,0 +1,112 @@
+@font-face {
+    font-family: CustomSegoeUI;
+    src:
+        local("Segoe UI Light"),
+        url(//c.s-microsoft.com/static/fonts/segoe-ui/west-european/light/latest.woff2) format("woff2"),
+        url(//c.s-microsoft.com/static/fonts/segoe-ui/west-european/light/latest.woff) format("woff"),
+        url(//c.s-microsoft.com/static/fonts/segoe-ui/west-european/light/latest.ttf) format("truetype");
+    font-weight: 100;
+}
+
+html, body, button {
+	margin: 0px;
+	padding: 0px;
+	font-family: CustomSegoeUI;
+	overflow: hidden;
+}
+
+div {
+	justify-content: center;
+	align-items: center;
+	display: flex;
+}
+
+button {
+	background: none;
+	padding: 0px;
+	margin: 0px;
+	border: 0px;
+}
+
+button:active {
+	background: white;
+	opacity: 0.5;
+}
+
+#Canvas {
+	position: absolute;
+	top: 0px;
+	left: 0px;
+	z-index: 9999999;
+}
+
+.align_left {
+	padding-left: 10px;
+	justify-content: initial !important;
+}
+
+.header {
+	background: rgb(31, 31, 31);
+	color: rgb(176, 176, 176);
+}
+
+.content, .content button {
+	background: #000000;
+	color: rgb(245, 245, 245);
+}
+
+.content input, .content select {
+	text-align: center;
+	background: rgb(31, 31, 31);
+	color: rgb(176, 176, 176);
+	border: 1px solid rgb(176, 176, 176);
+}
+
+.toolbar, .toolbar button {
+	background: rgb(31, 31, 31);
+	color: rgb(176, 176, 176);
+}
+
+.button_separator {
+	border-left: 1px solid rgb(176, 176, 176);
+}
+
+.scrollable {
+	overflow-y: auto;
+	overflow-x: hidden;
+}
+
+.modal {
+	display: flex;
+	align-items: baseline !important;
+	background: #111111;
+}
+
+.nowrap {
+	white-space: nowrap;
+}
+
+.cardRed {
+	background: red;
+	color: black;
+}
+
+.cardBlue {
+	background: blue;
+	color: white;
+}
+
+.cardBystand {
+	background: #BFAA55;
+	color: black;
+}
+
+.cardBlack {
+	background: black;
+	color: white;
+}
+
+.cardNone {
+	background: gray;
+	color: white;
+}
