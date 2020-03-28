@@ -23,7 +23,6 @@ function dec2hex(n){
 
 'static'; function GetFieldViaAjax() {
 	var rand = GenerateRandomString(10);
-	console.log(rand);
 
 	let ajax = appx.context.ajax;
 	ajax.open('GET', 'backend/entry.php?mode=get&gameid=' + appx.context.gameId + '&bypassCache=' + rand, true);
@@ -32,7 +31,6 @@ function dec2hex(n){
 
 'static'; function SetFieldViaAjax(index, value) {
 	var rand = GenerateRandomString(10);
-	console.log(rand);
 
 	let ajax = appx.context.ajax;
 	ajax.open('GET', 'backend/entry.php?mode=set&gameid=' + appx.context.gameId + '&index=' + index + '&value=' + value + '&bypassCache=' + rand, true);

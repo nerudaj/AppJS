@@ -5,7 +5,7 @@
 	}
 	else if (data.status == "set-ok") return;
 
-	appx.context.marked = data.payload;
+	appx.context.game.marked = data.payload;
 	appx.DisplayPage('PageKey');
 	appx.context.fetchHandle = setTimeout(() => { GetFieldViaAjax() }, 3000);
 }
@@ -112,10 +112,14 @@ function GetClassForCard(card) {
 			let item = canvas.AddElem(x * 1/5, y * 1/5, 1/5, 1/5);
 
 			// Only captains see full colors
-			if (guesser) {
+			if (guesser && game.marked[index] == 0) {
 				item.AddClass('cardNone');
 			}
 			else item.AddClass(GetClassForCard(game.key[index]));
+
+			if (online && game.marked[index] == 1) {
+				item.AddClass('hiddenText');
+			}
 
 			// Only render words when full game is in progress
 			if (!appx.context.keyOnly) {
@@ -130,11 +134,11 @@ function GetClassForCard(card) {
 
 					game.marked[index] = 1 - game.marked[index];
 				}
-				else if (!guesser && online) {
+				else if (!guesser && online && game.marked[index] == 0) {
 					game.marked[index] = 1;
 					item.dom.className = GetClassForCard(game.key[index]) + " hiddenText";
 
-					//SetFieldViaAjax(index, game.marked[index]);
+					SetFieldViaAjax(index, game.marked[index]);
 				}
 			});
 		}
@@ -142,6 +146,7 @@ function GetClassForCard(card) {
 }
 
 'static'; function GenerateGame() {
+	console.log("Creating game");
 	SetSeed(ComputeStringHash(appx.context.gameId));
 
 	var starts = Rand() % 2;
