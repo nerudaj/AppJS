@@ -2,7 +2,6 @@
 	let ajax = appx.context.ajax;
 	ajax.onreadystatechange = () => {
 		if (ajax.readyState == 4 && ajax.status == 200) {
-			console.log(ajax.responseText);
 			callback(JSON.parse(ajax.responseText));
 		}
 	}
@@ -29,10 +28,10 @@ function dec2hex(n){
 	ajax.send();
 }
 
-'static'; function SetFieldViaAjax(index, value) {
+'static'; function SetFieldViaAjax(index) {
 	var rand = GenerateRandomString(10);
 
 	let ajax = appx.context.ajax;
-	ajax.open('GET', 'backend/entry.php?mode=set&gameid=' + appx.context.gameId + '&index=' + index + '&value=' + value + '&bypassCache=' + rand, true);
+	ajax.open('GET', 'backend/entry.php?mode=set&gameid=' + appx.context.gameId + '&index=' + index + '&bypassCache=' + rand, true);
 	ajax.send();
 }

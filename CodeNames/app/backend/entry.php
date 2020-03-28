@@ -36,7 +36,6 @@ if ($mode == 'get') {
 	$field = getField($gameId);
 	$response["payload"] = convertNumberToArray($field);
 } elseif ($mode == 'set') {
-	$value = testAndGetParam('value') > 0 ? 1 : 0;
 	$index = testAndGetParam('index');
 	setField($gameId, $index);
 	$response["status"] = "set-ok";

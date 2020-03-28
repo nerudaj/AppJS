@@ -1,2 +1,5 @@
+CodeNames vX.X.X changelog:
+ * Add support for online play
+
 CodeNames v1.0.0 changelog:
  * Initial release
