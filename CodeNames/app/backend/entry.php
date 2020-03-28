@@ -1,28 +1,46 @@
 <?php
 // TODO: require_once('fio.php');
+$response = [
+	"status" => "ok",
+	"payload" => []
+];
 
-function testGetParam($key) {
+function testAndGetParam($key) {
 	if (!isset($_GET[$key])) {
-		echo $key . " GET parameter is not set";
-		exit 1;
+		$response["status"] = "error";
+		$response["payload"] =  $key . " GET parameter is not set";
+		echo json_encode($response);
+		exit(0);
 	}
+
+	return $_GET[$key];
 }
 
-testGetParam('mode');
-testGetParam('gameid');
-$mode = $_GET['mode'];
-$gameId = $_GET['gameid'];
+function convertNumberToArray($num) {
+	$index = 0;
+	$result = [];
+
+	for ($i = 0; $i < 25; $i++) {
+		$result[] = $num & $index > 0 ? 1 : 0;
+		$index *= 2;
+	}
+
+	return $result;
+}
+
+$mode = testAndGetParam('mode');
+$gameId = testAndGetParam('gameid');
 
 if ($mode == 'get') {
 	// TODO: use fio and save result into $field
 	$field = 0;
-	$fieldAsArray = convertNumberToArray($field);
-	echo json_encode($fieldAsArray);
+	$response["payload"] = convertNumberToArray($field);
 } elseif ($mode == 'set') {
-	testGetParam('value');
-	$value = $_GET['value'] > 0 ? 1 : 0;
-
-	// TODO: use fio
-	echo 0;
+	$value = testAndGetParam('value') > 0 ? 1 : 0;
+	$index = testAndGetParam('index');
+	// TODO: use fio to set the value
+	$response["status"] = "set-ok";
 }
+
+echo json_encode($response);
 ?>

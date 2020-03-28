@@ -110,3 +110,7 @@ button:active {
 	background: gray;
 	color: white;
 }
+
+.hiddenText {
+	color: transparent;
+}

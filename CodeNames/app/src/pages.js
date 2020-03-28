@@ -1,3 +1,15 @@
+'static'; function AjaxCallback(data) {
+	if (data.status == "error") {
+		alert(data.payload);
+		return;
+	}
+	else if (data.status == "set-ok") return;
+
+	appx.context.marked = data.payload;
+	appx.DisplayPage('PageKey');
+	appx.context.fetchHandle = setTimeout(() => { GetFieldViaAjax() }, 3000);
+}
+
 /* MAIN PAGE */
 appx.AddPage(
 	ID('PageMain'),
@@ -5,7 +17,14 @@ appx.AddPage(
 	RenderMainPageContent,
 	[
 		new AppJsButton('Hrajem!', () => {
-			appx.context.seedStr = $(ID('InputSeed')).value;
+			appx.context.gameId = $(ID('InputSeed')).value;
+			appx.context.game = GenerateGame();
+
+			if (appx.context.online) {
+				SetAjaxResponseCallback(AjaxCallback);
+				appx.context.fetchHandle = setTimeout(() => { GetFieldViaAjax() }, 3000);
+			}
+
 			appx.DisplayPage(ID('PageKey'));
 		})
 	]
@@ -20,40 +39,44 @@ appx.AddPage(
 	return elem;
 }
 
+'static'; function CreateCheckbox(canvas, x, y, w, h, key) {
+	check = canvas.AddElem(x, y, w, h, 'input');
+	check.dom.type = 'checkbox';
+	check.dom.checked = appx.context[key];
+	check.OnClick(() => {
+		appx.context[key] = check.dom.checked;
+		appx.DisplayPage(appx.currentPage);
+	});
+}
+
 'static'; function RenderMainPageContent(canvas) {
 	const LABEL_WIDTH = 0.8;
-	const LABEL_HEIGHT = 0.2;
+	const LABEL_HEIGHT = 1/6;
 
-	var labels = [ "Pouze klíč", "Jsem hadač", "Jsem kapitán" ];
-	if (appx.context.keyOnly) labels = labels.splice(0, 1);
-	labels.forEach((label, index) => {
-		var labelElem = canvas.AddElem(0, index * LABEL_HEIGHT, LABEL_WIDTH, LABEL_HEIGHT);
-		labelElem.SetText(label);
-		labelElem.AddClass('align_left');
+	var radioCallback = () => {
+		appx.context.roleGuesser = document.getElementsByName("WhoAmi")[0].checked;
+	};
+
+	var rows = [
+		["Pouze klíč", (c, x, y, w, h) => { CreateCheckbox(c, x, y, w, h, 'keyOnly'); }],
+		["Online mód", (c, x, y, w, h) => { CreateCheckbox(c, x, y, w, h, 'online'); }],
+		["Jsem hadač", (c, x, y, w, h) => { CreateRadio(c, x, y, w, h, 'WhoAmi', appx.context.roleGuesser, radioCallback); }],
+		["Jsem kapitán", (c, x, y, w, h) => { CreateRadio(c, x, y, w, h, 'WhoAmi', !appx.context.roleGuesser, radioCallback); }],
+	];
+	if (appx.context.keyOnly) rows = rows.splice(0, 1);
+
+	rows.forEach((row, index) => {
+		var label = canvas.AddElem(0, LABEL_HEIGHT * index, LABEL_WIDTH, LABEL_HEIGHT);
+		label.SetText(row[0]);
+		label.AddClass('align_left');
+		row[1](canvas, LABEL_WIDTH, LABEL_HEIGHT * index, 1 - LABEL_WIDTH, LABEL_HEIGHT);
 	});
-
-	var keyOnlyCheck = canvas.AddElem(LABEL_WIDTH, 0, 1-LABEL_WIDTH, LABEL_HEIGHT, 'input', ID('InputKeyOnly'));
-	keyOnlyCheck.dom.type = 'checkbox';
-	keyOnlyCheck.dom.checked = appx.context.keyOnly;
-	keyOnlyCheck.OnClick(() => {
-		appx.context.keyOnly = $(ID('InputKeyOnly')).checked;
-		appx.DisplayPage(ID('PageMain'));
-	});
-
-	if (!appx.context.keyOnly) {
-		var radioCallback = () => {
-			appx.context.roleGuesser = document.getElementsByName("WhoAmi")[0].checked;
-		};
-
-		CreateRadio(canvas, LABEL_WIDTH, LABEL_HEIGHT, 1-LABEL_WIDTH, LABEL_HEIGHT, 'WhoAmi', appx.context.roleGuesser, radioCallback);
-		CreateRadio(canvas, LABEL_WIDTH, 2 * LABEL_HEIGHT, 1-LABEL_WIDTH, LABEL_HEIGHT, 'WhoAmi', !appx.context.roleGuesser, radioCallback);
-	}
 
 
 	var input = canvas.AddElem(0.1, 0.7, 0.8, 0.2, 'input', ID('InputSeed'));
 	input.dom.type = 'text';
 	input.dom.placeholder = 'Zadej ID hry';
-	input.dom.value = appx.context.seedStr;
+	input.dom.value = appx.context.gameId;
 }
 
 /* ANOTHER PAGE */
@@ -64,6 +87,10 @@ appx.AddPage(
 	[
 		new AppJsButton('Zpět', () => {
 			appx.DisplayPage(ID('PageMain'));
+
+			if (appx.context.online) {
+				clearTimeout(appx.context.fetchHandle);
+			}
 		})
 	]
 );
@@ -75,56 +102,78 @@ function GetClassForCard(card) {
 	return 'cardBlack';
 }
 
-'static'; function RenderWords(canvas) {
-	SetSeed(ComputeStringHash(appx.context.seedStr));
-
-	var starts = Rand() % 2;
-	$("WhoStarts").innerHTML = starts == 0 ? "Začínají červení" : "Začínají modří";
-	var items = [ starts, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 2, 2, 2, 2, 2, 2, 2, 3 ];
-	items = ShuffleArray(items);
-	var words = ShuffleArray(WORDS);
+'static'; function RenderWords(canvas, game) {
+	let guesser = appx.context.roleGuesser;
+	let online = appx.context.online;
 
 	for (let y = 0; y < 5; y++) {
-		for (let x = 0; x < 5; x++) { (function (x, y) {
-			var index = y * 5 + x;
-			var item = canvas.AddElem(x * 1/5, y * 1/5, 1/5, 1/5);
+		for (let x = 0; x < 5; x++) {
+			let index = y * 5 + x;
+			let item = canvas.AddElem(x * 1/5, y * 1/5, 1/5, 1/5);
 
-			if (appx.context.roleGuesser) {
+			// Only captains see full colors
+			if (guesser) {
 				item.AddClass('cardNone');
-				item.OnClick(() => {
-					if (item.dom.className == " cardNone") {
-						item.dom.className = GetClassForCard(
-							appx.context.pickedColor
-						);
-					} else {
-						item.dom.className = " cardNone";
-					}
-				});
 			}
-			else item.AddClass(GetClassForCard(items[index]));
+			else item.AddClass(GetClassForCard(game.key[index]));
 
-
+			// Only render words when full game is in progress
 			if (!appx.context.keyOnly) {
-				item.SetText(words[index]);
+				item.SetText(game.words[index]);
 			}
-		})(x, y);}
+
+			item.OnClick(() => {
+				if (guesser && !online) {
+					item.dom.className = (game.marked[index] == 0) ?
+						GetClassForCard(appx.context.pickedColor) + ' hiddenText':
+						'cardNone';
+
+					game.marked[index] = 1 - game.marked[index];
+				}
+				else if (!guesser && online) {
+					game.marked[index] = 1;
+					item.dom.className = GetClassForCard(game.key[index]) + " hiddenText";
+
+					//SetFieldViaAjax(index, game.marked[index]);
+				}
+			});
+		}
 	}
 }
 
-'static'; function RenderPageKeyContent(canvas) {
-	var wordCanvas = canvas.AddElem(0, 0, 1, 0.9);
-	RenderWords(appx.context.roleGuesser ? wordCanvas : canvas);
+'static'; function GenerateGame() {
+	SetSeed(ComputeStringHash(appx.context.gameId));
 
-	if (appx.context.roleGuesser) {
+	var starts = Rand() % 2;
+
+	let game = {
+		"starts" : starts,
+		"key": ShuffleArray([ starts, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 2, 2, 2, 2, 2, 2, 2, 3 ]),
+		"words" : ShuffleArray(WORDS).splice(0, 25),
+		"marked" : [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+	};
+
+	return game;
+}
+
+'static'; function RenderPageKeyContent(canvas) {
+	let game = appx.context.game;
+	$("WhoStarts").innerHTML = game.starts == 0 ? "Začínají červení" : "Začínají modří";
+
+	if (appx.context.roleGuesser && !appx.context.online) {
 		var colorPicker = canvas.AddElem(0, 0.9, 1, 0.1);
 
-		for (var i = 0; i < 4; i++) { (function(i) {
+		for (let i = 0; i < 4; i++) {
 			var btnBgr = colorPicker.AddElem(i * 1/4, 0, 1/4, 1);
 			btnBgr.AddClass(GetClassForCard(i));
 
 			var btn = CreateRadio(colorPicker, i * 1/4, 0, 1/4, 1, 'ColorPicker', appx.context.pickedColor == i, () => {
 				appx.context.pickedColor = i;
 			});
-		})(i); }
+		}
+
+		canvas = canvas.AddElem(0, 0, 1, 0.9);
 	}
+
+	RenderWords(canvas, game);
 }
