@@ -1,18 +1,25 @@
 <?php
+/** Terminology:
+ *  Field           - 32-bit integer representation of the game state
+ *  Game            - a stored instance of a field
+ *  Started game    - a game whose field is != CN_FIELD_EMPTY
+ *                    (A started game with no card flipped can be indicated by setting one of the unused bits (26th LSB suggested))
+ *  Active game     - a started game which is younger than CN_MIN_TIME_TO_DELETE (age is measured from the last field change)
+ *  Inactive game   - a game whose field is == CN_FIELD_EMPTY or a started game older than CN_MIN_TIME_TO_DELETE
+ *  Old game        - a game that is older than CN_MAX_TIME_TO_DELETE
+ */
+
 define("CN_MAX_FILES",  20); //max files in directory (not used yet)
 define("CN_MAX_ACTIVE_GAMES", 10); //max concurrent games
-define("CN_MIN_TIME_TO_DELETE", 60*45);  //time after which an active game can be deleted
-    // Active game is a game that has the field state != CN_FIELD_EMPTY
-    // (i.e. an empty board, but you can set some unused bit (except MSB) to indicate an active game)
+define("CN_MIN_TIME_TO_DELETE", 60*45);  //time after which a started game can be deleted
 define("CN_MAX_TIME_TO_DELETE", 60*60*24); //time after a file will be deleted
-define("CN_FILE_PATH", "games");
+define("CN_FILE_PATH", "games"); // path to the folder with stored games
 
 // field state defines
-define("CN_FIELD_EMPTY", 0x00000000);
-define("CN_FIELD_FULL", 0x01FFFFFF);
-define("CN_FIELD_ERR_CANNOT_CREATE", 0x80000000);
-define("CN_FIELD_ERR_NOT_FOUND", 0x40000000);
-
+define("CN_FIELD_EMPTY", 0x00000000); // no bit set
+define("CN_FIELD_FULL", 0x01FFFFFF); // lower 25 bits set
+define("CN_FIELD_ERR_CANNOT_CREATE", 0x80000000); // first MSB set
+define("CN_FIELD_ERR_NOT_FOUND", 0x40000000); // second MSB set
 
 /**
  * Returns value with bit at index set to 1
@@ -48,37 +55,48 @@ function deleteFiles($list) {
     }
 }
 
+/** 
+ * Fills the provided arrays with paths to stored games
+ * 
+ * @param array &$old_games will contain paths to games that are older than defined
+ * @param array &$active_games will contain paths to games that are active
+ * @param array &$inactive_games will contain paths to games that are inactive
+ * @param array &$inactive_times will contain integer timestamps of games in &$inactive_games
+ */
+function getGames(&$old_games, &$active_games, &$inactive_games, &$inactive_times){
+    if (!is_dir(CN_FILE_PATH)) {
+        mkdir(CN_FILE_PATH);
+    }
+    $files = scandir(CN_FILE_PATH);
+    $count_files = count($files) - 2;
+    $now = time();
+    for ($i = 2; $i<$count_files + 2; $i++) {
+        $filename = CN_FILE_PATH."/".$files[$i];
+        $filetime = filemtime($filename);
+        $age = $now - $filetime;
+        if ($age > CN_MAX_TIME_TO_DELETE) {
+            $old_games[] = $filename;
+        } elseif ($age > CN_MIN_TIME_TO_DELETE or file_get_contents($filename) != CN_FIELD_EMPTY) {
+            $inactive_games[] = $filename;
+            $inactive_times[] = $filetime;
+        } else {
+            $active_games[] = $filename;
+        }
+    }
+}
+
 /**
  * Return true if new game field can be created else return false
  * 
  * @return boolean true if new game can be created, else false
  */
 function checkFolder() {
-    $files = scandir(CN_FILE_PATH);
-    $count_files = count($files) - 2;
-    $now = time();
     $old_games = array();
     $inactive_games = array();
     $inactive_times = array();
-    $active_games = array();
+    $active_games = array(); 
 
-    for ($i = 2; $i<$count_files + 2; $i++) {
-        $filename = CN_FILE_PATH."/".$files[$i];
-        $filetime = filemtime($filename);
-        $age = $now - $filetime;
-        if ($age > CN_MAX_TIME_TO_DELETE) {
-            // older than 24 hours
-            $old_games[] = $filename;
-        } elseif ($age > CN_MIN_TIME_TO_DELETE or !file_get_contents($filename)) {
-            // older than 45 mins or not a single card flipped
-            $inactive_games[] = $filename;
-            $inactive_times[] = $filetime;
-        } else {
-            // younger than 45 min with some card flipped
-            $active_games[] = $filename;
-        }
-    }
-
+    getGames($old_games, $active_games, $inactive_games, $inactive_times);
     deleteFiles($old_games);
 
     $count_active = count($active_games);
@@ -88,12 +106,10 @@ function checkFolder() {
 
     // delete all inactive games until there is less than max games
     while ($count_active + count($inactive_times) >= CN_MAX_ACTIVE_GAMES) {
-        //delete oldest inactive game
         $oldest_inactive_index = array_search(min($inactive_times), $inactive_times);
         unlink($inactive_games[$oldest_inactive_index]); // delete from disk
         unset($inactive_times[$oldest_inactive_index]); // remove date from array
     }
-
     return True;
 }
 
