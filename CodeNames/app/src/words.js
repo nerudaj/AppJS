@@ -288,7 +288,7 @@ var WORDS = [
     "výjimka",
     "výnos",
     "výr",
-    "yáplava",
+    "záplava",
     "žába",
     "zácpa",
     "zajetí",
@@ -298,5 +298,5 @@ var WORDS = [
     "želva",
     "znělka",
     "zuby",
-    "žurnál"
+    "žumpa"
 ];
