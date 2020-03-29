@@ -28,6 +28,7 @@
 		for (let x = 0; x < 5; x++) {
 			let index = y * 5 + x;
 			let item = canvas.AddElem(x * 1/5, y * 1/5, 1/5, 1/5);
+			item.dom.style.border = 'solid 1px black';
 
 			// Only captains see full colors
 			if (guesser && game.marked[index] == 0) {

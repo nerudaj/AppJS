@@ -19,6 +19,7 @@ div {
 	justify-content: center;
 	align-items: center;
 	display: flex;
+	box-sizing: border-box;
 }
 
 button {
