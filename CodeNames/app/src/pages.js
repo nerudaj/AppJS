@@ -3,7 +3,6 @@ function AjaxCallback(data) {
 		alert(data.payload);
 		return;
 	}
-	else if (data.status == "set-ok") return;
 
 	appx.context.game.marked = data.payload;
 	appx.DisplayPage(ID('PageGame'));
@@ -17,6 +16,7 @@ appx.AddPage(
 	RenderMainPageContent,
 	[
 		new AppJsButton('Hrajem!', () => {
+			ClearFontSizeCache(); // To prevent bugs related to word rendering
 			appx.context.gameId = $(ID('InputSeed')).value;
 			appx.context.game = GenerateGame();
 

@@ -81,6 +81,7 @@
 					game.marked[index] = 1;
 					item.dom.className = GetClassForCard(game.key[index]) + " hiddenText";
 
+					clearTimeout(appx.context.fetchHandle);
 					SetFieldViaAjax(index);
 				}
 			});
