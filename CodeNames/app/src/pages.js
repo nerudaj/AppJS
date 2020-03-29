@@ -17,6 +17,7 @@ appx.AddPage(
 	RenderMainPageContent,
 	[
 		new AppJsButton('Hrajem!', () => {
+			ClearFontSizeCache(); // To prevent bugs related to word rendering
 			appx.context.gameId = $(ID('InputSeed')).value;
 			appx.context.game = GenerateGame();
 
