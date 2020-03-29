@@ -2,6 +2,7 @@
 	let ajax = appx.context.ajax;
 	ajax.onreadystatechange = () => {
 		if (ajax.readyState == 4 && ajax.status == 200) {
+			console.log(ajax.responseText);
 			callback(JSON.parse(ajax.responseText));
 		}
 	}

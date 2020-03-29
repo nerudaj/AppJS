@@ -26,6 +26,20 @@ appx.AddPage(
 			}
 
 			appx.DisplayPage(ID('PageGame'));
+		}),
+		new AppJsButton('Nastavení', () => {
+			appx.DisplayPage(ID('PageSettings'));
+		})
+	]
+);
+
+appx.AddPage(
+	ID('PageSettings'),
+	"Nastavení",
+	RenderPageSettingsContent,
+	[
+		new AppJsButton('Zpět', () => {
+			appx.DisplayPage(ID('PageMain'));
 		})
 	]
 );

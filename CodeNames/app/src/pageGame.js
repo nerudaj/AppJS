@@ -2,7 +2,7 @@
 	let game = appx.context.game;
 	$("WhoStarts").innerHTML = GetPageHeaderText(game);
 
-	if (appx.context.roleGuesser && !appx.context.online) {
+	if (!appx.context.roleCaption && !appx.context.online) {
 		var colorPicker = canvas.AddElem(0, 0.9, 1, 0.1);
 
 		for (let i = 0; i < 4; i++) {
@@ -42,14 +42,17 @@
 }
 
 'static'; function RenderWords(canvas, game) {
-	let guesser = appx.context.roleGuesser;
+	let guesser = !appx.context.roleCaptain && !appx.context.keyOnly;
 	let online = appx.context.online;
+
+	let longest = LongestString(game.words);
 
 	for (let y = 0; y < 5; y++) {
 		for (let x = 0; x < 5; x++) {
 			let index = y * 5 + x;
 			let item = canvas.AddElem(x * 1/5, y * 1/5, 1/5, 1/5);
 			item.dom.style.border = 'solid 1px black';
+			let fontSize = appx.context.dynamicFonts ? 0 : ReadFontSizeCache(item, longest, 'CacheWord');
 
 			// Only captains see full colors
 			if (guesser && game.marked[index] == 0) {
@@ -63,7 +66,7 @@
 
 			// Only render words when full game is in progress
 			if (!appx.context.keyOnly) {
-				item.SetText(game.words[index]);
+				item.SetText(game.words[index], fontSize);
 			}
 
 			item.OnClick(() => {
