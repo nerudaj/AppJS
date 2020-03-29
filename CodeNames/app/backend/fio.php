@@ -128,7 +128,7 @@ function checkFolder() {
 }
 
 function getFilenameFromGameId($gameId) {
-	return GAME_FILES_PATH . "/" . $gameid . ".txt";
+	return GAME_FILES_PATH . "/" . $gameId . ".txt";
 }
 
 function loadGameField($filename) {
