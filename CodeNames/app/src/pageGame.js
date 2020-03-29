@@ -1,6 +1,6 @@
 'static'; function RenderPageKeyContent(canvas) {
 	let game = appx.context.game;
-	$("WhoStarts").innerHTML = game.starts == 0 ? "Začínají červení" : "Začínají modří";
+	$("WhoStarts").innerHTML = GetPageHeaderText(game);
 
 	if (appx.context.roleGuesser && !appx.context.online) {
 		var colorPicker = canvas.AddElem(0, 0.9, 1, 0.1);
@@ -18,6 +18,27 @@
 	}
 
 	RenderWords(canvas, game);
+}
+
+'static'; function GetPageHeaderText(game) {
+	let redSum = 0;
+	let blueSum = 0;
+
+	for (let i = 0; i < game.key.length; i++) {
+		if (game.marked[i]) {
+			if (game.key[i] == 0) redSum++;
+			if (game.key[i] == 1) blueSum++;
+		}
+	}
+
+	if (redSum + blueSum == 0) {
+		return game.starts == 0 ? "Začínají červení" : "Začínají modří";
+	}
+
+	let redLeft = 8 + (game.starts == 0) - redSum;
+	let blueLeft = 8 + (game.starts == 1) - blueSum;
+
+	return "<span style='color:blue'>" + blueLeft + "</span> : <span style='color:red'>" + redLeft + "</span>";
 }
 
 'static'; function RenderWords(canvas, game) {
