@@ -1,0 +1,8 @@
+CodeNames vX.X.X changelog:
+ * Add support for online play
+ * Add borders to cards
+ * Show remaining points to guess in the header
+ * Allow all cards to share the same font size
+
+CodeNames v1.0.0 changelog:
+ * Initial release

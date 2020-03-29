@@ -27,6 +27,7 @@ var WORDS = [
 	"kříž",
 	"lanýž",
 	"lev",
+	"loď",
 	"los",
 	"maso",
 	"meč",
@@ -50,6 +51,7 @@ var WORDS = [
 	"pranýř",
 	"prase",
 	"prostitutka",
+	"prostor",
 	"prsten",
 	"rallye",
 	"ruka",
@@ -71,7 +73,10 @@ var WORDS = [
 	"vejce",
 	"vědec",
 	"vlak",
+	"voják",
 	"vousy",
+	"vrak",
+	"výr",
 	"znělka",
 	"zuby"
 ];

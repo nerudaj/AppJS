@@ -19,6 +19,7 @@ div {
 	justify-content: center;
 	align-items: center;
 	display: flex;
+	box-sizing: border-box;
 }
 
 button {
@@ -109,4 +110,8 @@ button:active {
 .cardNone {
 	background: gray;
 	color: white;
+}
+
+.hiddenText {
+	color: transparent;
 }
