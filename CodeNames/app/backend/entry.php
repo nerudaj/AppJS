@@ -37,8 +37,8 @@ if ($mode == 'get') {
 	$response["payload"] = convertNumberToArray($field);
 } elseif ($mode == 'set') {
 	$index = testAndGetParam('index');
-	setField($gameId, $index);
-	$response["status"] = "set-ok";
+	$field = setField($gameId, $index);
+	$response["payload"] = convertNumberToArray($field);
 }
 
 echo json_encode($response);

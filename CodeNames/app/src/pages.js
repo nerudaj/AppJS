@@ -3,7 +3,6 @@ function AjaxCallback(data) {
 		alert(data.payload);
 		return;
 	}
-	else if (data.status == "set-ok") return;
 
 	appx.context.game.marked = data.payload;
 	appx.DisplayPage(ID('PageGame'));
