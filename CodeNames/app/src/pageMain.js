@@ -1,6 +1,6 @@
 'static'; function RenderMainPageContent(canvas) {
 	var rows = [
-		["Jsem kapitán", (c, x, y, w, h) => { CreateCheckbox(c, x, y, w, h, 'roleCaptain'); }]
+		["Jsem kapitán", (c, x, y, w, h) => { CreateCheckbox(c, x, y, w, h, 'roleCaptain', appx.context.keyOnly); }]
 	];
 
 	RenderRowsOfSettings(canvas, rows);
