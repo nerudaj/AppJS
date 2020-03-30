@@ -2,7 +2,7 @@
 	let game = appx.context.game;
 	$("WhoStarts").innerHTML = GetPageHeaderText(game);
 
-	if (!appx.context.roleCaption && !appx.context.online) {
+	if (!appx.context.online) {
 		var colorPicker = canvas.AddElem(0, 0.9, 1, 0.1);
 
 		for (let i = 0; i < 4; i++) {
@@ -70,10 +70,10 @@
 			}
 
 			item.OnClick(() => {
-				if (guesser && !online) {
+				if (!online) {
 					item.dom.className = (game.marked[index] == 0) ?
 						GetClassForCard(appx.context.pickedColor) + ' hiddenText':
-						'cardNone';
+						guesser ? 'cardNone' : GetClassForCard(appx.context.pickedColor);
 
 					game.marked[index] = 1 - game.marked[index];
 				}
