@@ -50,6 +50,7 @@ appx.AddPage(
 	RenderPageKeyContent,
 	[
 		new AppJsButton('Zpět', () => {
+			appx.context.roleCaptain = false;
 			appx.DisplayPage(ID('PageMain'));
 
 			if (appx.context.online) {
