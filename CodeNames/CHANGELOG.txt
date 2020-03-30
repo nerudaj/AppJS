@@ -1,3 +1,7 @@
+CodeNames v1.X.X changelog:
+ * Fix - Captains in offline game can now mark guessed cards
+ * Fix - when returning from game to menu, drop the flag for being captain
+
 CodeNames v1.1.3 changelog:
  * Add support for online play
  * Add borders to cards
