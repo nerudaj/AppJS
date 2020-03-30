@@ -7,6 +7,7 @@ var WORDS = [
     "barva",
     "Berlín",
     "bezpečnost",
+    "blok",
     "bota",
     "břicho",
     "buchta",
