@@ -22,6 +22,15 @@
 	});
 }
 
+'static'; function CreateRadio(canvas, x, y, w, h, name, value, onClick) {
+	var elem = canvas.AddElem(x, y, w, h, 'input');
+	elem.dom.type = 'radio';
+	elem.dom.name = name;
+	elem.dom.checked = value;
+	elem.OnClick(() => { onClick(); });
+	return elem;
+}
+
 'static'; function CreateCheckbox(canvas, x, y, w, h, key, disabled = false) {
 	var check = canvas.AddElem(x, y, w, h, 'input');
 	check.dom.type = 'checkbox';
