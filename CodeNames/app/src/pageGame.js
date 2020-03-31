@@ -78,11 +78,7 @@
 					game.marked[index] = 1 - game.marked[index];
 				}
 				else if (!guesser && online && game.marked[index] == 0) {
-					game.marked[index] = 1;
-					item.dom.className = GetClassForCard(game.key[index]) + " hiddenText";
-
-					clearTimeout(appx.context.fetchHandle);
-					SetFieldViaAjax(index);
+					appx.OpenModal('Opravdu odkrýt?', (c) => { RenderConfirmModal(item, game, index, c); }, 0.5, 0.3);
 				}
 			});
 		}
@@ -104,7 +100,24 @@
 	return game;
 }
 
-function GetClassForCard(card) {
+'static'; function RenderConfirmModal(item, game, index, canvas) {
+	var buttons = [
+		new AppJsButton('Ano', () => {
+			game.marked[index] = 1;
+			item.dom.className = GetClassForCard(game.key[index]) + " hiddenText";
+
+			clearTimeout(appx.context.fetchHandle);
+			SetFieldViaAjax(index);
+			appx.CloseModal();
+		}),
+		new AppJsButton('Ne', () => {
+			appx.CloseModal();
+		})
+	];
+	canvas.AddButtonArray(buttons);
+}
+
+'static'; function GetClassForCard(card) {
 	if (card == 0) return 'cardRed';
 	if (card == 1) return 'cardBlue';
 	if (card == 2) return 'cardBystand';
