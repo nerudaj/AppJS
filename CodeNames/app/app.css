@@ -117,7 +117,7 @@ button:active {
 }
 
 .checkbox {
-	border: 3px solid white;
+	border: 2px solid rgb(176, 176, 176);
 	cursor: pointer;
 	padding: 5px;
 	-moz-user-select: none;
@@ -126,7 +126,7 @@ button:active {
 }
 
 .checkbox[disabled] {
-	border: 3px solid grey;
+	border: 2px solid rgb(69, 69, 69);
 }
 
 .checkbox>label {
@@ -135,7 +135,7 @@ button:active {
 	top: initial !important;
 	width: 100% !important;
 	height: 100% !important;
-	background: grey;
+	background: rgb(31, 31, 31);
 }
 
 .checkbox>input {
