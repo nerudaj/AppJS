@@ -116,6 +116,36 @@ button:active {
 	color: transparent;
 }
 
-.dimmable {
+.checkbox {
+	border: 3px solid white;
+	cursor: pointer;
+	padding: 5px;
+	-moz-user-select: none;
+	-webkit-user-select: none;
+	-ms-user-select: none;
+}
 
+.checkbox[disabled] {
+	border: 3px solid grey;
+}
+
+.checkbox>label {
+	position: initial !important;
+	left: initial !important;
+	top: initial !important;
+	width: 100% !important;
+	height: 100% !important;
+	background: grey;
+}
+
+.checkbox>input {
+	display: none;
+}
+
+.checkbox>input:checked + label {
+	background: white;
+}
+
+.checkbox>input:disabled + label {
+	background: black;
 }

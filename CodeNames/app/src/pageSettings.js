@@ -32,13 +32,22 @@
 }
 
 'static'; function CreateCheckbox(canvas, x, y, w, h, key, disabled = false) {
-	var check = canvas.AddElem(x, y, w, h, 'input');
-	check.dom.type = 'checkbox';
-	check.dom.checked = appx.context[key];
-	check.dom.disabled = disabled;
+	var wrap = canvas.AddElem(x, y, w, h);
+	var width = wrap.height * 0.8 / wrap.width;
 
-	check.OnClick(() => {
-		appx.context[key] = check.dom.checked;
+	var div = wrap.AddElem(0.5 - width / 2, 0.1, width, 0.8);
+	div.AddClass("checkbox");
+	div.OnClick(() => {
+		appx.context[key] = !appx.context[key];
 		appx.DisplayPage(appx.currentPage);
 	});
+	if (disabled) div.dom.setAttribute("disabled", "");
+
+	var check = div.AddElem(0, 0, 1, 1, 'input', ID("Checkbox") + key);
+	check.dom.type = "checkbox";
+	check.dom.checked = appx.context[key];
+	check.dom.disabled = disabled;
+	
+	var label = div.AddElem(0.1, 0.1, 0.8, 0.8, 'label');
+	label.dom.for = ID("Checkbox") + key;
 }
