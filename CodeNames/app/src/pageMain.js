@@ -12,7 +12,7 @@
 	input.dom.maxlength = 15;
 	input.dom.autocomplete = 'off';
 
-	input.AddEventCallback("keypress", function(e){if (e.key == "Enter") startGame();});
+	input.AddEventCallback("keypress", e => {if (e.key == "Enter") StartGame();});
 	
 	// Set callback for updating context
 	input.AddEventCallback('input', e => {
