@@ -10,5 +10,13 @@
 	input.dom.placeholder = 'Zadej ID hry';
 	input.dom.value = appx.context.gameId;
 	input.dom.maxlength = 15;
+	input.dom.autocomplete = 'off';
+	
+	// Set callback for updating context
+	input.AddEventCallback('input', e => {
+		if (e.target.validity.valid) {
+			appx.context.gameId = e.target.value;
+		}
+	});
 	input.SetText('XXX-XXX-XXX-XXX');
 }
