@@ -43,11 +43,11 @@
 	});
 	if (disabled) div.dom.setAttribute("disabled", "");
 
-	var check = div.AddElem(0, 0, 1, 1, 'input', ID("Checkbox") + key);
+	var check = div.AddElem(0, 0, 1, 1, 'input', ID('Checkbox') + key);
 	check.dom.type = "checkbox";
 	check.dom.checked = appx.context[key];
 	check.dom.disabled = disabled;
 	
 	var label = div.AddElem(0.1, 0.1, 0.8, 0.8, 'label');
-	label.dom.for = ID("Checkbox") + key;
+	label.dom.for = ID('Checkbox') + key;
 }
