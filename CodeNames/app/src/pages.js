@@ -9,7 +9,7 @@ function AjaxCallback(data) {
 	appx.context.fetchHandle = setTimeout(() => { GetFieldViaAjax() }, 3000);
 }
 
-function startGame() {
+'static'; function StartGame() {
 	ClearFontSizeCache(); // To prevent bugs related to word rendering
 	appx.context.gameId = $(ID('InputSeed')).value;
 	appx.context.game = GenerateGame();
@@ -29,7 +29,7 @@ appx.AddPage(
 	RenderMainPageContent,
 	[
 		new AppJsButton('Hrajem!', () => {
-			startGame();
+			StartGame();
 		}),
 		new AppJsButton('Nastavení', () => {
 			appx.DisplayPage(ID('PageSettings'));
