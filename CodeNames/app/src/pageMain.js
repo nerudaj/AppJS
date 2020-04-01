@@ -17,13 +17,10 @@
 	});
 
 	// Limit seed value only to alphanumeric symbols
-	input.AddEventCallback("input", e => {
-		let seed = e.currentTarget.value;
-		e.currentTarget.value = seed.replace(/[^A-Za-z0-9]/,'');
-	});
-	
 	// Set callback for updating context
 	input.AddEventCallback('input', e => {
+		let seed = e.target.value;
+		e.target.value = seed.replace(/[^A-Za-z0-9]/,'');
 		if (e.target.validity.valid) {
 			appx.context.gameId = e.target.value;
 		}
