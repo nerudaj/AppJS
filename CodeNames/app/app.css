@@ -87,6 +87,15 @@ button:active {
 	white-space: nowrap;
 }
 
+.card {
+	border: solid 1px black;
+	cursor: context-menu;
+}
+
+:not(.modal)>.card:hover {
+	border: solid 2px white;
+}
+
 .cardRed {
 	background: red;
 	color: black;
@@ -130,6 +139,7 @@ button:active {
 }
 
 .checkbox>label {
+	cursor: pointer;
 	position: initial !important;
 	left: initial !important;
 	top: initial !important;
