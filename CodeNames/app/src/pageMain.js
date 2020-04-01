@@ -9,4 +9,6 @@
 	input.dom.type = 'text';
 	input.dom.placeholder = 'Zadej ID hry';
 	input.dom.value = appx.context.gameId;
+	input.dom.maxlength = 15;
+	input.SetText('XXX-XXX-XXX-XXX');
 }
