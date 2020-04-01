@@ -101,6 +101,11 @@
 }
 
 'static'; function RenderConfirmModal(item, game, index, canvas) {
+	var card = canvas.AddElem(0, 0, 1, 0.8);
+	card.dom.className = item.dom.className;
+	card.dom.style.border = item.dom.style.border;
+	card.SetText(item.dom.innerHTML);
+
 	var buttons = [
 		new AppJsButton('Ano', () => {
 			game.marked[index] = 1;
@@ -114,7 +119,7 @@
 			appx.CloseModal();
 		})
 	];
-	canvas.AddButtonArray(buttons);
+	canvas.AddElem(0, 0.8, 1, 0.2).AddButtonArray(buttons);
 }
 
 'static'; function GetClassForCard(card) {

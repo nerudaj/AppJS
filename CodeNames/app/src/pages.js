@@ -5,7 +5,7 @@ function AjaxCallback(data) {
 	}
 
 	appx.context.game.marked = data.payload;
-	appx.DisplayPage(ID('PageGame'));
+	appx.RefreshPage();
 	appx.context.fetchHandle = setTimeout(() => { GetFieldViaAjax() }, 3000);
 }
 

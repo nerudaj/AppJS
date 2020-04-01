@@ -39,7 +39,7 @@
 	div.AddClass("checkbox");
 	div.OnClick(() => {
 		appx.context[key] = !appx.context[key];
-		appx.DisplayPage(appx.currentPage);
+		appx.RefreshPage();
 	});
 	if (disabled) div.dom.setAttribute("disabled", "");
 
