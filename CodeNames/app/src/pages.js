@@ -22,7 +22,7 @@ appx.AddPage(
 
 			if (appx.context.online) {
 				SetAjaxResponseCallback(AjaxCallback);
-				appx.context.fetchHandle = setTimeout(() => { GetFieldViaAjax() }, 3000);
+				appx.context.fetchHandle = setTimeout(() => { GetFieldViaAjax() }, 500);
 			}
 
 			appx.DisplayPage(ID('PageGame'));
