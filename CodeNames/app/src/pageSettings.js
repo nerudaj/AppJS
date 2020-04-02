@@ -2,10 +2,12 @@
 'static'; var LABEL_HEIGHT = 1/10;
 
 'static'; function RenderPageSettingsContent(canvas) {
+	var disableCheckbox = appx.context.keyOnly;
+
 	var rows = [
 		["Pouze klíč", (c, x, y, w, h) => { CreateCheckbox(c, x, y, w, h, 'keyOnly'); }],
-		["Online mód", (c, x, y, w, h) => { CreateCheckbox(c, x, y, w, h, 'online'); }],
-		["Dynamické fonty", (c, x, y, w, h) => { CreateCheckbox(c, x, y, w, h, 'dynamicFonts'); }]
+		["Online mód", (c, x, y, w, h) => { CreateCheckbox(c, x, y, w, h, 'online', disableCheckbox); }],
+		["Dynamické fonty", (c, x, y, w, h) => { CreateCheckbox(c, x, y, w, h, 'dynamicFonts', disableCheckbox); }]
 	];
 
 	RenderRowsOfSettings(canvas, rows);
@@ -29,12 +31,23 @@
 	return elem;
 }
 
-'static'; function CreateCheckbox(canvas, x, y, w, h, key) {
-	var check = canvas.AddElem(x, y, w, h, 'input');
-	check.dom.type = 'checkbox';
-	check.dom.checked = appx.context[key];
-	check.OnClick(() => {
-		appx.context[key] = check.dom.checked;
-		appx.DisplayPage(appx.currentPage);
+'static'; function CreateCheckbox(canvas, x, y, w, h, key, disabled = false) {
+	var wrap = canvas.AddElem(x, y, w, h);
+	var width = wrap.height * 0.8 / wrap.width;
+
+	var div = wrap.AddElem(0.5 - width / 2, 0.1, width, 0.8);
+	div.AddClass("checkbox");
+	div.OnClick(() => {
+		appx.context[key] = !appx.context[key];
+		appx.RefreshPage();
 	});
+	if (disabled) div.dom.setAttribute("disabled", "");
+
+	var check = div.AddElem(0, 0, 1, 1, 'input', ID('Checkbox') + key);
+	check.dom.type = "checkbox";
+	check.dom.checked = appx.context[key];
+	check.dom.disabled = disabled;
+	
+	var label = div.AddElem(0.1, 0.1, 0.8, 0.8, 'label');
+	label.dom.for = ID('Checkbox') + key;
 }

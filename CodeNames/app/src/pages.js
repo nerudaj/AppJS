@@ -5,8 +5,21 @@ function AjaxCallback(data) {
 	}
 
 	appx.context.game.marked = data.payload;
-	appx.DisplayPage(ID('PageGame'));
+	appx.RefreshPage();
 	appx.context.fetchHandle = setTimeout(() => { GetFieldViaAjax() }, 3000);
+}
+
+'static'; function StartGame() {
+	ClearFontSizeCache(); // To prevent bugs related to word rendering
+	appx.context.gameId = $(ID('InputSeed')).value;
+	appx.context.game = GenerateGame();
+
+	if (appx.context.online) {
+		SetAjaxResponseCallback(AjaxCallback);
+		appx.context.fetchHandle = setTimeout(() => { GetFieldViaAjax() }, 500);
+	}
+
+	appx.DisplayPage(ID('PageGame'));
 }
 
 /* MAIN PAGE */
@@ -16,16 +29,7 @@ appx.AddPage(
 	RenderMainPageContent,
 	[
 		new AppJsButton('Hrajem!', () => {
-			ClearFontSizeCache(); // To prevent bugs related to word rendering
-			appx.context.gameId = $(ID('InputSeed')).value;
-			appx.context.game = GenerateGame();
-
-			if (appx.context.online) {
-				SetAjaxResponseCallback(AjaxCallback);
-				appx.context.fetchHandle = setTimeout(() => { GetFieldViaAjax() }, 3000);
-			}
-
-			appx.DisplayPage(ID('PageGame'));
+			StartGame();
 		}),
 		new AppJsButton('Nastavení', () => {
 			appx.DisplayPage(ID('PageSettings'));
@@ -50,6 +54,7 @@ appx.AddPage(
 	RenderPageKeyContent,
 	[
 		new AppJsButton('Zpět', () => {
+			appx.context.roleCaptain = false;
 			appx.DisplayPage(ID('PageMain'));
 
 			if (appx.context.online) {

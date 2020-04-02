@@ -1,5 +1,7 @@
 AppJS v2.X.X changelog:
  * Modal window has title height fixed to 50px
+ * Borders of elements are now rendering as a part of given element
+ * Added method AppJs::RefreshPage
 
 AppJS v2.3.1 changelog:
  * CloseModal is now prototype method of AppJs

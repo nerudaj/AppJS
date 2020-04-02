@@ -13,6 +13,7 @@
  * [Resizing the window and responsiveness](#resizing-the-window-and-responsiveness)
     * [Resize event](#resize-event)
     * [Detecting display orientation](#detecting-display-orientation)
+    * [Refresh page](#refresh-page)
  * [Writing compact code](#writing-compact-code)
     * ['static';](#static)
     * [ID()](#id)
@@ -310,6 +311,12 @@ function IsWidescreen(appx) {
     return appx.canvas.width > appx.canvas.height;
 }
 ```
+
+### Refresh page
+
+As it was said earlier, your DOM will be rebuild from scratch each time resize event comes or if you decide to display another page of your app. You can embrace this fact, writing applications that render quite static page but if users clicks on anything and state changes, you redraw whole page, this time differently, taking last user action into account. Normally, you could do that via triggering the resize event or `DisplayPage` with the ID of currently displayed page. Both ways are kinda slow and can lead to various bugs and unwanted behaviours.
+
+That is why you should always call the `RefreshPage` method. It is quite fast (because it doesn't wipe the font cache) and does not lead to various bugs (because it can even preserve open modal window).
 
 [Top](#appjs-core---tutorial)
 
