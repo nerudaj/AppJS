@@ -9,7 +9,7 @@
 			var btnBgr = colorPicker.AddElem(i * 1/4, 0, 1/4, 1);
 			btnBgr.AddClass(GetClassForCard(i));
 
-			var btn = CreateRadio(colorPicker, i * 1/4, 0, 1/4, 1, 'ColorPicker', appx.context.pickedColor == i, () => {
+			var btn = CreateRadio(colorPicker, i * 1/4, 0, 1/4, 1, ID('ColorPicker'), appx.context.pickedColor == i, () => {
 				appx.context.pickedColor = i;
 			});
 		}
@@ -52,7 +52,7 @@
 			let index = y * 5 + x;
 			let item = canvas.AddElem(x * 1/5, y * 1/5, 1/5, 1/5);
 			//item.dom.style.border = 'solid 1px black';
-			let fontSize = appx.context.dynamicFonts ? 0 : ReadFontSizeCache(item, longest, 'CacheWord');
+			let fontSize = appx.context.dynamicFonts ? 0 : ReadFontSizeCache(item, longest, ID('CacheWord'));
 
 			// Only captains see full colors
 			item.AddClass(GetClassForCard(online ? 
