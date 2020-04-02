@@ -31,7 +31,7 @@
 		}
 	}
 
-	if (redSum + blueSum == 0) {
+	if ((redSum + blueSum == 0) || !appx.context.online) {
 		return game.starts == 0 ? "Začínají červení" : "Začínají modří";
 	}
 
