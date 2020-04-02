@@ -1,8 +1,8 @@
-CodeNames v1.X.X changelog:
+CodeNames v1.3.8 changelog:
  * Feature/fix - Captains have to confirm when they are revealing the card
  * Feature - Game can now be started by pressing Enter
  * Feature - Guessers can also mark cards
- * Fix - Checkboxes now have browser independent, unified loop
+ * Fix - Checkboxes now have browser independent, unified look
  * Fix - Captains in offline game can now mark guessed cards
  * Fix - when returning from game to menu, drop the flag for being captain
  * Fix - disable appropriate inputs when key only option is enabled
