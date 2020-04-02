@@ -11,9 +11,16 @@
 	input.dom.value = appx.context.gameId;
 	input.dom.maxlength = 15;
 	input.dom.autocomplete = 'off';
-	
+
+	input.AddEventCallback("keypress", e => {
+		if (e.key == "Enter") StartGame();
+	});
+
+	// Limit seed value only to alphanumeric symbols
 	// Set callback for updating context
 	input.AddEventCallback('input', e => {
+		let seed = e.target.value;
+		e.target.value = seed.replace(/[^A-Za-z0-9]/,'');
 		if (e.target.validity.valid) {
 			appx.context.gameId = e.target.value;
 		}

@@ -81,7 +81,7 @@
 
 					game.marked[index] = (game.marked[index] == -1) ? appx.context.pickedColor : -1;
 				}
-				else if (!guesser && online && game.marked[index] == 0) {
+				else if (online && game.marked[index] == 0) {
 					appx.OpenModal('Opravdu odkrýt?', (c) => { RenderConfirmModal(item, game, index, c); }, 0.5, 0.3);
 				}
 			});
