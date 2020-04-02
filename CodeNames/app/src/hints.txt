@@ -1,5 +1,4 @@
 randSeed
-game
 pages
 currentPage
 longestBtnLabel
