@@ -337,6 +337,12 @@ function $(id) {
     PREVENT_RESIZE = false;
 }
 
+'static'; AppJs.prototype.RefreshPage = function() {
+    this.Render();
+    PREVENT_RESIZE = false;
+    this.restoreModal();
+}
+
 /**
  *  @brief Private method used to render the page
  *  

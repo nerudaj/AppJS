@@ -1,5 +1,17 @@
 LifeCounter v4.X.X changelog:
+ * Added browser independent checkboxes
  * Fixed missing label in advanced settings
+
+Known issues:
+ * You have to manually prevent your device from dimming the screen/locking itself when using the app
+
+Known compatibility:
+ * Firefox on Android
+ * Chrome on Android
+ * Edge
+ * Firefox
+
+----
 
 LifeCounter v4.12.1 changelog:
  * Added modal window for direct score editing - tap the score when the option is enabled in Advanced settings
