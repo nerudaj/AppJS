@@ -28,5 +28,4 @@ longestHeader
 $buttons
 $header
 currentPage
-label
 restoreModal

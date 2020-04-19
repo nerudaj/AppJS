@@ -1,4 +1,4 @@
-LifeCounter v4.X.X changelog:
+LifeCounter v4.12.3 changelog:
  * Added browser independent checkboxes
  * Fixed missing label in advanced settings
 

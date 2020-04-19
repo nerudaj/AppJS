@@ -20,7 +20,7 @@
 		appx.advctx[ctx] = event.target.selectedIndex;
 		SetLanguageById(appx.advctx[ctx]);
 		PrepareApplication();
-		appx.DisplayPage(ID('PageAdvancedSettings'));
+		appx.RefreshPage();
 	});
 
 	[ "Čeština", "English" ].forEach((label, index) => {
