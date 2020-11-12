@@ -13,13 +13,13 @@ function ID(id) {return id;}
 // =============== //
 /**
  *  @brief Get a value from a cache
- * 
+ *
  *  @param[in]  canvas   Parent canvas for computation
  *  @param[in]  label    Label to autosize
  *  @param[in]  cacheID  Index into cache
- * 
+ *
  *  @return Font size stored in cache
- * 
+ *
  *  If there is a record in cache for ID, it is returned.
  *  If there is no record, new record is computed (label is autofitted into canvas),
  *  stored in cache and returned.
@@ -52,16 +52,16 @@ function $(id) {
 
 /**
  *  @brief How big the font should be to text fit the given boundaries
- *  
+ *
  *  @param[in]  str     Text that should fit
  *  @param[in]  width   Width of the bounding box
  *  @param[in]  height  Height of the bounding box
  *  @param[in]  xless   Size of text should not exceed width * xless (Default: 0.8)
  *  @param[in]  yless   Size of text should not exceed height * yless (Default: 0.8)
  *  @return Optimal font size
- *  
+ *
  *  @details This function does not take into account word breaking.
- *  
+ *
  *  For this to work, the html file must contain element with id 'HiddenResizer'. This element
  *  has to be span with visibility:hidden.
  */
@@ -73,15 +73,15 @@ function $(id) {
     // Access resizer and insert string
     var resizer = $("HiddenResizer");
     resizer.innerHTML = str;
-    
+
     // Perform bisection
     while ((max - min) > 1) {
         // Compute middle
         var middle = parseInt((min + max) / 2);
-        
+
         // Update resizer
         resizer.style.fontSize = middle + "px";
-        
+
         // Update bisection control variables
         if (resizer.offsetWidth <= width * xless && resizer.offsetHeight <= height * yless) {
             min = middle;
@@ -90,7 +90,7 @@ function $(id) {
             max = middle;
         }
     }
-    
+
     return min;
 }
 
@@ -128,13 +128,13 @@ function $(id) {
 'static'; AppJsElement.prototype.AddElem = function(x, y, w, h, type = "div", id = null) {
     var result = new AppJsElement();
     var node = document.createElement(type);
-    
+
     if (id != null) {
         node.setAttribute("id", id);
     }
 
     this.dom.appendChild(node);
-    
+
     result.dom = node;
     result.width = this.width * w;
     result.height = this.height * h;
@@ -144,9 +144,17 @@ function $(id) {
     result.dom.style.width = result.width + "px";
     result.dom.style.height = result.height + "px";
 
+	this.handle = null;
+
     if (type == 'input') {
-        result.AddEventCallback('focus', () => { PREVENT_RESIZE = true; });
-        result.AddEventCallback('blur', () => { setTimeout(() => { PREVENT_RESIZE = false; }, 500); });
+		result.OnClick(e => { e.target.select(); });
+        result.AddEventCallback('focus', () => {
+			PREVENT_RESIZE = true;
+			this.handle = setInterval( () => {
+				console.log(window);
+			}, 100);
+		});
+        result.AddEventCallback('blur', () => { setTimeout(() => { PREVENT_RESIZE = false; clearInterval(this.handle);/* todo clear interval */ }, 500); });
     }
 
     return result;
@@ -202,7 +210,7 @@ function $(id) {
 // =========== //
 /**
  *  @brief Object representing app itself
- *  
+ *
  *  @details App consists of drawing canvas, shared context
  *  and a number of view between which you can freely toggle.
  */
@@ -243,15 +251,15 @@ function $(id) {
 
 /**
  *  @brief Add new page to application
- * 
+ *
  *  @param[in]  pageID   ID of the page (used for toggling)
  *  @param[in]  header   Text that will be displayed in heading (or null)
  *  @param[in]  content  Callback that accepts AppJsElement which will render content of page
  *  @param[in]  buttons  Array of AppJsButtons that will be displayed in toolbar
- * 
+ *
  *  If header is null, then no heading will be displayed and content canvas will be bigger.
  *  If buttons is null, then no toolbar will be displayed and content canvas will be bigger.
- * 
+ *
  *  Adding the page will not automatically display it, it will just be registered with the
  *  app. You need to call DisplayPage to display it.
  */
@@ -263,21 +271,21 @@ function $(id) {
 
     // Each page is rendered using following function
     this.pages[pageID] = {
-        $header: header, 
-        $callback: content, 
+        $header: header,
+        $callback: content,
         $buttons: buttons
     };
 }
 
 /**
  *  @brief Construct and open modal window
- * 
+ *
  * 	@param[in]  header   Text that will go into header
  *  @param[in]  text     Text that will go into content
  *  @param[in]  w        Width of the modal in relation to parent canvas
  *  @param[in]  h        Height of the modal in relation to parent canvas
  *  @param[in]  modalID  ID of the modal. Will be used in font cache and for closing the window
- * 
+ *
  *  Every modal window will have close button in top right corner.
  *  If you click outside of the modal window, it will close.
  *  Size of the text in the content is governed by the size of the text in heading.
@@ -312,9 +320,9 @@ function $(id) {
 
 /**
  *  @brief Close opened modal window
- * 
+ *
  *  @param[in]  modalID  Id of the modal to close
- * 
+ *
  *  You can use this function to close the modal window programmatically.
  */
 'static'; AppJs.prototype.CloseModal = function(modalID = ID('AppJsModal')) {
@@ -324,7 +332,7 @@ function $(id) {
 
 /**
  *  @brief Change displayed page
- * 
+ *
  *  @param[in]  pageID  ID of page to display
  */
 'static'; AppJs.prototype.DisplayPage = function(pageID) {
@@ -345,15 +353,15 @@ function $(id) {
 
 /**
  *  @brief Private method used to render the page
- *  
+ *
  *  @warn Do not call this function directly!
  */
 'static'; AppJs.prototype.Render = function() {
     var canvas = this.canvas;
-    
+
     // Clear everything rendered so far
     canvas.dom.innerHTML = "";
-    
+
     // Resize canvas
     canvas.width = window.innerWidth;
     canvas.height = window.innerHeight;
@@ -380,7 +388,7 @@ function $(id) {
     var CreateContentCanvas = (canvas, hasHeader = true, hasToolbar = true) => {
         var HEADER_OFFSET = hasHeader ? HEADER_HEIGHT : 0;
         var TOOLBAR_OFFSET = hasToolbar ? TOOLBAR_HEIGHT : 0;
-    
+
         var result = canvas.AddElem(0, HEADER_OFFSET, 1, 1 - HEADER_OFFSET - TOOLBAR_OFFSET);
         result.AddClass('content');
         return result;

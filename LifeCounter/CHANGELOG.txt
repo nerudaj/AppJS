@@ -1,3 +1,8 @@
+LifeCounter vX.X.X changelog:
+ * Changed score setting dialog so the buttons are still visible on a phone
+
+---
+
 LifeCounter v4.12.3 changelog:
  * Added browser independent checkboxes
  * Fixed missing label in advanced settings

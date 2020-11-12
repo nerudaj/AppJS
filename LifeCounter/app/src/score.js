@@ -96,7 +96,7 @@
 	var which = (type == ID('Score') ? 'score' : 'subscore'); // Used for indexing into context
 	var whichText = (type == ID('Score') ? TEXT_SCORE : TEXT_SUBSCORE);
 	var players = appx.context.$players;
-	var modalWidth = appx.canvas.width * 0.9 > 500 ? 500 / appx.canvas.width : 0.9; // Modal window must be max 500px wide or 90% wide
+	var modalWidth = appx.canvas.width * 0.9 > 1000 ? 1000 / appx.canvas.width : 0.9; // Modal window must be max 1000px wide or 90% wide
 
 	// Create -/+ buttons
 	var fontSize = 0;
@@ -155,7 +155,7 @@
 }
 
 'static'; function RenderScoreEditModal(canvas, fontSize, players, id, which) {
-	var input = canvas.AddElem(0.1, 0.25, 0.8, 0.25, 'input', ID('EditScoreInput'));
+	/*var input = canvas.AddElem(0.1, 0.25, 0.8, 0.25, 'input', ID('EditScoreInput'));
 	input.dom.type = 'number';
 	input.dom.value = players[id][which];
 
@@ -180,7 +180,39 @@
 	];
 
 	var modeButtonWrapper = canvas.AddElem(0, 0.75, 1, 0.25);
-	modeButtonWrapper.AddButtonArray(modeButtons);
+	modeButtonWrapper.AddButtonArray(modeButtons);*/
+
+	var input = canvas.AddElem(0.05, 0.25, 0.5, 1/2, 'input', ID('EditScoreInput'));
+	input.dom.type = 'number';
+	input.dom.value = players[id][which];
+
+	var submitModification = difference => {
+		ModifyScore(players, id, difference, false, which);
+		appx.CloseModal();
+	};
+
+	var modeButtons = [
+		new AppJsButton('-', () => {
+			var value = $(ID('EditScoreInput')).value;
+			submitModification(-value);
+		}),
+		new AppJsButton('=', () => {
+			var value = $(ID('EditScoreInput')).value;
+			submitModification(value - players[id][which]);
+		}),
+		new AppJsButton('+', () => {
+			var value = $(ID('EditScoreInput')).value;
+			submitModification(value);
+		})
+	];
+
+	var buttonBgr = canvas.AddElem(0.6, 0.25, 0.35, 1/2);
+	buttonBgr.AddClass('toolbar');
+	buttonBgr.dom.style.border = "1px solid white";
+	var modeButtonWrapper = buttonBgr.AddElem(0, 0, 1, 1);
+	//modeButtonWrapper.SetColor('#dddddd');
+	modeButtonWrapper.AddButtonArray(modeButtons, ID('CacheScoreSetModalButtons'));
+	input.dom.style.fontSize = ReadFontSizeCache(null, '⇄', ID('CacheScoreSetModalButtons')) + "px";
 }
 
 'static'; function LogScoreHistory() {
