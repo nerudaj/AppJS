@@ -179,6 +179,7 @@ function $(id) {
 }
 
 'static'; AppJsElement.prototype.SetText = function(str, fontSize = 0) {
+	if (str === "" && fontSize === 0) throw new Error("Can't call SetText with empty string and zero font size!");
     fontSize = fontSize == 0 ? GetOptimalFontSize(str, this.width, this.height) : fontSize;
 
     this.dom.style.fontSize = fontSize + "px";
